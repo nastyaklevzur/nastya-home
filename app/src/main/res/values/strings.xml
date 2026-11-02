@@ -22,7 +22,7 @@
     <string name="news_loading">Загружаю новости Калининграда…</string>
     <string name="weather_loading">Узнаю погоду…</string>
     <string name="menu_about">О фильме</string>
-    <string name="menu_started">Начала смотреть</string>
+    <string name="menu_started">Начат просмотр</string>
     <string name="menu_watched">Просмотрен</string>
     <string name="menu_reset">Сбросить метку</string>
     <string name="menu_pin">Закрепить</string>

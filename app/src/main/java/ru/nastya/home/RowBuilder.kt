@@ -5,7 +5,7 @@ package ru.nastya.home
  *
  * Правила:
  *  1. Закреплённые (до 3, в порядке закрепления) всегда первые.
- *  2. «Начала смотреть» остаются в ряду. Карточки прежнего ряда сохраняют порядок (стабильность) — но только пока пул
+ *  2. «Начат просмотр» остаются в ряду. Карточки прежнего ряда сохраняют порядок (стабильность) — но только пока пул
  *     тот же: новый movies.json (другая дата updated) собирается заново по рангу, это решает MainActivity.
  *  3. Свободные места заполняются лучшими по рангу из пула; пока в ряду меньше [NEW_QUOTA] новинок,
  *     сначала берутся новинки.
@@ -33,7 +33,7 @@ object RowBuilder {
         val used = HashSet<String>()
 
         for (m in pinnedMovies(data, state)) if (used.add(m.key)) row.add(m)
-        // «Начала смотреть» держится в ряду, пока не отметят просмотренным или не снимут метку.
+        // «Начат просмотр» держится в ряду, пока не отметят просмотренным или не снимут метку.
         for (e in state.started) {
             val m = byKey[e.key] ?: continue
             if (row.size < size && used.add(m.key)) row.add(m)
@@ -45,7 +45,7 @@ object RowBuilder {
             if (used.add(m.key)) kept.add(m)
         }
         // Квота новинок важнее стабильности: если прежние карточки не оставляют места трём новинкам,
-        // уступают худшие по рангу из прежних (кроме закреплённых и «начала смотреть»).
+        // уступают худшие по рангу из прежних (кроме закреплённых и «начат просмотр»).
         val started = state.started.mapTo(HashSet()) { it.key }
         val freshAvailable = available.count { it.isNew && it.key !in used } + kept.count { it.isNew } + row.count { it.isNew }
         var needNew = minOf(newQuota, freshAvailable) - row.count { it.isNew } - kept.count { it.isNew }

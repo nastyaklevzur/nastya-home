@@ -3,14 +3,14 @@ package ru.nastya.home
 import android.content.Context
 
 /**
- * Метки «Начала смотреть» / «Просмотрено». С v2 живут в [StateStore] (и уезжают в репозиторий),
+ * Метки «Начат просмотр» / «Просмотрено». С v2 живут в [StateStore] (и уезжают в репозиторий),
  * этот объект оставлен как тонкая обёртка, чтобы карточки и меню не менялись.
  * «Просмотрено» теперь значит «удалено из подборки» (см. [StateStore.remove]).
  */
 object WatchStatus {
     enum class Status(val label: String?) {
         NONE(null),
-        STARTED("Начала смотреть"),
+        STARTED("Начат просмотр"),
         WATCHED("Просмотрено"),
     }
 
@@ -28,7 +28,7 @@ object WatchStatus {
         }
     }
 
-    /** Фильм открыли в LAMPA: если метки нет — ставим «Начала смотреть». */
+    /** Фильм открыли в LAMPA: если метки нет — ставим «Начат просмотр». */
     fun markOpened(ctx: Context, m: Movie): Boolean {
         if (get(ctx, m) != Status.NONE) return false
         set(ctx, m, Status.STARTED)
