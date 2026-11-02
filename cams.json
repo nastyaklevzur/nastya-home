@@ -48,10 +48,48 @@
       "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/fontana-di-trevi.html"
     },
     {
+      "id": "santorini",
+      "title": "Санторини",
+      "subtitle": "Греция",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/ellada/naigaio/kyklades/santorini.html"
+    },
+    {
+      "id": "times-square",
+      "title": "Нью-Йорк",
+      "subtitle": "Таймс-сквер",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/28925.flv/playlist.m3u8"
+    },
+    {
       "id": "niagara",
       "title": "Ниагарский водопад",
+      "subtitle": "Канада",
       "type": "earthcam",
       "url": "https://videos-3.earthcam.com/fecnetwork/4559.flv/playlist.m3u8"
+    },
+    {
+      "id": "elbrus-garabashi",
+      "title": "Эльбрус",
+      "subtitle": "станция «Гарабаши», 3850 м",
+      "type": "hls",
+      "url": "https://140868.edgevideo.ru/streams/140868_735597/playlist.m3u8",
+      "referer": "https://resort-elbrus.ru/"
+    },
+    {
+      "id": "baikal-vysota900",
+      "title": "Байкал",
+      "subtitle": "гора Соболиная, «Высота 900»",
+      "type": "rtspme",
+      "server": "rtsp.ru",
+      "cam": "pYdfSz37"
+    },
+    {
+      "id": "teriberka",
+      "title": "Териберка",
+      "subtitle": "Баренцево море",
+      "type": "rostelecom",
+      "cam": "-NrLmLhKj"
     },
     {
       "id": "zelenogradsk-sunset",
@@ -120,6 +158,241 @@
       "server": "100-6c3539689cf16d61a45c644e4d5e6567",
       "cam": "196608",
       "preview": "https://openapi-alpha.ivideon.com/cameras/100-6c3539689cf16d61a45c644e4d5e6567:196608/live_preview?op=GET&access_token=public"
+    },
+    {
+      "id": "venice-san-marco",
+      "title": "Венеция",
+      "subtitle": "площадь Сан-Марко",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html",
+      "hidden": true
+    },
+    {
+      "id": "rome-colosseum",
+      "title": "Рим",
+      "subtitle": "Колизей",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/roma-colosseo.html",
+      "hidden": true
+    },
+    {
+      "id": "positano",
+      "title": "Позитано",
+      "subtitle": "пляж",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/campania/salerno/spiaggia-positano.html",
+      "hidden": true
+    },
+    {
+      "id": "capri",
+      "title": "Капри",
+      "subtitle": "Италия",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/campania/napoli/capri-skyline.html",
+      "hidden": true
+    },
+    {
+      "id": "mykonos",
+      "title": "Миконос",
+      "subtitle": "старый порт",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/ellada/naigaio/kyklades/port-of-mykonos.html",
+      "hidden": true
+    },
+    {
+      "id": "acropolis",
+      "title": "Афины",
+      "subtitle": "Акрополь",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/ellada/atiki/athina/acropolis.html",
+      "hidden": true
+    },
+    {
+      "id": "etna",
+      "title": "Вулкан Этна",
+      "subtitle": "Сицилия",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/sicilia/catania/vulcano-etna.html",
+      "hidden": true
+    },
+    {
+      "id": "stromboli",
+      "title": "Вулкан Стромболи",
+      "subtitle": "Италия",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/sicilia/messina/stromboli.html",
+      "hidden": true
+    },
+    {
+      "id": "prague",
+      "title": "Прага",
+      "subtitle": "Старый город",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/czech-republic/prague/prague/old-town.html",
+      "hidden": true
+    },
+    {
+      "id": "krakow",
+      "title": "Краков",
+      "subtitle": "Рыночная площадь",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/poland/lesser-poland-voivodeship/krakow/krakow.html",
+      "hidden": true
+    },
+    {
+      "id": "split",
+      "title": "Сплит",
+      "subtitle": "Хорватия",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/hrvatska/splitsko-dalmatinska/split/pjaca-split.html",
+      "hidden": true
+    },
+    {
+      "id": "maldives",
+      "title": "Мальдивы",
+      "subtitle": "остров Куреду",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/maldives/lhaviyani-atoll/kurendhoo/kuredu-island.html",
+      "hidden": true
+    },
+    {
+      "id": "tenerife",
+      "title": "Тенерифе",
+      "subtitle": "Плайя-де-лас-Америкас",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/espana/canarias/santa-cruz-de-tenerife/playa-de-las-americas.html",
+      "hidden": true
+    },
+    {
+      "id": "jerusalem",
+      "title": "Иерусалим",
+      "subtitle": "Стена Плача",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/israel/jerusalem-district/jerusalem/western-wall.html",
+      "hidden": true
+    },
+    {
+      "id": "reykjavik",
+      "title": "Рейкьявик",
+      "subtitle": "Хадльгримскиркья",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/iceland/greater-reykjavik/reykjavik/hallgrimskirkja-church.html",
+      "hidden": true
+    },
+    {
+      "id": "kirkjufell",
+      "title": "Исландия",
+      "subtitle": "гора Киркьюфедль",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/iceland/western-region/grundarfjorour/kirkjufell-mountain.html",
+      "hidden": true
+    },
+    {
+      "id": "sydney",
+      "title": "Сидней",
+      "subtitle": "Австралия",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/australia/new-south-wales/sydney/sydney.html",
+      "hidden": true
+    },
+    {
+      "id": "shanghai",
+      "title": "Шанхай",
+      "subtitle": "Бунд",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/china/shanghai/shanghai/skyline-of-shanghai.html",
+      "hidden": true
+    },
+    {
+      "id": "patagonia",
+      "title": "Патагония",
+      "subtitle": "Торрес-дель-Пайне",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/chile/magallanes-region/torres-del-paine/patagonia.html",
+      "hidden": true
+    },
+    {
+      "id": "abbey-road",
+      "title": "Лондон",
+      "subtitle": "Эбби-Роуд",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/AbbeyRoadHD1.flv/playlist.m3u8",
+      "hidden": true
+    },
+    {
+      "id": "dublin",
+      "title": "Дублин",
+      "subtitle": "Темпл-Бар",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/24322.flv/playlist.m3u8",
+      "hidden": true
+    },
+    {
+      "id": "bourbon-street",
+      "title": "Новый Орлеан",
+      "subtitle": "Бурбон-стрит",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/4280.flv/playlist.m3u8",
+      "hidden": true
+    },
+    {
+      "id": "elbrus-mir",
+      "title": "Эльбрус",
+      "subtitle": "станция «Мир», 3500 м",
+      "type": "hls",
+      "url": "https://140868.edgevideo.ru/streams/140868_800996/playlist.m3u8",
+      "referer": "https://resort-elbrus.ru/",
+      "hidden": true
+    },
+    {
+      "id": "elbrus-krugozor",
+      "title": "Эльбрус",
+      "subtitle": "станция «Кругозор», 3000 м",
+      "type": "hls",
+      "url": "https://140868.edgevideo.ru/streams/140868_843650/playlist.m3u8",
+      "referer": "https://resort-elbrus.ru/",
+      "hidden": true
+    },
+    {
+      "id": "baikal-pologaya",
+      "title": "Байкал",
+      "subtitle": "гора Соболиная, трасса «Пологая»",
+      "type": "rtspme",
+      "server": "rtsp.ru",
+      "cam": "BEtSQYkA",
+      "hidden": true
+    },
+    {
+      "id": "severo-kurilsk",
+      "title": "Северо-Курильск",
+      "subtitle": "бухта и вулканы",
+      "type": "rtspme",
+      "server": "rtsp.ru",
+      "cam": "sF7FQGQd",
+      "hidden": true
+    },
+    {
+      "id": "murmansk-beach",
+      "title": "Кольский залив",
+      "subtitle": "пляж «Сияние Севера»",
+      "type": "rostelecom",
+      "cam": "4tEzFcUdx",
+      "hidden": true
+    },
+    {
+      "id": "khibiny",
+      "title": "Хибины",
+      "subtitle": "Кировск, панорама с вершины",
+      "type": "page",
+      "page": "https://123streaming.ru/meetings/viewpep/a3324713026557c47b0c958a5459a53f",
+      "hidden": true
+    },
+    {
+      "id": "grozny",
+      "title": "Грозный-Сити",
+      "type": "hls",
+      "url": "https://camera.vt.ru:8888/cam1/index.m3u8",
+      "hidden": true
     }
   ]
 }

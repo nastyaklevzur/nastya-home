@@ -40,6 +40,7 @@ object CamsRepository {
     /** Браузерный User-Agent: EarthCam и некоторые другие отдают 403 на «неизвестные» плееры. */
     const val BROWSER_UA = "Mozilla/5.0 (Linux; Android 9; TV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
     private val SKYLINE_TOKEN = Regex("livee\\.m3u8\\?a=([A-Za-z0-9]+)")
+    private val ANY_M3U8 = Regex("https?://[^\"'\\s<>]+\\.m3u8[^\"'\\s<>]*")
 
     /** Превращает описание камеры в адрес HLS-потока. Блокирующий вызов (IPEYE спрашивает актуальный сервер). */
     fun resolve(cam: Cam): Stream {
@@ -61,6 +62,34 @@ object CamsRepository {
                 val token = SKYLINE_TOKEN.find(html)?.groupValues?.get(1) ?: error("skyline: токен не найден на странице")
                 // Важно: именно live.m3u8 на hd-auth; «livee.m3u8» со страницы — ловушка, сжигающая токен.
                 Stream("https://hd-auth.skylinewebcams.com/live.m3u8?a=$token", emptyMap())
+            }
+            "rtspme" -> {
+                // Двухшаговый токен rtsp.me / rtsp.ru: embed-токен → адрес HLS (живёт ~час, привязан к IP).
+                val id = requireNotNull(cam.cam) { "rtspme: нет cam" }
+                val host = cam.server ?: "rtsp.me"
+                val step1 = JSONObject(Http.get("https://$host/api/embed/$id/token", headers = mapOf("Referer" to "https://$host/embed/$id/", "User-Agent" to BROWSER_UA)))
+                val base = step1.getString("url").trimEnd('/')
+                val token = step1.getString("token")
+                val step2 = JSONObject(Http.get("$base/token/$token", headers = mapOf("User-Agent" to BROWSER_UA)))
+                Stream(step2.getString("hls"), emptyMap())
+            }
+            "rostelecom" -> {
+                // Публичные камеры Ростелекома: по токену ссылки lk-b2b.camera.rt.ru/sl/<token> отдаётся hls_url.
+                val token = requireNotNull(cam.cam) { "rostelecom: нет cam" }
+                val json = JSONObject(Http.get("https://lk-b2b.camera.rt.ru/api/v1/vc/cameras/$token.json"))
+                val url = json.optJSONObject("camera")?.optString("hls_url")?.takeIf { it.isNotBlank() }
+                    ?: json.optString("hls_url").takeIf { it.isNotBlank() }
+                    ?: error("rostelecom: нет hls_url")
+                Stream(url, emptyMap())
+            }
+            "page" -> {
+                // Универсально: первая ссылка на .m3u8 в HTML страницы (например, камеры Кировска на 123streaming.ru).
+                val page = requireNotNull(cam.page) { "page: нет page" }
+                val html = Http.get(page, headers = mapOf("User-Agent" to BROWSER_UA), readTimeoutMs = 12_000)
+                val url = ANY_M3U8.find(html)?.value?.replace("\\/", "/")?.replace("&amp;", "&") ?: error("page: m3u8 не найден")
+                val headers = HashMap<String, String>()
+                cam.referer?.let { headers["Referer"] = it }
+                Stream(url, headers)
             }
             "earthcam" -> {
                 val url = requireNotNull(cam.url) { "earthcam: нет url" }
