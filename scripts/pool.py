@@ -360,13 +360,20 @@ def kinopoisk_reviews(kp_id, limit=3):
     except Exception as e:  # noqa: BLE001
         warn(f"отзывы Кинопоиска {kp_id}: {e}")
         return []
-    out = []
-    for r in data.get("items", []):
+    # Сначала положительные, потом нейтральные; отрицательный — не больше одного и только последним.
+    order = {"positive": 0, "neutral": 1, "negative": 2}
+    items = sorted(data.get("items", []), key=lambda r: (order.get((r.get("type") or "").lower(), 1), -(r.get("positiveRating") or 0)))
+    out, negatives = [], 0
+    for r in items:
         text = re.sub(r"\s+", " ", (r.get("description") or "")).strip()
+        kind = (r.get("type") or "").lower()
         if len(text) < 80 or "спойлер" in text.lower():
             continue
-        text = _trim_sentences(text, 240)
-        out.append({"author": r.get("author") or "зритель", "type": (r.get("type") or "").lower(), "text": text})
+        if kind == "negative":
+            if negatives or len(out) < limit - 1:
+                continue
+            negatives += 1
+        out.append({"author": r.get("author") or "зритель", "type": kind, "text": _trim_sentences(text, 240)})
         if len(out) >= limit:
             break
     return out
