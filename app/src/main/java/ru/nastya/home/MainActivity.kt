@@ -15,7 +15,6 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.leanback.widget.HorizontalGridView
 import java.text.SimpleDateFormat
@@ -418,7 +417,7 @@ class MainActivity : AppCompatActivity() {
     // ----- Действия -----
 
     private fun openMovie(m: Movie) {
-        if (Launcher.searchInLampa(this, m.searchQuery)) {
+        if (Launcher.openMovieInLampa(this, m)) {
             if (WatchStatus.markOpened(this, m)) movieAdapter.refreshStatuses()
         } else {
             showDetails(m)
@@ -430,9 +429,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showMovieMenu(m: Movie) {
-        val labels = ArrayList<String>()
-        val actions = ArrayList<() -> Unit>()
-        fun add(label: String, action: () -> Unit) { labels.add(label); actions.add(action) }
+        val items = ArrayList<MovieDialogs.Item>()
+        fun add(label: String, action: () -> Unit) { items.add(MovieDialogs.Item(label, action)) }
         add(getString(R.string.menu_about)) { showDetails(m) }
         if (StateStore.isPinned(m)) add(getString(R.string.menu_unpin)) { unpinMovie(m) }
         else add(getString(R.string.menu_pin)) { pinMovie(m) }
@@ -441,10 +439,7 @@ class MainActivity : AppCompatActivity() {
         add(getString(R.string.menu_watched)) { MovieDialogs.askLiked(this, m) { removeMovie(m, "watched", it) } }
         add(getString(R.string.menu_skip)) { removeMovie(m, "skip", null) }
         if (StateStore.isStarted(m)) add(getString(R.string.menu_reset)) { resetMark(m) }
-        AlertDialog.Builder(this)
-            .setTitle(MovieDialogs.title(m))
-            .setItems(labels.toTypedArray()) { _, which -> actions[which]() }
-            .show()
+        MovieDialogs.menu(this, MovieDialogs.title(m), items)
     }
 
     private fun resetMark(m: Movie) {
