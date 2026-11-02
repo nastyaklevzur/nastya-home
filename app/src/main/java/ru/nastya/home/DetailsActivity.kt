@@ -39,6 +39,11 @@ class DetailsActivity : AppCompatActivity() {
             .putStringArrayListExtra("awards", ArrayList(m.awards.mapNotNull { it.label }))
             .putExtra("whyYou", m.whyYou)
             .putExtra("critics", m.critics)
+            .putExtra("overview", m.overview)
+            .putStringArrayListExtra("reviews", ArrayList(m.reviews.map { r ->
+                val mark = when (r.type) { "positive" -> "👍 "; "negative" -> "👎 "; else -> "" }
+                "$mark${r.author}: «${r.text}»"
+            }))
             .putExtra(X_FROM_MAIN, fromMain)
 
         private fun detailsLine(m: Movie): String = listOfNotNull(
@@ -85,6 +90,8 @@ class DetailsActivity : AppCompatActivity() {
         )
         text(R.id.awards, i.getStringArrayListExtra("awards")?.joinToString("\n") { "🏆 $it" }?.takeIf { it.isNotEmpty() })
         text(R.id.note, movie.note)
+        text(R.id.overview, i.getStringExtra("overview"))
+        text(R.id.reviews, i.getStringArrayListExtra("reviews")?.takeIf { it.isNotEmpty() }?.joinToString("\n\n", prefix = "Отзывы на Кинопоиске:\n"))
         text(R.id.whyYou, i.getStringExtra("whyYou")?.let { "Почему тебе: $it" })
         text(R.id.critics, i.getStringExtra("critics")?.let { "Критики: $it" })
         Posters.load(findViewById(R.id.poster), i.getStringExtra("poster"), i.getStringExtra("posterFile"))

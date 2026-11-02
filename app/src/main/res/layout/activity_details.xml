@@ -91,7 +91,18 @@
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="3dp"
                 android:textColor="@color/peach"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:alpha="0.9"
+                android:lineSpacingExtra="3dp"
+                android:textColor="@color/cream"
+                android:textSize="15sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/whyYou"
@@ -112,6 +123,17 @@
                 android:lineSpacingExtra="2dp"
                 android:textColor="@color/cream"
                 android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:alpha="0.8"
+                android:lineSpacingExtra="3dp"
+                android:textColor="@color/cream"
+                android:textSize="13.5sp"
                 android:visibility="gone" />
 
             <LinearLayout

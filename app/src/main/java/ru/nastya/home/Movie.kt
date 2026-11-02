@@ -6,6 +6,8 @@ import java.util.Locale
 
 data class Award(val award: String, val result: String, val count: Int?, val label: String?)
 
+data class Review(val author: String, val type: String, val text: String)
+
 data class Movie(
     val title: String,
     val originalTitle: String?,
@@ -28,6 +30,9 @@ data class Movie(
     val director: String? = null,
     val whyYou: String? = null,
     val critics: String? = null,
+    /** Описание сюжета (первый абзац Википедии или Кинопоиск). */
+    val overview: String? = null,
+    val reviews: List<Review> = emptyList(),
     val awards: List<Award> = emptyList(),
     val awardBadge: String? = null,
     val isNew: Boolean = false,
@@ -116,6 +121,8 @@ object MoviesParser {
             director = str(o, "director"),
             whyYou = str(o, "why_you"),
             critics = str(o, "critics"),
+            overview = str(o, "overview"),
+            reviews = reviews(o),
             awards = awards(o),
             awardBadge = str(o, "award_badge"),
             isNew = o.optBoolean("is_new", false),
@@ -130,6 +137,17 @@ object MoviesParser {
             val x = a.optJSONObject(i) ?: continue
             val name = str(x, "award") ?: continue
             out.add(Award(name, str(x, "result") ?: "", x.optInt("count", 0).takeIf { it > 0 }, str(x, "label")))
+        }
+        return out
+    }
+
+    private fun reviews(o: JSONObject): List<Review> {
+        val a = o.optJSONArray("reviews") ?: return emptyList()
+        val out = ArrayList<Review>()
+        for (i in 0 until a.length()) {
+            val x = a.optJSONObject(i) ?: continue
+            val text = str(x, "text") ?: continue
+            out.add(Review(str(x, "author") ?: "зритель", str(x, "type") ?: "", text))
         }
         return out
     }

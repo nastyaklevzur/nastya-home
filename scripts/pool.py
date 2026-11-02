@@ -307,6 +307,71 @@ def kinopoisk(kp_id):
         return {}
 
 
+# ----------------------------------------------------------------------------- описание и отзывы
+
+MAX_OVERVIEW = 420
+
+
+def _trim_sentences(text, limit):
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    end = max(cut.rfind(". "), cut.rfind("! "), cut.rfind("? "))
+    return cut[:end + 1] if end > limit // 2 else cut.rsplit(" ", 1)[0] + "…"
+
+
+def wiki_overview(entity):
+    """Начало раздела «Сюжет» статьи русской Википедии (без спойлеров — только первые предложения);
+    если раздела нет — первый абзац статьи."""
+    title = entity.get("sitelinks", {}).get("ruwiki", {}).get("title")
+    if not title:
+        return None
+    try:
+        data = fetch_json("https://ru.wikipedia.org/w/api.php?" + urllib.parse.urlencode({
+            "action": "query", "prop": "extracts", "explaintext": 1, "exsectionformat": "wiki", "exlimit": 1,
+            "titles": title, "format": "json", "redirects": 1}))
+    except Exception as e:  # noqa: BLE001
+        warn(f"Википедия «{title}»: {e}")
+        return None
+    text = ""
+    for page in data.get("query", {}).get("pages", {}).values():
+        text = page.get("extract", "") or ""
+    text = text.replace("\u0301", "")                                   # ударения
+    text = re.sub(r"\s*\([^()]*\b(англ|фр|итал|нем|исп|яп|кор|порт|норв|перс|кит)\.[^()]*\)", "", text)
+    text = re.sub(r"\[\d+\]", "", text)
+    m = re.search(r"\n=+\s*Сюжет[^=\n]*=+\s*\n(.*?)(?:\n=+[^=\n]+=+\s*\n|\Z)", text, re.S)
+    body = m.group(1) if m else text.split("\n==", 1)[0]
+    paragraphs = [x.strip() for x in body.split("\n") if len(x.strip()) > 40]
+    if not paragraphs:
+        return None
+    return _trim_sentences(paragraphs[0], MAX_OVERVIEW) or None
+
+
+def kinopoisk_reviews(kp_id, limit=3):
+    """Отзывы зрителей Кинопоиска (нужен KINOPOISK_KEY): до трёх коротких выдержек без спойлеров."""
+    key = KEYS.get("KINOPOISK_KEY")
+    if not key or not kp_id:
+        return []
+    try:
+        data = cached_json(f"kp_reviews_{kp_id}.json", lambda: fetch_json(
+            f"https://kinopoiskapiunofficial.tech/api/v2.2/films/{kp_id}/reviews?page=1&order=USER_POSITIVE_RATING_DESC",
+            {"X-API-KEY": key}), 24 * 7)
+    except Exception as e:  # noqa: BLE001
+        warn(f"отзывы Кинопоиска {kp_id}: {e}")
+        return []
+    out = []
+    for r in data.get("items", []):
+        text = re.sub(r"\s+", " ", (r.get("description") or "")).strip()
+        if len(text) < 80 or "спойлер" in text.lower():
+            continue
+        text = _trim_sentences(text, 240)
+        out.append({"author": r.get("author") or "зритель", "type": (r.get("type") or "").lower(), "text": text})
+        if len(out) >= limit:
+            break
+    return out
+
+
 # ----------------------------------------------------------------------------- постеры
 
 def poster_from_tmdb(tmdb_id):
@@ -502,6 +567,10 @@ def enrich_movie(m, existing):
         premiere = earliest_date(entity)
         if premiere and not m.get("premiere"):
             m["premiere"] = premiere.isoformat()
+        if not m.get("overview"):
+            ov = wiki_overview(entity)
+            if ov:
+                m["overview"] = ov
         awards, badge = awards_of(entity)
         m["awards"] = awards
         if badge:
@@ -524,6 +593,11 @@ def enrich_movie(m, existing):
     k = kinopoisk(m.get("kinopoisk_id"))
     if k.get("ratingKinopoisk"):
         m["kp_rating"] = round(float(k["ratingKinopoisk"]), 1)
+    if k.get("description") and not m.get("overview"):
+        m["overview"] = k["description"][:MAX_OVERVIEW]
+    reviews = kinopoisk_reviews(m.get("kinopoisk_id"))
+    if reviews:
+        m["reviews"] = reviews
     if m.get("imdb_rating"):
         m["rating"] = round(float(m["imdb_rating"]), 1)
     elif m.get("kp_rating"):
