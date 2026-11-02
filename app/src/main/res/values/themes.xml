@@ -6,7 +6,8 @@
         <item name="android:textColor">@color/cream</item>
         <item name="android:textColorPrimary">@color/cream</item>
         <item name="colorAccent">@color/peach</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="HomeButton" parent="Widget.AppCompat.Button.Borderless">
