@@ -8,7 +8,7 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * Состояние Насти: закреплённые, избранное, удалённые (просмотрено / не буду смотреть), «начала смотреть».
+ * Состояние Насти: закреплённые, избранное, удалённые (просмотрено / не буду смотреть), «начат просмотр».
  * Хранится в filesDir/state.json и уезжает в репозиторий через [GithubSync]. Владелец файла — проектор.
  */
 object StateStore {
@@ -71,7 +71,7 @@ object StateStore {
         s.copy(favorites = if (on) rest + entry(s, m) else rest)
     }
 
-    /** «Просмотрен» / «Не буду смотреть». Фильм открепляется, но остаётся в избранном и в «начала смотреть» не висит. */
+    /** «Просмотрен» / «Не буду смотреть». Фильм открепляется, но остаётся в избранном и в «начат просмотр» не висит. */
     fun remove(m: Movie, reason: String, liked: Boolean? = null) = change(
         (if (reason == "watched") "просмотрен" else "не буду смотреть") + " «${m.title}»" +
             when (liked) { true -> " 👍"; false -> " 👎"; null -> "" }
@@ -101,7 +101,7 @@ object StateStore {
     }
 
     fun setStarted(m: Movie, on: Boolean) = change(
-        if (on) "начала смотреть «${m.title}»" else "метка снята «${m.title}»"
+        if (on) "начат просмотр «${m.title}»" else "метка снята «${m.title}»"
     ) { s ->
         val rest = s.started.filter { it.key != m.key }
         s.copy(started = if (on) rest + entry(s, m) else rest)

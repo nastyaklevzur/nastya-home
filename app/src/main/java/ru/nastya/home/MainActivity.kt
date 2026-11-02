@@ -69,9 +69,10 @@ class MainActivity : AppCompatActivity() {
         val data = r.data ?: return@registerForActivityResult
         val key = data.getStringExtra(DetailsActivity.RESULT_KEY) ?: return@registerForActivityResult
         val m = row.firstOrNull { it.key == key } ?: current?.movies?.firstOrNull { it.key == key } ?: return@registerForActivityResult
+        val liked = if (data.getBooleanExtra("hasLiked", false)) data.getBooleanExtra("liked", false) else null
         when (data.getStringExtra(DetailsActivity.RESULT_ACTION)) {
-            "watched" -> MovieDialogs.askLiked(this, m) { removeMovie(m, "watched", it) }
-            "skip" -> removeMovie(m, "skip", null)
+            "watched" -> removeMovie(m, "watched", liked)
+            "skip" -> removeMovie(m, "skip", liked)
         }
     }
     private var news: List<String> = emptyList()
