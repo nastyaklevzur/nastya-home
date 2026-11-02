@@ -59,6 +59,11 @@
             android:screenOrientation="landscape" />
 
         <activity
+            android:name=".FavoritesActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <activity
             android:name=".PlayerActivity"
             android:exported="false"
             android:screenOrientation="landscape"

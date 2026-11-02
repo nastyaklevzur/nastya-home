@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -13,6 +15,14 @@ val syncBundledAssets by tasks.registering(Sync::class) {
     into(bundledAssets)
 }
 
+// Токен GitHub для отправки state.json (fine-grained, только Contents этого репозитория).
+// Лежит в local.properties (в .gitignore): github.token=github_pat_...  Нет токена — синхронизация выключена.
+val githubToken: String = Properties().let { props ->
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { props.load(it) }
+    props.getProperty("github.token", "").trim()
+}
+
 android {
     namespace = "ru.nastya.home"
     compileSdk = 35
@@ -21,10 +31,15 @@ android {
         applicationId = "ru.nastya.home"
         minSdk = 28
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "2.0-dev"
         ndk { abiFilters += listOf("armeabi-v7a") }
         resourceConfigurations += listOf("ru")
+        buildConfigField("String", "GITHUB_TOKEN", "\"$githubToken\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -51,6 +66,8 @@ kotlin {
 tasks.named("preBuild") { dependsOn(syncBundledAssets) }
 
 dependencies {
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.leanback:leanback:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")

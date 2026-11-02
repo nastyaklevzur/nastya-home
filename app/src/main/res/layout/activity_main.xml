@@ -175,13 +175,43 @@
 
                 <TextView
                     android:id="@+id/tvSection"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/section_movies"
                     android:textColor="@color/cream"
                     android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tvFav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:background="@drawable/chip_bg"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingStart="10dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="2dp"
+                    android:text="♥"
+                    android:textColor="@color/chip_text"
+                    android:textSize="13sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tvHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:alpha="0.5"
+                    android:text="@string/hint_menu"
+                    android:textColor="@color/cream"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tvUpdated"
@@ -247,4 +277,25 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
     </ScrollView>
+
+    <!-- Плашка «Убрал … Назад — вернуть» на 6 секунд (SC-3, SC-4) -->
+    <TextView
+        android:id="@+id/undoBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/undo_bg"
+        android:elevation="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:maxWidth="640dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:paddingStart="22dp"
+        android:paddingTop="9dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="9dp"
+        android:textColor="@color/cream"
+        android:textSize="15sp"
+        android:visibility="gone" />
 </FrameLayout>

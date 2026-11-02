@@ -14,6 +14,7 @@ import android.widget.ScrollView
 import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.leanback.widget.HorizontalGridView
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvGreeting: TextView
     private lateinit var tvSection: TextView
     private lateinit var tvUpdated: TextView
+    private lateinit var tvFav: TextView
+    private lateinit var undoBar: TextView
     private lateinit var tvClock: TextView
     private lateinit var tvDate: TextView
     private lateinit var tvWeatherIcon: TextView
@@ -52,6 +55,26 @@ class MainActivity : AppCompatActivity() {
 
     private val fetching = HashSet<String>()
     private var current: MoviesData? = null
+    /** Ряд «топ-10», собранный из пула и состояния (см. RowBuilder). */
+    private var row: List<Movie> = emptyList()
+    /** Новый пул применяем к ряду только при старте, по кнопке «Обновить» и после долгого отсутствия (SC-8). */
+    private var applyNextRemote = true
+    /** Версия состояния, по которой собран ряд; если она изменилась (закрепили на другом экране), ряд пересобираем. */
+    private var rowSeq = -1
+    private var undo: Undo? = null
+    private val undoExpire = Runnable { clearUndo() }
+
+    private class Undo(val movie: Movie, val index: Int, val rowBefore: List<Movie>, val wasPinned: Boolean, val wasStarted: Boolean)
+
+    private val detailsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { r ->
+        val data = r.data ?: return@registerForActivityResult
+        val key = data.getStringExtra(DetailsActivity.RESULT_KEY) ?: return@registerForActivityResult
+        val m = row.firstOrNull { it.key == key } ?: current?.movies?.firstOrNull { it.key == key } ?: return@registerForActivityResult
+        when (data.getStringExtra(DetailsActivity.RESULT_ACTION)) {
+            "watched" -> MovieDialogs.askLiked(this, m) { removeMovie(m, "watched", it) }
+            "skip" -> removeMovie(m, "skip", null)
+        }
+    }
     private var news: List<String> = emptyList()
     private var newsIndex = 0
     private var splash: Splash? = null
@@ -73,6 +96,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        StateStore.init(this)
 
         rootFrame = findViewById(R.id.rootFrame)
         scroll = findViewById(R.id.scroll)
@@ -80,6 +104,8 @@ class MainActivity : AppCompatActivity() {
         tvGreeting = findViewById(R.id.tvGreeting)
         tvSection = findViewById(R.id.tvSection)
         tvUpdated = findViewById(R.id.tvUpdated)
+        tvFav = findViewById(R.id.tvFav)
+        undoBar = findViewById(R.id.undoBar)
         tvClock = findViewById(R.id.tvClock)
         tvDate = findViewById(R.id.tvDate)
         tvWeatherIcon = findViewById(R.id.tvWeatherIcon)
@@ -103,8 +129,12 @@ class MainActivity : AppCompatActivity() {
         rvApps.adapter = appAdapter
 
         setupNewsSwitcher()
+        tvFav.setOnClickListener { startActivity(Intent(this, FavoritesActivity::class.java)) }
+        updateFav()
         updateClockAndGreeting()
-        show(MoviesRepository.loadLocal(this))
+        val local = MoviesRepository.loadLocal(this)
+        StateStore.migrateV1(local.movies)
+        show(local, apply = true)
         CamsRepository.loadLocal(this)?.let(::showCams)
         showWeather(WeatherRepository.cached(this))
         showNews(NewsRepository.cached(this))
@@ -151,12 +181,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (lastShownAt != 0L && System.currentTimeMillis() - lastShownAt > SPLASH_AFTER_MS) applyNextRemote = true
         handler.removeCallbacks(clockTick)
         handler.post(clockTick)
         handler.removeCallbacks(newsTick)
         handler.postDelayed(newsTick, NEWS_INTERVAL_MS)
         appAdapter.submit(AppCatalog.shortcuts(this))
+        // Состояние могли изменить на экране «Избранное» или в «О фильме».
+        val data = current
+        if (data != null && StateStore.snapshot().seq != rowSeq) {
+            applyRow(RowBuilder.build(data, StateStore.snapshot(), row.map { it.key }), null)
+        }
         movieAdapter.refreshStatuses()
+        updateFav()
         refreshAll(force = false)
     }
 
@@ -169,10 +206,12 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         lastShownAt = System.currentTimeMillis()
+        GithubSync.flush()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        handler.removeCallbacks(undoExpire)
         executor.shutdownNow()
     }
 
@@ -199,7 +238,7 @@ class MainActivity : AppCompatActivity() {
 
     @Deprecated("Домашний экран не закрывается кнопкой «Назад»")
     override fun onBackPressed() {
-        goHome()
+        if (undo != null) performUndo() else goHome()
     }
 
     private fun goHome() {
@@ -273,11 +312,44 @@ class MainActivity : AppCompatActivity() {
 
     // ----- Данные -----
 
-    private fun show(data: MoviesData) {
+    private fun show(data: MoviesData, apply: Boolean) {
         current = data
         tvSection.text = data.title
         tvUpdated.text = data.updated?.let { "обновлено " + formatDate(it) } ?: ""
-        movieAdapter.submit(data.movies)
+        if (apply || row.isEmpty()) rebuildRow(data)
+    }
+
+    /** Полный пересчёт ряда: закреплённые, затем прежние карточки, затем лучшие из пула (RowBuilder). */
+    private fun rebuildRow(data: MoviesData) {
+        val keys = if (row.isEmpty()) loadRowKeys() else row.map { it.key }
+        applyRow(RowBuilder.build(data, StateStore.snapshot(), keys), null)
+    }
+
+    /** Показать новый ряд; фокус остаётся на [focusKey] или на той же позиции. */
+    private fun applyRow(newRow: List<Movie>, focusKey: String?) {
+        val selected = rvMovies.selectedPosition
+        val hadFocus = rvMovies.hasFocus()
+        row = newRow
+        rowSeq = StateStore.snapshot().seq
+        saveRowKeys()
+        movieAdapter.submit(row)
+        val target = focusKey?.let { k -> row.indexOfFirst { it.key == k } }?.takeIf { it >= 0 }
+            ?: selected.coerceIn(0, (row.size - 1).coerceAtLeast(0))
+        rvMovies.selectedPosition = target
+        if (hadFocus) rvMovies.requestFocus()
+        updateFav()
+    }
+
+    private fun updateFav() {
+        val n = StateStore.snapshot().favorites.size
+        tvFav.text = if (n > 0) "♥ $n" else "♥"
+    }
+
+    private fun loadRowKeys(): List<String> =
+        getSharedPreferences("row", MODE_PRIVATE).getString("keys", "")!!.split('\n').filter { it.isNotEmpty() }
+
+    private fun saveRowKeys() {
+        getSharedPreferences("row", MODE_PRIVATE).edit().putString("keys", row.joinToString("\n") { it.key }).apply()
     }
 
     private fun showCams(data: CamsData) {
@@ -300,12 +372,19 @@ class MainActivity : AppCompatActivity() {
         if (force || now - MoviesRepository.lastFetchAt(this) > HOUR_MS) {
             fetch("movies", { MoviesRepository.fetchRemote(this) }) { data ->
                 if (data != null) {
-                    show(data)
+                    show(data, apply = force || applyNextRemote)
+                    applyNextRemote = false
                     if (force) toast("Подборка обновлена")
                 } else if (force) {
                     toast("Не получилось обновить. Проверь интернет")
                 }
             }
+        }
+        // Состояние: забрать из репозитория на свежей установке и отправить то, что не ушло (офлайн, ошибка).
+        executor.execute {
+            val restored = GithubSync.restoreIfEmpty()
+            GithubSync.flush()
+            if (restored) handler.post { if (!isFinishing && !isDestroyed) current?.let(::rebuildRow) }
         }
         if (force || now - CamsRepository.lastFetchAt(this) > HOUR_MS) {
             fetch("cams", { CamsRepository.fetchRemote(this) }) { data -> if (data != null) showCams(data) }
@@ -347,40 +426,98 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDetails(m: Movie) {
-        startActivity(DetailsActivity.intent(this, m))
+        detailsLauncher.launch(DetailsActivity.intent(this, m, fromMain = true))
     }
 
     private fun showMovieMenu(m: Movie) {
-        val status = WatchStatus.get(this, m)
-        val items = arrayOf(
-            getString(R.string.menu_about),
-            getString(R.string.menu_started) + if (status == WatchStatus.Status.STARTED) "  ✓" else "",
-            getString(R.string.menu_watched) + if (status == WatchStatus.Status.WATCHED) "  ✓" else "",
-            getString(R.string.menu_reset),
-        )
+        val labels = ArrayList<String>()
+        val actions = ArrayList<() -> Unit>()
+        fun add(label: String, action: () -> Unit) { labels.add(label); actions.add(action) }
+        add(getString(R.string.menu_about)) { showDetails(m) }
+        if (StateStore.isPinned(m)) add(getString(R.string.menu_unpin)) { unpinMovie(m) }
+        else add(getString(R.string.menu_pin)) { pinMovie(m) }
+        if (StateStore.isFavorite(m)) add(getString(R.string.menu_fav_remove)) { toggleFavorite(m) }
+        else add(getString(R.string.menu_fav_add)) { toggleFavorite(m) }
+        add(getString(R.string.menu_watched)) { MovieDialogs.askLiked(this, m) { removeMovie(m, "watched", it) } }
+        add(getString(R.string.menu_skip)) { removeMovie(m, "skip", null) }
+        if (StateStore.isStarted(m)) add(getString(R.string.menu_reset)) { resetMark(m) }
         AlertDialog.Builder(this)
-            .setTitle(m.title + (m.year?.let { " ($it)" } ?: ""))
-            .setItems(items) { _, which ->
-                when (which) {
-                    0 -> showDetails(m)
-                    1 -> setStatus(m, WatchStatus.Status.STARTED)
-                    2 -> setStatus(m, WatchStatus.Status.WATCHED)
-                    3 -> setStatus(m, WatchStatus.Status.NONE)
-                }
-            }
+            .setTitle(MovieDialogs.title(m))
+            .setItems(labels.toTypedArray()) { _, which -> actions[which]() }
             .show()
     }
 
-    private fun setStatus(m: Movie, s: WatchStatus.Status) {
-        WatchStatus.set(this, m, s)
+    private fun resetMark(m: Movie) {
+        WatchStatus.set(this, m, WatchStatus.Status.NONE)
+        rowSeq = StateStore.snapshot().seq
         movieAdapter.refreshStatuses()
-        toast(
-            when (s) {
-                WatchStatus.Status.STARTED -> "Отметил: начала смотреть «${m.title}»"
-                WatchStatus.Status.WATCHED -> "Отметил: «${m.title}» просмотрен"
-                WatchStatus.Status.NONE -> "Метка снята"
-            }
+        toast("Метка снята")
+    }
+
+    private fun pinMovie(m: Movie) {
+        val data = current ?: return
+        if (!StateStore.pin(m)) {
+            toast("Можно закрепить не больше трёх. Открепи что-нибудь")
+            return
+        }
+        toast("Закрепил «${m.title}»")
+        applyRow(RowBuilder.build(data, StateStore.snapshot(), row.map { it.key }), m.key)
+    }
+
+    private fun unpinMovie(m: Movie) {
+        val data = current ?: return
+        StateStore.unpin(m)
+        toast("Открепил «${m.title}»")
+        applyRow(RowBuilder.unpin(data, StateStore.snapshot(), row, m.key), m.key)
+    }
+
+    private fun toggleFavorite(m: Movie) {
+        val on = !StateStore.isFavorite(m)
+        StateStore.setFavorite(m, on)
+        rowSeq = StateStore.snapshot().seq
+        movieAdapter.refreshStatuses()
+        updateFav()
+        toast(if (on) "Добавил в избранное ♥" else "Убрал из избранного")
+    }
+
+    /** «Просмотрен» / «Не буду смотреть»: карточка исчезает, на её место встаёт следующая из пула; 6 секунд можно вернуть. */
+    private fun removeMovie(m: Movie, reason: String, liked: Boolean?) {
+        val data = current ?: return
+        val before = row
+        val index = row.indexOfFirst { it.key == m.key }
+        val wasPinned = StateStore.isPinned(m)
+        val wasStarted = StateStore.isStarted(m)
+        StateStore.remove(m, reason, liked)
+        val after = if (index >= 0) RowBuilder.replaceAt(data, StateStore.snapshot(), row, index) else row
+        applyRow(after, null)
+        showUndo(
+            Undo(m, index, before, wasPinned, wasStarted),
+            (if (reason == "watched") "Просмотрен" else "Убрал") + ": «${m.title}». Назад — вернуть",
         )
+    }
+
+    private fun showUndo(u: Undo, text: String) {
+        handler.removeCallbacks(undoExpire)
+        undo = u
+        undoBar.text = text
+        undoBar.visibility = View.VISIBLE
+        handler.postDelayed(undoExpire, UNDO_MS)
+    }
+
+    private fun clearUndo() {
+        handler.removeCallbacks(undoExpire)
+        undo = null
+        undoBar.visibility = View.GONE
+    }
+
+    private fun performUndo() {
+        val u = undo ?: return
+        clearUndo()
+        StateStore.restore(u.movie.key, u.movie.title)
+        if (u.wasPinned) StateStore.pin(u.movie)
+        if (u.wasStarted) StateStore.setStarted(u.movie, true)
+        applyRow(u.rowBefore, u.movie.key)
+        movieAdapter.refreshStatuses()
     }
 
     private fun openCam(c: Cam) {
@@ -403,6 +540,7 @@ class MainActivity : AppCompatActivity() {
         private const val WEATHER_INTERVAL_MS = 30L * 60L * 1000L
         private const val NEWS_REFRESH_MS = 20L * 60L * 1000L
         private const val NEWS_INTERVAL_MS = 7_000L
+        private const val UNDO_MS = 6_000L
 
         /** Заставку показываем при холодном старте и если лаунчер не видели дольше этого времени. */
         private const val SPLASH_AFTER_MS = 10L * 60L * 1000L

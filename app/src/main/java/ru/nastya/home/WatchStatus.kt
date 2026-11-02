@@ -2,7 +2,11 @@ package ru.nastya.home
 
 import android.content.Context
 
-/** Метки «Начала смотреть» / «Просмотрено», хранятся локально по ключу название+год. */
+/**
+ * Метки «Начала смотреть» / «Просмотрено». С v2 живут в [StateStore] (и уезжают в репозиторий),
+ * этот объект оставлен как тонкая обёртка, чтобы карточки и меню не менялись.
+ * «Просмотрено» теперь значит «удалено из подборки» (см. [StateStore.remove]).
+ */
 object WatchStatus {
     enum class Status(val label: String?) {
         NONE(null),
@@ -10,24 +14,18 @@ object WatchStatus {
         WATCHED("Просмотрено"),
     }
 
-    private const val PREFS = "watch"
-
-    fun key(m: Movie): String = m.title.trim().lowercase() + "|" + (m.year ?: 0)
-
-    fun get(ctx: Context, m: Movie): Status = when (prefs(ctx).getString(key(m), null)) {
-        "started" -> Status.STARTED
-        "watched" -> Status.WATCHED
+    fun get(@Suppress("UNUSED_PARAMETER") ctx: Context, m: Movie): Status = when {
+        StateStore.removedEntry(m)?.reason == "watched" -> Status.WATCHED
+        StateStore.isStarted(m) -> Status.STARTED
         else -> Status.NONE
     }
 
-    fun set(ctx: Context, m: Movie, status: Status) {
-        val e = prefs(ctx).edit()
+    fun set(@Suppress("UNUSED_PARAMETER") ctx: Context, m: Movie, status: Status) {
         when (status) {
-            Status.NONE -> e.remove(key(m))
-            Status.STARTED -> e.putString(key(m), "started")
-            Status.WATCHED -> e.putString(key(m), "watched")
+            Status.NONE -> StateStore.setStarted(m, false)
+            Status.STARTED -> StateStore.setStarted(m, true)
+            Status.WATCHED -> StateStore.remove(m, "watched")
         }
-        e.apply()
     }
 
     /** Фильм открыли в LAMPA: если метки нет — ставим «Начала смотреть». */
@@ -36,6 +34,4 @@ object WatchStatus {
         set(ctx, m, Status.STARTED)
         return true
     }
-
-    private fun prefs(ctx: Context) = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 }
