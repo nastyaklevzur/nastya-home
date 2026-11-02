@@ -45,14 +45,16 @@
       "title": "Рим",
       "subtitle": "фонтан Треви",
       "type": "skyline",
-      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/fontana-di-trevi.html"
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/fontana-di-trevi.html",
+      "preview": "cams/rome-trevi.jpg"
     },
     {
       "id": "santorini",
       "title": "Санторини",
       "subtitle": "Греция",
       "type": "skyline",
-      "page": "https://www.skylinewebcams.com/en/webcam/ellada/naigaio/kyklades/santorini.html"
+      "page": "https://www.skylinewebcams.com/en/webcam/ellada/naigaio/kyklades/santorini.html",
+      "preview": "cams/santorini.jpg"
     },
     {
       "id": "times-square",
@@ -82,7 +84,8 @@
       "subtitle": "гора Соболиная, «Высота 900»",
       "type": "rtspme",
       "server": "rtsp.ru",
-      "cam": "pYdfSz37"
+      "cam": "pYdfSz37",
+      "preview": "cams/baikal-vysota900.jpg"
     },
     {
       "id": "teriberka",
