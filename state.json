@@ -1,10 +1,24 @@
 {
   "version": 1,
-  "updated": "2026-11-02T22:05:26+02:00",
-  "seq": 6,
+  "updated": "2026-11-02T22:07:39+02:00",
+  "seq": 7,
   "pinned": [],
   "favorites": [],
   "removed": [],
-  "started": [],
+  "started": [
+    {
+      "id": 858024,
+      "at": "2026-11-02T22:07:39+02:00",
+      "seq": 7,
+      "snap": {
+        "title": "Хамнет",
+        "original_title": "Hamnet",
+        "year": 2025,
+        "rating": 7.8,
+        "note": "История любви и утраты за «Гамлетом»",
+        "poster": "posters\/hamnet.jpg"
+      }
+    }
+  ],
   "likes": []
 }
