@@ -1,24 +1,10 @@
 {
   "version": 1,
-  "updated": "2026-11-02T22:30:00+02:00",
-  "seq": 9,
+  "updated": "2026-11-02T22:41:53+02:00",
+  "seq": 10,
   "pinned": [],
   "favorites": [],
   "removed": [],
-  "started": [
-    {
-      "id": 194,
-      "at": "2026-11-02T22:30:00+02:00",
-      "seq": 9,
-      "snap": {
-        "title": "Амели",
-        "original_title": "Le fabuleux destin d'Amélie Poulain",
-        "year": 2001,
-        "rating": 8.2,
-        "note": "Парижская сказка о маленьких радостях",
-        "poster": "posters\/le_fabuleux_destin_d_amelie_poulain.jpg"
-      }
-    }
-  ],
+  "started": [],
   "likes": []
 }
