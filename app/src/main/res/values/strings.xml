@@ -5,6 +5,7 @@
     <string name="section_cams">Онлайн-камеры</string>
     <string name="section_apps">Приложения</string>
     <string name="search_in_lampa">Искать в LAMPA</string>
+    <string name="watch">▶ Смотреть</string>
     <string name="back">Назад</string>
     <string name="retry">Ещё раз</string>
     <string name="refresh">Обновить</string>
@@ -30,7 +31,7 @@
     <string name="menu_fav_remove">Убрать из избранного</string>
     <string name="menu_skip">Не буду смотреть</string>
     <string name="menu_restore">Вернуть в подборку</string>
-    <string name="hint_menu">Menu — действия с фильмом</string>
+    <string name="hint_menu">OK — о фильме и смотреть · Menu — действия</string>
     <string name="tab_favorites">Избранное</string>
     <string name="tab_hidden">Скрытые</string>
     <string name="empty_favorites">Нажми Menu на фильме и выбери «В избранное»</string>

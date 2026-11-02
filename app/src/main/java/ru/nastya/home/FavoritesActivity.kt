@@ -92,7 +92,7 @@ class FavoritesActivity : AppCompatActivity() {
     }
 
     private fun onCard(m: Movie) {
-        if (hiddenTab) showMenu(m) else if (!Launcher.openMovieInLampa(this, m)) toast("LAMPA не установлена")
+        if (hiddenTab) showMenu(m) else startActivity(DetailsActivity.intent(this, m))
     }
 
     private fun showMenu(m: Movie) {

@@ -421,13 +421,8 @@ class MainActivity : AppCompatActivity() {
 
     // ----- Действия -----
 
-    private fun openMovie(m: Movie) {
-        if (Launcher.openMovieInLampa(this, m)) {
-            if (WatchStatus.markOpened(this, m)) movieAdapter.refreshStatuses()
-        } else {
-            showDetails(m)
-        }
-    }
+    /** OK на карточке открывает «О фильме»; оттуда кнопка «Смотреть» запускает LAMPA. */
+    private fun openMovie(m: Movie) = showDetails(m)
 
     private fun showDetails(m: Movie) {
         detailsLauncher.launch(DetailsActivity.intent(this, m, fromMain = true))
