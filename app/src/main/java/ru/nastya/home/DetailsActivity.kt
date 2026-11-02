@@ -89,10 +89,9 @@ class DetailsActivity : AppCompatActivity() {
         text(R.id.critics, i.getStringExtra("critics")?.let { "Критики: $it" })
         Posters.load(findViewById(R.id.poster), i.getStringExtra("poster"), i.getStringExtra("posterFile"))
 
-        val query = i.getStringExtra("query") ?: movie.title
         val btnLampa = findViewById<Button>(R.id.btnLampa)
         btnLampa.setOnClickListener {
-            if (!Launcher.searchInLampa(this, query) && !Launcher.launchPackage(this, Launcher.LAMPA)) {
+            if (!Launcher.openMovieInLampa(this, movie) && !Launcher.launchPackage(this, Launcher.LAMPA)) {
                 Toast.makeText(this, "LAMPA не установлена", Toast.LENGTH_SHORT).show()
             }
         }

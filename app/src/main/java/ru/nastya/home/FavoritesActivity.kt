@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -93,13 +92,12 @@ class FavoritesActivity : AppCompatActivity() {
     }
 
     private fun onCard(m: Movie) {
-        if (hiddenTab) showMenu(m) else if (!Launcher.searchInLampa(this, m.searchQuery)) toast("LAMPA не установлена")
+        if (hiddenTab) showMenu(m) else if (!Launcher.openMovieInLampa(this, m)) toast("LAMPA не установлена")
     }
 
     private fun showMenu(m: Movie) {
-        val labels = ArrayList<String>()
-        val actions = ArrayList<() -> Unit>()
-        fun add(label: String, action: () -> Unit) { labels.add(label); actions.add(action) }
+        val items = ArrayList<MovieDialogs.Item>()
+        fun add(label: String, action: () -> Unit) { items.add(MovieDialogs.Item(label, action)) }
         if (hiddenTab) {
             add(getString(R.string.menu_restore)) { StateStore.restore(m.key, m.title); toast("Вернул «${m.title}» в подборку"); reload() }
             add(getString(R.string.menu_about)) { startActivity(DetailsActivity.intent(this, m)) }
@@ -115,10 +113,7 @@ class FavoritesActivity : AppCompatActivity() {
             }
             add(getString(R.string.menu_fav_remove)) { StateStore.setFavorite(m, false); reload() }
         }
-        AlertDialog.Builder(this)
-            .setTitle(MovieDialogs.title(m))
-            .setItems(labels.toTypedArray()) { _, which -> actions[which]() }
-            .show()
+        MovieDialogs.menu(this, MovieDialogs.title(m), items)
     }
 
     private fun toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()

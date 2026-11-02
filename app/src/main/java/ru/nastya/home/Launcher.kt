@@ -33,6 +33,28 @@ object Launcher {
         }
     }
 
+    /**
+     * Открыть карточку фильма в LAMPA. Основной путь — ссылка на TMDB (LAMPA ловит `themoviedb.org/movie/<id>` и сразу
+     * открывает карточку с источниками). Запасной — поиск по названию: на холодном старте LAMPA 1.13.5 он теряет запрос
+     * и показывает пустое «Введите текст», поэтому используется только когда tmdb_id нет.
+     */
+    fun openMovieInLampa(ctx: Context, m: Movie): Boolean {
+        val id = m.tmdbId
+        if (id != null && isInstalled(ctx, LAMPA)) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.themoviedb.org/movie/$id"))
+                .setClassName(LAMPA, "$LAMPA.MainActivity")
+                .putExtra("source", "tmdb")
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            try {
+                ctx.startActivity(intent)
+                return true
+            } catch (e: Exception) {
+                Log.w(TAG, "LAMPA open card $id failed", e)
+            }
+        }
+        return searchInLampa(ctx, m.searchQuery)
+    }
+
     fun isInstalled(ctx: Context, pkg: String): Boolean = try {
         ctx.packageManager.getApplicationInfo(pkg, 0).enabled
     } catch (e: Exception) {
