@@ -5,7 +5,9 @@ import org.json.JSONObject
 
 /**
  * Онлайн-камера из cams.json.
- * type: "hls" (прямой m3u8, при необходимости referer), "ipeye" (dev + server), "ivideon" (server + cam).
+ * type: "hls" (прямой m3u8, при необходимости referer), "ipeye" (dev + server), "ivideon" (server + cam),
+ * "skyline" (page — страница skylinewebcams.com, токен берётся с неё перед запуском),
+ * "earthcam" (url плейлиста videos-N.earthcam.com; Referer и браузерный User-Agent добавляются сами).
  */
 data class Cam(
     val id: String,
@@ -17,6 +19,7 @@ data class Cam(
     val dev: String?,
     val server: String?,
     val cam: String?,
+    val page: String?,
     val previewUrl: String?,
     val previewFallbackUrl: String?,
     val hidden: Boolean,
@@ -53,6 +56,7 @@ object CamsParser {
                     dev = str(o, "dev"),
                     server = str(o, "server"),
                     cam = str(o, "cam"),
+                    page = str(o, "page"),
                     previewUrl = RemoteStore.resolve(baseUrl, str(o, "preview")),
                     previewFallbackUrl = RemoteStore.resolve(baseUrl, str(o, "preview_fallback")),
                     hidden = o.optBoolean("hidden", false),

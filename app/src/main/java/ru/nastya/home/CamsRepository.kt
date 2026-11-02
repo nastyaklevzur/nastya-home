@@ -37,6 +37,10 @@ object CamsRepository {
 
     data class Stream(val url: String, val headers: Map<String, String>)
 
+    /** Браузерный User-Agent: EarthCam и некоторые другие отдают 403 на «неизвестные» плееры. */
+    const val BROWSER_UA = "Mozilla/5.0 (Linux; Android 9; TV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
+    private val SKYLINE_TOKEN = Regex("livee\\.m3u8\\?a=([A-Za-z0-9]+)")
+
     /** Превращает описание камеры в адрес HLS-потока. Блокирующий вызов (IPEYE спрашивает актуальный сервер). */
     fun resolve(cam: Cam): Stream {
         return when (cam.type) {
@@ -50,6 +54,17 @@ object CamsRepository {
                     null
                 } ?: requireNotNull(cam.server) { "ipeye: нет server" }
                 Stream("https://$server/api/v1/stream/$dev/hls/index.m3u8", emptyMap())
+            }
+            "skyline" -> {
+                val page = requireNotNull(cam.page) { "skyline: нет page" }
+                val html = Http.get(page, headers = mapOf("User-Agent" to BROWSER_UA), readTimeoutMs = 12_000)
+                val token = SKYLINE_TOKEN.find(html)?.groupValues?.get(1) ?: error("skyline: токен не найден на странице")
+                // Важно: именно live.m3u8 на hd-auth; «livee.m3u8» со страницы — ловушка, сжигающая токен.
+                Stream("https://hd-auth.skylinewebcams.com/live.m3u8?a=$token", emptyMap())
+            }
+            "earthcam" -> {
+                val url = requireNotNull(cam.url) { "earthcam: нет url" }
+                Stream(url, mapOf("Referer" to (cam.referer ?: "https://www.earthcam.com/"), "User-Agent" to BROWSER_UA))
             }
             "ivideon" -> {
                 val server = requireNotNull(cam.server) { "ivideon: нет server" }

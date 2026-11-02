@@ -40,7 +40,19 @@
       "preview": "https://api.ipeye.ru/v1/stream/poster/1/55e58805859848d4b6ea4a497cdbde96/img.jpeg",
       "preview_fallback": "cams/patsaev.jpg"
     },
-
+    {
+      "id": "rome-trevi",
+      "title": "Рим",
+      "subtitle": "фонтан Треви",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/fontana-di-trevi.html"
+    },
+    {
+      "id": "niagara",
+      "title": "Ниагарский водопад",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/4559.flv/playlist.m3u8"
+    },
     {
       "id": "zelenogradsk-sunset",
       "hidden": true,

@@ -41,6 +41,7 @@ class PlayerActivity : AppCompatActivity() {
     private var player: ExoPlayer? = null
     private var stream: CamsRepository.Stream? = null
     private var retries = 0
+    private var restarts = 0
     private val handler = Handler(Looper.getMainLooper())
     private val executor = Executors.newSingleThreadExecutor()
     private val hideOverlay = Runnable { overlay.animate().alpha(0f).setDuration(400).start() }
@@ -72,6 +73,7 @@ class PlayerActivity : AppCompatActivity() {
             dev = intent.getStringExtra("dev"),
             server = intent.getStringExtra("server"),
             cam = intent.getStringExtra("cam"),
+            page = intent.getStringExtra("page"),
             previewUrl = null,
             previewFallbackUrl = null,
             hidden = false,
@@ -157,7 +159,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun play(s: CamsRepository.Stream) {
         releasePlayer()
         val http = DefaultHttpDataSource.Factory()
-            .setUserAgent(Http.UA)
+            .setUserAgent(s.headers["User-Agent"] ?: CamsRepository.BROWSER_UA)
             .setConnectTimeoutMs(15_000)
             .setReadTimeoutMs(25_000)
             .setAllowCrossProtocolRedirects(true)
@@ -188,6 +190,11 @@ class PlayerActivity : AppCompatActivity() {
                 if (state == Player.STATE_BUFFERING) {
                     tvStatus.visibility = View.VISIBLE
                     tvStatus.text = getString(R.string.cam_buffering)
+                } else if (state == Player.STATE_ENDED && restarts < 5) {
+                    // Поток оборвался (у Skyline истёк токен) — заново узнаём адрес и продолжаем.
+                    restarts++
+                    stream = null
+                    handler.postDelayed({ if (!isFinishing) startPlayback() }, 1_000)
                 }
             }
 
@@ -237,5 +244,6 @@ class PlayerActivity : AppCompatActivity() {
             .putExtra("dev", c.dev)
             .putExtra("server", c.server)
             .putExtra("cam", c.cam)
+            .putExtra("page", c.page)
     }
 }
