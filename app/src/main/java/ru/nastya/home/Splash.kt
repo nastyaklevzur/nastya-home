@@ -9,6 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
+import android.widget.TextView
+import coil.load
+import coil.request.CachePolicy
 
 /**
  * Заставка «Тёплый рассвет»: пятна света разгораются, появляется приветствие, пульсирует сердечко,
@@ -37,9 +41,9 @@ class Splash(private val root: View, private val content: View, private val onDo
         val d = root.resources.displayMetrics.density
 
         val anims = ArrayList<Animator>()
-        anims += glow(glow1, 0L, 0.9f)
-        anims += glow(glow2, 350L, 0.85f)
-        anims += glow(glow3, 700L, 0.7f)
+        anims += glow(glow1, 0L, 0.75f)
+        anims += glow(glow2, 350L, 0.7f)
+        anims += glow(glow3, 700L, 0.55f)
         anims += appear(line1, 600L, 28f * d)
         anims += appear(line2, 1250L, 24f * d)
         anims += appear(heart, 1750L, 0f)
@@ -92,6 +96,21 @@ class Splash(private val root: View, private val content: View, private val onDo
         }
     }
 
+    /** Фон: свежий снимок Земли, Солнца или неба. Если сети нет — остаётся тёплый градиент. */
+    fun setBackdrop(b: SplashBackdrops.Backdrop) {
+        val image = root.findViewById<ImageView>(R.id.splashImage)
+        val caption = root.findViewById<TextView>(R.id.splashCaption)
+        caption.text = b.caption
+        image.load(b.url()) {
+            diskCacheKey(SplashBackdrops.cacheKey(b))
+            memoryCachePolicy(CachePolicy.DISABLED)
+            crossfade(900)
+            listener(onSuccess = { _, _ ->
+                caption.animate().alpha(0.8f).setDuration(700).start()
+            })
+        }
+    }
+
     /** Любая кнопка или таймер: растворяем заставку и проявляем главный экран. */
     fun dismiss() {
         if (finished) return
@@ -111,6 +130,6 @@ class Splash(private val root: View, private val content: View, private val onDo
     val isShowing: Boolean get() = !finished
 
     companion object {
-        const val TOTAL_MS = 3_400L
+        const val TOTAL_MS = 5_000L
     }
 }

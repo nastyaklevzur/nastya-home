@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         showNews(NewsRepository.cached(this))
         rvMovies.post { rvMovies.requestFocus() }
 
-        if (shouldShowSplash()) startSplash()
+        if (shouldShowSplash()) startSplash() else SplashBackdrops.prefetchNext(this)
     }
 
     // ----- Заставка -----
@@ -121,7 +121,15 @@ class MainActivity : AppCompatActivity() {
     private fun startSplash() {
         val view = LayoutInflater.from(this).inflate(R.layout.view_splash, rootFrame, false)
         rootFrame.addView(view)
-        splash = Splash(view, scroll) { splash = null }.also { it.start() }
+        val backdrop = SplashBackdrops.peek(this)
+        SplashBackdrops.advance(this)
+        splash = Splash(view, scroll) {
+            splash = null
+            SplashBackdrops.prefetchNext(this)
+        }.also {
+            it.start()
+            it.setBackdrop(backdrop)
+        }
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {

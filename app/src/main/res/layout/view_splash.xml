@@ -7,6 +7,18 @@
     android:clickable="true"
     android:focusable="false">
 
+    <ImageView
+        android:id="@+id/splashImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_scrim" />
+
     <View
         android:id="@+id/glow1"
         android:layout_width="720dp"
@@ -70,4 +82,16 @@
             android:src="@drawable/ic_heart"
             android:tint="@color/rose" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/splashCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="26dp"
+        android:alpha="0"
+        android:shadowColor="#80000000"
+        android:shadowRadius="6"
+        android:textColor="@color/cream"
+        android:textSize="13sp" />
 </FrameLayout>
