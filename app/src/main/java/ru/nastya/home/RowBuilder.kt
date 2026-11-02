@@ -32,11 +32,29 @@ object RowBuilder {
         val used = HashSet<String>()
 
         for (m in pinnedMovies(data, state)) if (used.add(m.key)) row.add(m)
+        val kept = ArrayList<Movie>()
         for (k in previousKeys) {
             val m = byKey[k] ?: continue
-            if (row.size >= size) break
-            if (used.add(m.key)) row.add(m)
+            if (row.size + kept.size >= size) break
+            if (used.add(m.key)) kept.add(m)
         }
+        // Квота новинок важнее стабильности: если прежние карточки не оставляют места трём новинкам,
+        // уступают худшие по рангу из прежних (кроме закреплённых и «начала смотреть»).
+        val started = state.started.mapTo(HashSet()) { it.key }
+        val freshAvailable = available.count { it.isNew && it.key !in used } + kept.count { it.isNew } + row.count { it.isNew }
+        var needNew = minOf(newQuota, freshAvailable) - row.count { it.isNew } - kept.count { it.isNew }
+        val freeSlots = size - row.size - kept.size
+        var mustDrop = needNew - freeSlots
+        if (mustDrop > 0) {
+            for (m in kept.sortedByDescending { it.rank }) {
+                if (mustDrop <= 0) break
+                if (m.isNew || m.key in started) continue
+                kept.remove(m)
+                used.remove(m.key)
+                mustDrop--
+            }
+        }
+        row.addAll(kept)
         fill(row, used, available, size, newQuota)
         return row.take(size)
     }
