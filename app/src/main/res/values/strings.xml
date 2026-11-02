@@ -39,4 +39,7 @@
     <string name="liked_yes">👍 Нравится</string>
     <string name="liked_no">👎 Не очень</string>
     <string name="liked_skip">Пропустить</string>
+    <string name="menu_like">👍 Нравится</string>
+    <string name="menu_unlike">Убрать «Нравится»</string>
+    <string name="menu_dislike">👎 Не нравится</string>
 </resources>

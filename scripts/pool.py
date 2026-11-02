@@ -418,13 +418,8 @@ def awards_of(entity):
         if k in won:
             n = len(won[k])
             out.append({"award": k, "result": "won", "count": n, "label": text if n == 1 or k == "palme" else f"{text} ×{n}"})
-    badge = None
-    for k in ("oscar", "palme", "globe", "bafta", "lion", "bear"):
-        if k in won:
-            badge = AWARDS[k][1]
-            break
-    if not badge and "oscar" in nominated:
-        badge = AWARDS["oscar"][2]
+    # Значок на карточке — один кубок и только лауреатам крупных премий; номинации видны в «О фильме».
+    badge = "🏆" if any(k in won for k in AWARDS) else None
     return out, badge
 
 
@@ -642,6 +637,9 @@ def cmd_state(_args):
     print(f"\nНачала смотреть ({len(s.get('started', []))}):")
     for e in s.get("started", []):
         print("  ▶", line(e))
+    print(f"\nНравится ({len(s.get('likes', []))}):")
+    for e in s.get("likes", []):
+        print("  👍", line(e))
 
 
 def cmd_enrich(args):
@@ -770,6 +768,10 @@ def cmd_taste(_args):
         else:
             buckets["watched_unrated"].append(k)
     buckets["favorites"] = [str(e.get("id")) for e in state.get("favorites", [])]
+    for e in state.get("likes", []):
+        k = str(e.get("id"))
+        if k not in buckets["liked"]:
+            buckets["liked"].append(k)
 
     counts = {}
     for name, keys in buckets.items():

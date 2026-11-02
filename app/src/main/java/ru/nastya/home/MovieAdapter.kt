@@ -50,6 +50,7 @@ class MovieAdapter(
         private val pin: TextView = view.findViewById(R.id.pin)
         private val fav: TextView = view.findViewById(R.id.fav)
         private val award: TextView = view.findViewById(R.id.award)
+        private val like: TextView = view.findViewById(R.id.like)
         private val title: TextView = view.findViewById(R.id.title)
         private val meta: TextView = view.findViewById(R.id.meta)
 
@@ -89,13 +90,10 @@ class MovieAdapter(
 
         fun bindStatus(m: Movie) {
             pin.visibility = if (StateStore.isPinned(m)) View.VISIBLE else View.GONE
-            val isFav = StateStore.isFavorite(m)
-            fav.visibility = if (isFav) View.VISIBLE else View.GONE
-            // ♥ стоит под 📌, а если закрепления нет — на его месте.
-            (fav.layoutParams as FrameLayout.LayoutParams).topMargin =
-                ((if (pin.visibility == View.VISIBLE) 30 else 6) * fav.resources.displayMetrics.density).toInt()
+            fav.visibility = if (StateStore.isFavorite(m)) View.VISIBLE else View.GONE
+            like.visibility = if (StateStore.isLiked(m)) View.VISIBLE else View.GONE
+            // Кубок — только за победы (Mac ставит award_badge лишь лауреатам); текст не показываем, один значок.
             award.visibility = if (m.awardBadge == null) View.GONE else View.VISIBLE
-            award.text = m.awardBadge
             val s = WatchStatus.get(status.context, m)
             if (s == WatchStatus.Status.NONE) {
                 status.visibility = View.GONE

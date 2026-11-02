@@ -52,6 +52,7 @@ class StateAndParserTest {
             favorites = listOf(Entry(m[1].key, "t2", Snap.of(m[1]), seq = 2)),
             removed = listOf(Entry("13", "t3", Snap.of(m[0]), "watched", true, 3), Entry("77", "t4", null, "skip", null, 4)),
             started = listOf(Entry("13", "t5")),
+            likes = listOf(Entry("77", "t6", seq = 6)),
         )
         val back = StateJson.parse(StateJson.serialize(s))
         assertEquals(s, back)
