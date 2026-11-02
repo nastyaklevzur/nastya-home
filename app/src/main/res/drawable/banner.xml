@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <size android:width="320dp" android:height="180dp" />
+            <gradient android:angle="315" android:startColor="#2B1536" android:centerColor="#5E2448" android:endColor="#B4502F" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_heart" android:gravity="center" android:width="96dp" android:height="96dp" />
+</layer-list>

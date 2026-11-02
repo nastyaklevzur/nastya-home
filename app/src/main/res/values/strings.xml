@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Дом Насти</string>
+    <string name="section_movies">Топ-10 рекомендаций кино</string>
+    <string name="section_apps">Приложения</string>
+    <string name="search_in_lampa">Искать в LAMPA</string>
+    <string name="back">Назад</string>
+    <string name="refresh">Обновить</string>
+</resources>

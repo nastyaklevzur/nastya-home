@@ -1,0 +1,16 @@
+{
+  "title": "Топ-10 рекомендаций кино",
+  "updated": "2026-11-02",
+  "movies": [
+    {"title": "Интерстеллар", "original_title": "Interstellar", "year": 2014, "rating": 8.6, "note": "Космос, время и любовь сильнее гравитации", "poster": "posters/interstellar.jpg", "tmdb_id": 157336, "kinopoisk_id": 258687},
+    {"title": "Начало", "original_title": "Inception", "year": 2010, "rating": 8.7, "note": "Сон во сне и финал, о котором спорят до сих пор", "poster": "posters/inception.jpg", "tmdb_id": 27205, "kinopoisk_id": 447301},
+    {"title": "Достать ножи", "original_title": "Knives Out", "year": 2019, "rating": 7.9, "note": "Уютный детектив с хитрым финалом и юмором", "poster": "posters/knives_out.jpg", "tmdb_id": 546554, "kinopoisk_id": 1188529},
+    {"title": "Паразиты", "original_title": "Parasite", "year": 2019, "rating": 8.5, "note": "Остроумный триллер, где всё не то, чем кажется", "poster": "posters/parasite.jpg", "tmdb_id": 496243, "kinopoisk_id": 1043512},
+    {"title": "Ла-Ла Ленд", "original_title": "La La Land", "year": 2016, "rating": 7.9, "note": "Музыка, мечты и самый красивый закат в кино", "poster": "posters/la_la_land.jpg", "tmdb_id": 313369, "kinopoisk_id": 841081},
+    {"title": "Отель «Гранд Будапешт»", "original_title": "The Grand Budapest Hotel", "year": 2014, "rating": 8.1, "note": "Идеально симметричная сказка Уэса Андерсона", "poster": "posters/grand_budapest.jpg", "tmdb_id": 120467, "kinopoisk_id": 683999},
+    {"title": "Вечное сияние чистого разума", "original_title": "Eternal Sunshine of the Spotless Mind", "year": 2004, "rating": 8.1, "note": "Можно ли стереть любовь из памяти?", "poster": "posters/eternal_sunshine.jpg", "tmdb_id": 38},
+    {"title": "Исчезнувшая", "original_title": "Gone Girl", "year": 2014, "rating": 8.1, "note": "Напряжение не отпускает до последней минуты", "poster": "posters/gone_girl.jpg", "tmdb_id": 210577, "kinopoisk_id": 692861},
+    {"title": "Прибытие", "original_title": "Arrival", "year": 2016, "rating": 7.9, "note": "Фантастика о языке, времени и выборе", "poster": "posters/arrival.jpg", "tmdb_id": 329865},
+    {"title": "1+1", "original_title": "Intouchables", "year": 2011, "rating": 8.8, "note": "Самая добрая комедия о дружбе и свободе", "poster": "posters/intouchables.jpg", "tmdb_id": 77338, "kinopoisk_id": 535341}
+  ]
+}
