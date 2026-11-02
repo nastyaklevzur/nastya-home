@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="118dp"
+    android:layout_width="113dp"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
@@ -8,8 +8,8 @@
 
     <FrameLayout
         android:id="@+id/posterFrame"
-        android:layout_width="118dp"
-        android:layout_height="177dp"
+        android:layout_width="113dp"
+        android:layout_height="170dp"
         android:background="@drawable/poster_bg"
         android:duplicateParentState="true"
         android:elevation="4dp"
@@ -42,18 +42,19 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:maxLines="2"
+        android:gravity="top"
         android:textColor="@color/cream"
         android:textSize="13sp" />
 
     <TextView
         android:id="@+id/meta"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="15dp"
         android:layout_marginTop="2dp"
         android:alpha="0.65"
         android:textColor="@color/cream"
@@ -62,7 +63,7 @@
     <TextView
         android:id="@+id/note"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:layout_marginTop="2dp"
         android:ellipsize="end"
         android:maxLines="2"

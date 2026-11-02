@@ -1,5 +1,6 @@
 package ru.nastya.home
 
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,15 @@ class MovieAdapter(
             }
             view.setOnClickListener { current()?.let(onClick) }
             view.setOnLongClickListener { current()?.let(onLongClick); true }
+            // Кнопка Menu на пульте тоже открывает экран с описанием (долгое нажатие OK на проекторе перехвачено).
+            view.setOnKeyListener { _, keyCode, event ->
+                if ((keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_INFO) && event.action == KeyEvent.ACTION_UP) {
+                    current()?.let(onLongClick)
+                    true
+                } else {
+                    false
+                }
+            }
         }
 
         private fun current(): Movie? = items.getOrNull(bindingAdapterPosition)
@@ -54,12 +64,12 @@ class MovieAdapter(
         fun bind(m: Movie) {
             title.text = m.title
             meta.text = m.year?.toString() ?: ""
-            meta.visibility = if (m.year == null) View.GONE else View.VISIBLE
+            meta.visibility = View.VISIBLE
             val r = m.ratingText
             rating.visibility = if (r == null) View.GONE else View.VISIBLE
             rating.text = r
             note.text = m.note
-            note.visibility = if (m.note.isBlank()) View.GONE else View.VISIBLE
+            note.visibility = View.VISIBLE
             Posters.load(poster, m.posterUrl, m.posterFileName)
         }
     }

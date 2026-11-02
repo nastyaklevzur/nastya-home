@@ -17,7 +17,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingTop="24dp">
+        android:paddingTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="48dp"
             android:fontFamily="sans-serif"
             android:lineSpacingExtra="3dp"
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="48dp"
             android:gravity="bottom"
             android:orientation="horizontal">
@@ -99,7 +99,7 @@
         <androidx.leanback.widget.HorizontalGridView
             android:id="@+id/rvMovies"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="281dp"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:descendantFocusability="afterDescendants"
@@ -124,7 +124,7 @@
         <androidx.leanback.widget.HorizontalGridView
             android:id="@+id/rvApps"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:descendantFocusability="afterDescendants"
