@@ -2,8 +2,26 @@
 <resources>
     <string name="app_name">Дом Насти</string>
     <string name="section_movies">Топ-10 рекомендаций кино</string>
+    <string name="section_cams">Онлайн-камеры</string>
     <string name="section_apps">Приложения</string>
     <string name="search_in_lampa">Искать в LAMPA</string>
     <string name="back">Назад</string>
+    <string name="retry">Ещё раз</string>
     <string name="refresh">Обновить</string>
+    <string name="live">LIVE</string>
+    <string name="open_in_vlc">Открыть в VLC</string>
+    <string name="cam_connecting">Подключаюсь к камере…</string>
+    <string name="cam_buffering">Загружаю…</string>
+    <string name="cam_reconnecting">Переподключаюсь…</string>
+    <string name="cam_resolve_failed">Не удалось узнать адрес трансляции. Проверь интернет или попробуй позже.</string>
+    <string name="cam_failed">Камера сейчас не отвечает. Попробуй ещё раз или открой поток в VLC.</string>
+    <string name="cam_back_hint">Назад — выйти</string>
+    <string name="splash_line1">Настюшечка, золотце,</string>
+    <string name="splash_line2">как я рад тебя видеть! ✨</string>
+    <string name="news_loading">Загружаю новости Калининграда…</string>
+    <string name="weather_loading">Узнаю погоду…</string>
+    <string name="menu_about">О фильме</string>
+    <string name="menu_started">Начала смотреть</string>
+    <string name="menu_watched">Просмотрено</string>
+    <string name="menu_reset">Сбросить метку</string>
 </resources>

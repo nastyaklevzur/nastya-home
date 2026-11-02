@@ -8,11 +8,12 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class MovieAdapter(
     private val onClick: (Movie) -> Unit,
-    private val onLongClick: (Movie) -> Unit,
+    private val onMenu: (Movie) -> Unit,
 ) : RecyclerView.Adapter<MovieAdapter.VH>() {
 
     private val items = ArrayList<Movie>()
@@ -23,6 +24,9 @@ class MovieAdapter(
         notifyDataSetChanged()
     }
 
+    /** Перерисовать метки статуса, не трогая картинки. */
+    fun refreshStatuses() = notifyItemRangeChanged(0, items.size, PAYLOAD_STATUS)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
         VH(LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false))
 
@@ -30,13 +34,17 @@ class MovieAdapter(
 
     override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(items[position])
 
+    override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>) {
+        if (payloads.contains(PAYLOAD_STATUS)) holder.bindStatus(items[position]) else holder.bind(items[position])
+    }
+
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
         private val posterFrame: FrameLayout = view.findViewById(R.id.posterFrame)
         private val poster: ImageView = view.findViewById(R.id.poster)
         private val rating: TextView = view.findViewById(R.id.rating)
+        private val status: TextView = view.findViewById(R.id.status)
         private val title: TextView = view.findViewById(R.id.title)
         private val meta: TextView = view.findViewById(R.id.meta)
-        private val note: TextView = view.findViewById(R.id.note)
 
         init {
             posterFrame.clipToOutline = true
@@ -44,14 +52,15 @@ class MovieAdapter(
                 val scale = if (hasFocus) 1.08f else 1f
                 v.animate().scaleX(scale).scaleY(scale)
                     .setDuration(160).setInterpolator(DecelerateInterpolator()).start()
-                posterFrame.elevation = if (hasFocus) 12f * v.resources.displayMetrics.density else 4f * v.resources.displayMetrics.density
+                val d = v.resources.displayMetrics.density
+                posterFrame.elevation = if (hasFocus) 12f * d else 4f * d
             }
             view.setOnClickListener { current()?.let(onClick) }
-            view.setOnLongClickListener { current()?.let(onLongClick); true }
-            // Кнопка Menu на пульте тоже открывает экран с описанием (долгое нажатие OK на проекторе перехвачено).
+            view.setOnLongClickListener { current()?.let(onMenu); true }
+            // Кнопка Menu на пульте открывает меню карточки (долгое нажатие OK на проекторе перехвачено).
             view.setOnKeyListener { _, keyCode, event ->
                 if ((keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_INFO) && event.action == KeyEvent.ACTION_UP) {
-                    current()?.let(onLongClick)
+                    current()?.let(onMenu)
                     true
                 } else {
                     false
@@ -64,13 +73,29 @@ class MovieAdapter(
         fun bind(m: Movie) {
             title.text = m.title
             meta.text = m.year?.toString() ?: ""
-            meta.visibility = View.VISIBLE
             val r = m.ratingText
             rating.visibility = if (r == null) View.GONE else View.VISIBLE
             rating.text = r
-            note.text = m.note
-            note.visibility = View.VISIBLE
+            bindStatus(m)
             Posters.load(poster, m.posterUrl, m.posterFileName)
         }
+
+        fun bindStatus(m: Movie) {
+            val s = WatchStatus.get(status.context, m)
+            if (s == WatchStatus.Status.NONE) {
+                status.visibility = View.GONE
+                poster.alpha = 1f
+            } else {
+                status.visibility = View.VISIBLE
+                status.text = s.label
+                status.setBackgroundResource(if (s == WatchStatus.Status.WATCHED) R.drawable.badge_watched else R.drawable.badge_started)
+                status.setTextColor(ContextCompat.getColor(status.context, if (s == WatchStatus.Status.WATCHED) R.color.cream else R.color.plum_deep))
+                poster.alpha = if (s == WatchStatus.Status.WATCHED) 0.55f else 1f
+            }
+        }
+    }
+
+    companion object {
+        private const val PAYLOAD_STATUS = "status"
     }
 }

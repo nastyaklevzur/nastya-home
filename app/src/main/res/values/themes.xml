@@ -8,6 +8,21 @@
         <item name="colorAccent">@color/peach</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="alertDialogTheme">@style/Theme.NastyaHome.Dialog</item>
+    </style>
+
+    <style name="Theme.NastyaHome.Player" parent="Theme.NastyaHome">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <style name="Theme.NastyaHome.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/plum</item>
+        <item name="android:textColor">@color/cream</item>
+        <item name="android:textColorPrimary">@color/cream</item>
+        <item name="android:textColorAlertDialogListItem">@color/cream</item>
+        <item name="colorAccent">@color/peach</item>
+        <item name="android:windowMinWidthMajor">40%</item>
+        <item name="android:windowMinWidthMinor">40%</item>
     </style>
 
     <style name="HomeButton" parent="Widget.AppCompat.Button.Borderless">

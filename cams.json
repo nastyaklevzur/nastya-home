@@ -1,0 +1,113 @@
+{
+  "title": "Онлайн-камеры",
+  "updated": "2026-11-02",
+  "cams": [
+    {
+      "id": "zelenogradsk-promenade",
+      "title": "Зеленоградск",
+      "subtitle": "променад и «Глаз Балтики»",
+      "type": "hls",
+      "url": "https://mmx.kgd.ru/traffic/trafcam6zel.m3u8",
+      "referer": "https://kgd.ru/",
+      "preview": "cams/zelenogradsk.jpg"
+    },
+    {
+      "id": "baltiysk-ferry",
+      "title": "Паром Балтийска",
+      "subtitle": "переправа на косу",
+      "type": "ipeye",
+      "dev": "8ea53f0b98b54202a87f37c96065dcdb",
+      "server": "sr-171-25-232-163.ipeye.ru",
+      "preview": "https://api.ipeye.ru/v1/stream/poster/1/8ea53f0b98b54202a87f37c96065dcdb/img.jpeg",
+      "preview_fallback": "cams/baltiysk.jpg"
+    },
+    {
+      "id": "museum-embankment",
+      "title": "Набережная Петра Великого",
+      "subtitle": "Музей Мирового океана",
+      "type": "ipeye",
+      "dev": "8e174cbd52c54de097f09a14f83c0d38",
+      "server": "sr-171-25-232-146.ipeye.ru",
+      "preview": "https://api.ipeye.ru/v1/stream/poster/1/8e174cbd52c54de097f09a14f83c0d38/img.jpeg",
+      "preview_fallback": "cams/museum.jpg"
+    },
+    {
+      "id": "patsaev",
+      "title": "Судно «Космонавт Виктор Пацаев»",
+      "type": "ipeye",
+      "dev": "55e58805859848d4b6ea4a497cdbde96",
+      "server": "sr-171-25-232-146.ipeye.ru",
+      "preview": "https://api.ipeye.ru/v1/stream/poster/1/55e58805859848d4b6ea4a497cdbde96/img.jpeg",
+      "preview_fallback": "cams/patsaev.jpg"
+    },
+
+    {
+      "id": "zelenogradsk-sunset",
+      "hidden": true,
+      "title": "Зеленоградск",
+      "subtitle": "закат над морем",
+      "type": "hls",
+      "url": "https://mmx.kgd.ru/traffic/trafcam7bagram.m3u8",
+      "referer": "https://kgd.ru/"
+    },
+    {
+      "id": "svetlogorsk-coast",
+      "hidden": true,
+      "title": "Светлогорск",
+      "subtitle": "побережье и променад",
+      "type": "ivideon",
+      "server": "100-JSKX0DSQBGgXXPmmXixp4B",
+      "cam": "393216",
+      "preview": "https://openapi-alpha.ivideon.com/cameras/100-JSKX0DSQBGgXXPmmXixp4B:393216/live_preview?op=GET&access_token=public"
+    },
+    {
+      "id": "svetlogorsk-park",
+      "hidden": true,
+      "title": "Светлогорск",
+      "subtitle": "парк и лифт «Панорама»",
+      "type": "ivideon",
+      "server": "100-JSKX0DSQBGgXXPmmXixp4B",
+      "cam": "65536",
+      "preview": "https://openapi-alpha.ivideon.com/cameras/100-JSKX0DSQBGgXXPmmXixp4B:65536/live_preview?op=GET&access_token=public"
+    },
+    {
+      "id": "svetlogorsk-aquarium",
+      "hidden": true,
+      "title": "Светлогорск",
+      "subtitle": "аквариум Морского центра",
+      "type": "ipeye",
+      "dev": "6cf6a5d131a148d2b91e5af6487f51bf",
+      "server": "sr-171-25-232-146.ipeye.ru",
+      "preview": "https://api.ipeye.ru/v1/stream/poster/1/6cf6a5d131a148d2b91e5af6487f51bf/img.jpeg"
+    },
+    {
+      "id": "baltiysk-kosa",
+      "hidden": true,
+      "title": "Балтийская коса",
+      "subtitle": "причал парома",
+      "type": "ipeye",
+      "dev": "2ed0753f85c04987b275296180658489",
+      "server": "sr-171-25-232-163.ipeye.ru",
+      "preview": "https://api.ipeye.ru/v1/stream/poster/1/2ed0753f85c04987b275296180658489/img.jpeg"
+    },
+    {
+      "id": "kaliningrad-central-square",
+      "hidden": true,
+      "title": "Калининград",
+      "subtitle": "площадь у Дома Советов",
+      "type": "hls",
+      "url": "https://mmx.kgd.ru/traffic/trafcam14ds.m3u8",
+      "referer": "https://kgd.ru/"
+    },
+    {
+      "id": "kaliningrad-9-aprelya",
+      "hidden": true,
+      "title": "Калининград",
+      "subtitle": "улица 9 Апреля",
+      "type": "ivideon",
+      "server": "100-6c3539689cf16d61a45c644e4d5e6567",
+      "cam": "196608",
+      "preview": "https://openapi-alpha.ivideon.com/cameras/100-6c3539689cf16d61a45c644e4d5e6567:196608/live_preview?op=GET&access_token=public"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="113dp"
+    android:layout_width="100dp"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
@@ -8,8 +8,8 @@
 
     <FrameLayout
         android:id="@+id/posterFrame"
-        android:layout_width="113dp"
-        android:layout_height="170dp"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         android:background="@drawable/poster_bg"
         android:duplicateParentState="true"
         android:elevation="4dp"
@@ -28,45 +28,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
-            android:layout_margin="8dp"
+            android:layout_margin="6dp"
             android:background="@drawable/badge_bg"
             android:fontFamily="sans-serif-medium"
-            android:paddingStart="7dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="7dp"
-            android:paddingBottom="3dp"
+            android:paddingStart="6dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="2dp"
             android:textColor="@color/gold"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="6dp"
+            android:background="@drawable/badge_started"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="@color/plum_deep"
+            android:textSize="10sp"
+            android:visibility="gone" />
     </FrameLayout>
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="6dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
-        android:maxLines="2"
         android:gravity="top"
+        android:lineSpacingExtra="-1dp"
+        android:maxLines="2"
         android:textColor="@color/cream"
-        android:textSize="13sp" />
+        android:textSize="12.5sp" />
 
     <TextView
         android:id="@+id/meta"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_marginTop="2dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="1dp"
         android:alpha="0.65"
         android:textColor="@color/cream"
-        android:textSize="11sp" />
+        android:textSize="10.5sp" />
 
-    <TextView
-        android:id="@+id/note"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:layout_marginTop="2dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textColor="@color/peach"
-        android:textSize="11.5sp" />
 </LinearLayout>

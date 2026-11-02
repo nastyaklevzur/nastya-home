@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/plum_deep"
+    android:clickable="true"
+    android:focusable="false">
+
+    <View
+        android:id="@+id/glow1"
+        android:layout_width="720dp"
+        android:layout_height="720dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="-260dp"
+        android:layout_marginBottom="-330dp"
+        android:background="@drawable/glow_peach" />
+
+    <View
+        android:id="@+id/glow2"
+        android:layout_width="640dp"
+        android:layout_height="640dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="-300dp"
+        android:layout_marginEnd="-200dp"
+        android:background="@drawable/glow_gold" />
+
+    <View
+        android:id="@+id/glow3"
+        android:layout_width="520dp"
+        android:layout_height="520dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="160dp"
+        android:background="@drawable/glow_rose" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/splashLine1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:letterSpacing="0.03"
+            android:text="@string/splash_line1"
+            android:textColor="@color/peach"
+            android:textSize="46sp" />
+
+        <TextView
+            android:id="@+id/splashLine2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/splash_line2"
+            android:textColor="@color/cream"
+            android:textSize="28sp" />
+
+        <ImageView
+            android:id="@+id/splashHeart"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="26dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_heart"
+            android:tint="@color/rose" />
+    </LinearLayout>
+</FrameLayout>

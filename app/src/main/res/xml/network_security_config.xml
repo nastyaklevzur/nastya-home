@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 9 не знает корневые сертификаты GlobalSign R6/R46 (ими подписаны ipeye.ru, ruwest.ru, klgd.ru).
+     Добавляем их к системным — это публичные корневые УЦ, отпечатки сверены с secure.globalsign.com. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="@raw/globalsign_root_r6" />
+            <certificates src="@raw/globalsign_root_r46" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

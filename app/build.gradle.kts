@@ -3,11 +3,13 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-// Вшитый fallback: movies.json и постеры из корня репозитория попадают в assets при сборке.
+// Вшитый fallback: movies.json, cams.json, постеры и превью камер из корня репозитория попадают в assets при сборке.
 val bundledAssets = layout.buildDirectory.dir("generated/bundledAssets")
 val syncBundledAssets by tasks.registering(Sync::class) {
     from(rootDir.resolve("movies.json"))
+    from(rootDir.resolve("cams.json"))
     from(rootDir.resolve("posters")) { into("posters") }
+    from(rootDir.resolve("cams")) { into("cams") }
     into(bundledAssets)
 }
 
@@ -19,8 +21,8 @@ android {
         applicationId = "ru.nastya.home"
         minSdk = 28
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
         ndk { abiFilters += listOf("armeabi-v7a") }
         resourceConfigurations += listOf("ru")
     }
@@ -53,4 +55,7 @@ dependencies {
     implementation("androidx.leanback:leanback:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("io.coil-kt:coil:2.7.0")
+    implementation("androidx.media3:media3-exoplayer:1.5.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.5.1")
+    implementation("androidx.media3:media3-ui:1.5.1")
 }
