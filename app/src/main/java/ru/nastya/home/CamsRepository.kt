@@ -41,6 +41,8 @@ object CamsRepository {
     const val BROWSER_UA = "Mozilla/5.0 (Linux; Android 9; TV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
     private val SKYLINE_TOKEN = Regex("livee\\.m3u8\\?a=([A-Za-z0-9]+)")
     private val ANY_M3U8 = Regex("https?://[^\"'\\s<>]+\\.m3u8[^\"'\\s<>]*")
+    private val MOSZOO_WIDGET = Regex("<div class=\"widget-player-hls\"([^>]*)>")
+    private val MOSZOO_ATTR = Regex("data-([\\w-]+)=['\"]([^'\"]*)['\"]")
 
     /** Превращает описание камеры в адрес HLS-потока. Блокирующий вызов (IPEYE спрашивает актуальный сервер). */
     fun resolve(cam: Cam): Stream {
@@ -89,6 +91,42 @@ object CamsRepository {
                 val url = ANY_M3U8.find(html)?.value?.replace("\\/", "/")?.replace("&amp;", "&") ?: error("page: m3u8 не найден")
                 val headers = HashMap<String, String>()
                 cam.referer?.let { headers["Referer"] = it }
+                Stream(url, headers)
+            }
+            "ipcamlive" -> {
+                // ipcamlive.com: по alias плеера сервис отдаёт сервер и streamid; путь зависит от режима камеры
+                // (timeshift → streams_timeshift, запись на камере → streams_storage, иначе streams).
+                val alias = requireNotNull(cam.cam) { "ipcamlive: нет cam (alias)" }
+                val json = JSONObject(Http.get("https://g1.ipcamlive.com/player/getcamerastreamstate.php?alias=$alias", headers = mapOf("User-Agent" to BROWSER_UA)))
+                val d = json.optJSONObject("details") ?: error("ipcamlive: нет details")
+                if (d.optString("streamavailable") == "0") error("ipcamlive: камера выключена")
+                val streamId = d.optString("streamid").takeIf { it.isNotBlank() } ?: error("ipcamlive: нет streamid")
+                val host = d.optString("address").removePrefix("http://").removePrefix("https://").trim('/')
+                    .takeIf { it.isNotBlank() } ?: error("ipcamlive: нет address")
+                val dir = when {
+                    d.optString("storageenabledoncamera") == "1" -> "streams_storage"
+                    d.optString("timeshiftenabled") == "1" -> "streams_timeshift"
+                    else -> "streams"
+                }
+                Stream("https://$host/$dir/$streamId/stream.m3u8", mapOf("User-Agent" to BROWSER_UA))
+            }
+            "moszoo" -> {
+                // Трансляции Московского зоопарка (zoo.mos.ru): на странице вольера виджеты
+                // <div class="widget-player-hls" data-id="panda4" data-link="…live…" data-record-video="…повтор…">.
+                // Живой эфир идёт в часы работы зоопарка, в остальное время сервер отдаёт 404 — тогда берём повтор дневного эфира.
+                val page = requireNotNull(cam.page) { "moszoo: нет page" }
+                val html = Http.get(page, headers = mapOf("User-Agent" to BROWSER_UA), readTimeoutMs = 12_000)
+                val widgets = MOSZOO_WIDGET.findAll(html).map { m ->
+                    MOSZOO_ATTR.findAll(m.groupValues[1]).associate { it.groupValues[1] to it.groupValues[2] }
+                }.toList()
+                val w = (if (cam.cam != null) widgets.firstOrNull { it["id"] == cam.cam } else widgets.firstOrNull())
+                    ?: error("moszoo: виджет ${cam.cam ?: ""} не найден")
+                val live = w["link"]?.takeIf { it.isNotBlank() }
+                val replay = w["record-video"]?.takeIf { it.isNotBlank() }
+                val headers = mapOf("User-Agent" to BROWSER_UA, "Referer" to "https://zoo.mos.ru/")
+                val url = live?.takeIf { l ->
+                    try { Http.get(l, headers, connectTimeoutMs = 6_000, readTimeoutMs = 8_000).contains("#EXTM3U") } catch (e: Exception) { false }
+                } ?: replay ?: live ?: error("moszoo: у виджета нет ссылок")
                 Stream(url, headers)
             }
             "earthcam" -> {

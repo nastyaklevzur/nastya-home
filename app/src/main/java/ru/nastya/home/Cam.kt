@@ -7,7 +7,8 @@ import org.json.JSONObject
  * Онлайн-камера из cams.json.
  * type: "hls" (прямой m3u8, при необходимости referer), "ipeye" (dev + server), "ivideon" (server + cam),
  * "skyline" (page — страница skylinewebcams.com, токен берётся с неё перед запуском),
- * "earthcam" (url плейлиста videos-N.earthcam.com; Referer и браузерный User-Agent добавляются сами).
+ * "earthcam" (url плейлиста videos-N.earthcam.com; Referer и браузерный User-Agent добавляются сами),
+ * "ipcamlive" (cam — alias плеера ipcamlive.com), "moszoo" (page — страница вольера zoo.mos.ru, cam — data-id виджета).
  */
 data class Cam(
     val id: String,

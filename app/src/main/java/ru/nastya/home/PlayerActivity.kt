@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MimeTypes
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
@@ -210,7 +211,9 @@ class PlayerActivity : AppCompatActivity() {
                 }
             }
         })
-        p.setMediaItem(MediaItem.fromUri(s.url))
+        // Все камеры — HLS; подсказываем тип явно, иначе адреса без «.m3u8» (zoo.mos.ru: «…-public?m3u8»)
+        // ExoPlayer принимает за обычный файл и падает с ERROR_CODE_PARSING_CONTAINER_UNSUPPORTED.
+        p.setMediaItem(MediaItem.Builder().setUri(s.url).setMimeType(MimeTypes.APPLICATION_M3U8).build())
         p.playWhenReady = true
         p.prepare()
     }

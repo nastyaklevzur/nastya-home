@@ -41,6 +41,82 @@
       "preview_fallback": "cams/patsaev.jpg"
     },
     {
+      "id": "moscow-panda",
+      "title": "Панды",
+      "subtitle": "Московский зоопарк · Диндин и Катюша",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/panda/",
+      "cam": "panda4",
+      "preview": "cams/moscow-panda.jpg"
+    },
+    {
+      "id": "wolf-center-pack",
+      "title": "Волки",
+      "subtitle": "Международный центр волков, Миннесота",
+      "type": "ipcamlive",
+      "cam": "63766320c2459",
+      "preview": "https://s28.ipcamlive.com/streams_timeshift/1cx0nzpifv96rflal/snapshot.jpg",
+      "preview_fallback": "cams/wolf-center-pack.jpg"
+    },
+    {
+      "id": "wolf-center-window",
+      "title": "Волки",
+      "subtitle": "центр волков · окно вольера",
+      "type": "ipcamlive",
+      "cam": "5f8f42a5963bc",
+      "preview": "https://s87.ipcamlive.com/streams_timeshift/57mec6tedqip04zl3/snapshot.jpg",
+      "preview_fallback": "cams/wolf-center-window.jpg"
+    },
+    {
+      "id": "moscow-capybara",
+      "title": "Капибары",
+      "subtitle": "Московский зоопарк · уличный вольер",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/kapibara/",
+      "cam": "capybara4",
+      "preview": "cams/moscow-capybara.jpg"
+    },
+    {
+      "id": "moscow-raccoon",
+      "title": "Еноты",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/enot/",
+      "cam": "raccoon1"
+    },
+    {
+      "id": "moscow-otter",
+      "title": "Гигантские выдры",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/vydra/",
+      "cam": "vydra1"
+    },
+    {
+      "id": "moscow-meerkat",
+      "title": "Сурикаты",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/surikat/",
+      "cam": "meerkat1"
+    },
+    {
+      "id": "miami-meerkat",
+      "title": "Сурикаты",
+      "subtitle": "Zoo Miami, Флорида",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/14443.flv/playlist.m3u8",
+      "preview": "cams/miami-meerkat.jpg"
+    },
+    {
+      "id": "greenville-giraffe",
+      "title": "Жирафы",
+      "subtitle": "Greenville Zoo, Южная Каролина",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/19977.flv/playlist.m3u8",
+      "preview": "cams/greenville-giraffe.jpg"
+    },
+    {
       "id": "rome-trevi",
       "title": "Рим",
       "subtitle": "фонтан Треви",
@@ -396,6 +472,182 @@
       "type": "hls",
       "url": "https://camera.vt.ru:8888/cam1/index.m3u8",
       "hidden": true
+    },
+    {
+      "id": "moscow-panda-outdoor",
+      "hidden": true,
+      "title": "Панды",
+      "subtitle": "уличный вольер Диндин и Катюши",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/panda/",
+      "cam": "panda1"
+    },
+    {
+      "id": "moscow-panda-zhui",
+      "hidden": true,
+      "title": "Панда Жуи",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/panda/",
+      "cam": "panda7"
+    },
+    {
+      "id": "moscow-lion",
+      "hidden": true,
+      "title": "Азиатские львы",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/aziatskie_lvy/",
+      "cam": "lion1"
+    },
+    {
+      "id": "moscow-tiger",
+      "hidden": true,
+      "title": "Амурский тигр",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/tigr/",
+      "cam": "tiger1"
+    },
+    {
+      "id": "moscow-polar-bear",
+      "hidden": true,
+      "title": "Белый медведь",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/beliy-medved/",
+      "cam": "polarbear1"
+    },
+    {
+      "id": "moscow-gorilla",
+      "hidden": true,
+      "title": "Гориллы",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/gorilla/",
+      "cam": "gorilla1"
+    },
+    {
+      "id": "moscow-orangutan",
+      "hidden": true,
+      "title": "Орангутаны",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/orangutan/",
+      "cam": "orangutan1"
+    },
+    {
+      "id": "moscow-elephant",
+      "hidden": true,
+      "title": "Слоны",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/slon/",
+      "cam": "slon1"
+    },
+    {
+      "id": "moscow-leopard",
+      "hidden": true,
+      "title": "Леопард",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/leopard/",
+      "cam": "leopard1"
+    },
+    {
+      "id": "moscow-puma",
+      "hidden": true,
+      "title": "Пума",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/puma/",
+      "cam": "puma1"
+    },
+    {
+      "id": "moscow-lynx",
+      "hidden": true,
+      "title": "Рыси",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/rys/",
+      "cam": "lynxes1"
+    },
+    {
+      "id": "moscow-honey-badger",
+      "hidden": true,
+      "title": "Медоеды",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/medoed/",
+      "cam": "badger1"
+    },
+    {
+      "id": "moscow-hippo",
+      "hidden": true,
+      "title": "Карликовый бегемот",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/begemot/",
+      "cam": "begemot1"
+    },
+    {
+      "id": "moscow-zebra",
+      "hidden": true,
+      "title": "Зебры и жираф",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/zebra/",
+      "cam": "zebra1"
+    },
+    {
+      "id": "moscow-cranes",
+      "hidden": true,
+      "title": "Журавли и павлины",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/zhuravli/",
+      "cam": "cranes1"
+    },
+    {
+      "id": "moscow-sun-bear",
+      "hidden": true,
+      "title": "Малайские медведи",
+      "subtitle": "Московский зоопарк · только в часы работы",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/malayskiy_medved/",
+      "cam": "malayskiy_medved1"
+    },
+    {
+      "id": "greenville-giraffe-barn",
+      "hidden": true,
+      "title": "Жирафы",
+      "subtitle": "Greenville Zoo · в загоне",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/19978.flv/playlist.m3u8"
+    },
+    {
+      "id": "miami-flamingo",
+      "hidden": true,
+      "title": "Фламинго",
+      "subtitle": "Zoo Miami, Флорида",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/31440.flv/playlist.m3u8"
+    },
+    {
+      "id": "chobe-elephants",
+      "hidden": true,
+      "title": "Река Чобе",
+      "subtitle": "Ботсвана · слоны на водопое",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/36588.flv/playlist.m3u8"
+    },
+    {
+      "id": "manatee-lagoon",
+      "hidden": true,
+      "title": "Ламантины",
+      "subtitle": "Manatee Lagoon, Флорида",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/23997.flv/playlist.m3u8"
     }
   ]
 }
