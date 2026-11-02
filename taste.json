@@ -1,0 +1,43 @@
+{
+  "generated": "2026-11-02",
+  "signals": 0,
+  "counts": {
+    "liked": {
+      "genres": {},
+      "decades": {},
+      "countries": {},
+      "directors": {},
+      "titles": []
+    },
+    "disliked": {
+      "genres": {},
+      "decades": {},
+      "countries": {},
+      "directors": {},
+      "titles": []
+    },
+    "favorites": {
+      "genres": {},
+      "decades": {},
+      "countries": {},
+      "directors": {},
+      "titles": []
+    },
+    "skipped": {
+      "genres": {},
+      "decades": {},
+      "countries": {},
+      "directors": {},
+      "titles": []
+    },
+    "watched_unrated": {
+      "genres": {},
+      "decades": {},
+      "countries": {},
+      "directors": {},
+      "titles": []
+    }
+  },
+  "recent": [],
+  "summary": ""
+}

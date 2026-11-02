@@ -118,4 +118,26 @@ class RowBuilderTest {
         assertEquals(10, row.size)
         assertFalse(row.any { it.key == "25" })
     }
+
+    @Test fun newQuotaWinsOverStabilityWhenPoolChanges() {
+        // Старый ряд — десять классических фильмов; в новом пуле появились новинки на местах 12, 15, 20.
+        val d = pool(30, setOf(12, 15, 20))
+        val previous = (1L..10L).map { it.toString() }
+        val row = RowBuilder.build(d, AppState(), previous)
+        assertEquals(10, row.size)
+        assertEquals(3, row.count { it.isNew })
+        // Уступили худшие по рангу прежние карточки (10, 9, 8), лучшие остались на местах.
+        assertEquals(listOf("1", "2", "3", "4", "5", "6", "7"), keys(row).take(7))
+        assertFalse(row.any { it.key == "10" || it.key == "9" || it.key == "8" })
+    }
+
+    @Test fun startedMoviesAreNotDroppedForQuota() {
+        val d = pool(30, setOf(12, 15, 20))
+        val previous = (1L..10L).map { it.toString() }
+        val s = AppState(started = listOf(entry(d.movies[9]), entry(d.movies[8])))
+        val row = RowBuilder.build(d, s, previous)
+        assertEquals(3, row.count { it.isNew })
+        assertTrue(row.any { it.key == "10" } && row.any { it.key == "9" })
+        assertFalse(row.any { it.key == "8" || it.key == "7" || it.key == "6" })
+    }
 }

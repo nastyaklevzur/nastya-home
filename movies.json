@@ -1,7 +1,220 @@
 {
+  "version": 2,
   "title": "Топ-10 рекомендаций кино",
   "updated": "2026-11-02",
   "movies": [
+    {
+      "title": "Побег из Шоушенка",
+      "original_title": "The Shawshank Redemption",
+      "year": 1994,
+      "note": "Надежда, которую не отнять",
+      "tmdb_id": 278,
+      "wikidata": "Q172241",
+      "imdb_id": "tt0111161",
+      "kinopoisk_id": 326,
+      "runtime": 142,
+      "director": "Фрэнк Дарабонт",
+      "country": "США",
+      "genres": [
+        "драма",
+        "криминал"
+      ],
+      "premiere": "1994-09-10",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 7,
+          "label": "7 номинаций на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 9.3,
+      "imdb_votes": 3260480,
+      "rating": 9.3,
+      "is_new": false,
+      "poster": "posters/the_shawshank_redemption.jpg",
+      "rank": 1,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Битва за битвой",
+      "original_title": "One Battle After Another",
+      "year": 2025,
+      "note": "Оскар за лучший фильм и бешеный темп",
+      "tmdb_id": 1054867,
+      "wikidata": "Q117085614",
+      "imdb_id": "tt30144839",
+      "kinopoisk_id": 5437094,
+      "runtime": 161,
+      "director": "Пол Томас Андерсон",
+      "country": "США",
+      "genres": [
+        "драма",
+        "комедия",
+        "триллер"
+      ],
+      "premiere": "2025-09-08",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 6,
+          "label": "6 «Оскаров», в том числе лучший фильм"
+        },
+        {
+          "award": "globe",
+          "result": "won",
+          "count": 4,
+          "label": "Золотой глобус ×4"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 7.6,
+      "imdb_votes": 455255,
+      "rating": 7.6,
+      "is_new": true,
+      "poster": "posters/one_battle_after_another.webp",
+      "rank": 2,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Проект «Конец света»",
+      "original_title": "Project Hail Mary",
+      "year": 2026,
+      "note": "Учёный, инопланетянин и спасение Земли",
+      "tmdb_id": 687163,
+      "wikidata": "Q107105860",
+      "imdb_id": "tt12042730",
+      "kinopoisk_id": 1382256,
+      "runtime": 156,
+      "director": "Фил Лорд, Крис Миллер",
+      "country": "США",
+      "genres": [
+        "фантастика",
+        "приключения",
+        "боевик"
+      ],
+      "premiere": "2026-03-18",
+      "awards": [],
+      "imdb_rating": 8.2,
+      "imdb_votes": 592174,
+      "rating": 8.2,
+      "is_new": true,
+      "poster": "posters/project_hail_mary.jpg",
+      "rank": 3,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Властелин колец: Братство Кольца",
+      "original_title": "The Lord of the Rings: The Fellowship of the Ring",
+      "year": 2001,
+      "note": "Начало великого путешествия",
+      "tmdb_id": 120,
+      "wikidata": "Q127367",
+      "imdb_id": "tt0120737",
+      "kinopoisk_id": 328,
+      "runtime": 178,
+      "director": "Питер Джексон",
+      "country": "Новая Зеландия",
+      "genres": [
+        "фэнтези",
+        "приключения",
+        "боевик"
+      ],
+      "premiere": "2001-12-19",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 4,
+          "label": "4 «Оскара»"
+        },
+        {
+          "award": "bafta",
+          "result": "won",
+          "count": 1,
+          "label": "Премия BAFTA"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.9,
+      "imdb_votes": 2249549,
+      "rating": 8.9,
+      "is_new": false,
+      "poster": "posters/the_lord_of_the_rings_the_fellowship_of_the_ring.jpg",
+      "rank": 4,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Хамнет",
+      "original_title": "Hamnet",
+      "year": 2025,
+      "note": "История любви и утраты за «Гамлетом»",
+      "tmdb_id": 858024,
+      "wikidata": "Q122741016",
+      "imdb_id": "tt14905854",
+      "kinopoisk_id": 5454868,
+      "runtime": 125,
+      "director": "Хлоя Чжао",
+      "country": "США",
+      "genres": [
+        "драма",
+        "биография"
+      ],
+      "premiere": "2025-08-29",
+      "awards": [
+        {
+          "award": "globe",
+          "result": "won",
+          "count": 2,
+          "label": "Золотой глобус ×2"
+        }
+      ],
+      "award_badge": "Золотой глобус",
+      "imdb_rating": 7.8,
+      "imdb_votes": 140990,
+      "rating": 7.8,
+      "is_new": true,
+      "poster": "posters/hamnet.jpg",
+      "rank": 5,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Зелёная книга",
+      "original_title": "Green Book",
+      "year": 2018,
+      "note": "Дорожная история дружбы с Оскаром",
+      "tmdb_id": 490132,
+      "wikidata": "Q48673898",
+      "imdb_id": "tt6966692",
+      "kinopoisk_id": 1108577,
+      "runtime": 130,
+      "director": "Питер Фаррелли",
+      "country": "США",
+      "genres": [
+        "драма",
+        "комедия",
+        "биография"
+      ],
+      "premiere": "2018-09-11",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 3,
+          "label": "3 «Оскара», в том числе лучший фильм"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.2,
+      "imdb_votes": 710183,
+      "rating": 8.2,
+      "is_new": false,
+      "poster": "posters/green_book.jpg",
+      "rank": 6,
+      "added": "2026-11-02"
+    },
     {
       "title": "Форрест Гамп",
       "original_title": "Forrest Gump",
@@ -9,16 +222,190 @@
       "rating": 8.8,
       "note": "Тёплая история, после которой хочется обнять",
       "tmdb_id": 13,
-      "poster": "posters/forrest_gump.jpg"
+      "poster": "posters/forrest_gump.jpg",
+      "wikidata": "Q134773",
+      "imdb_id": "tt0109830",
+      "kinopoisk_id": 448,
+      "runtime": 142,
+      "director": "Роберт Земекис",
+      "country": "США",
+      "genres": [
+        "драма",
+        "комедия",
+        "взросление"
+      ],
+      "premiere": "1994-06-23",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 6,
+          "label": "6 «Оскаров», в том числе лучший фильм"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.8,
+      "imdb_votes": 2550229,
+      "is_new": false,
+      "rank": 7,
+      "added": "2026-11-02"
     },
     {
-      "title": "Амели",
-      "original_title": "Le fabuleux destin d'Amélie Poulain",
+      "title": "Унесённые призраками",
+      "original_title": "Spirited Away",
       "year": 2001,
-      "rating": 8.3,
-      "note": "Парижская сказка о маленьких радостях",
-      "tmdb_id": 194,
-      "poster": "posters/le_fabuleux_destin_d_amelie_poulain.jpg"
+      "note": "Волшебный мир Миядзаки",
+      "tmdb_id": 129,
+      "wikidata": "Q155653",
+      "imdb_id": "tt0245429",
+      "kinopoisk_id": 370,
+      "runtime": 125,
+      "director": "Хаяо Миядзаки",
+      "country": "Япония",
+      "genres": [
+        "драма",
+        "фэнтези",
+        "взросление"
+      ],
+      "premiere": "2002-09-20",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 1,
+          "label": "«Оскар»"
+        },
+        {
+          "award": "bear",
+          "result": "won",
+          "count": 1,
+          "label": "Золотой медведь Берлинале"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.6,
+      "imdb_votes": 992098,
+      "rating": 8.6,
+      "is_new": false,
+      "poster": "posters/spirited_away.jpg",
+      "rank": 8,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Сентиментальная ценность",
+      "original_title": "Sentimental Value",
+      "year": 2025,
+      "note": "Нежная драма о семье и прощении",
+      "tmdb_id": 1124566,
+      "wikidata": "Q130284179",
+      "imdb_id": "tt27714581",
+      "kinopoisk_id": 6555640,
+      "runtime": 133,
+      "director": "Хоаким Триер",
+      "country": "Норвегия",
+      "genres": [
+        "драма",
+        "комедия"
+      ],
+      "premiere": "2025-08-20",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 1,
+          "label": "«Оскар»"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 7.7,
+      "imdb_votes": 92853,
+      "rating": 7.7,
+      "is_new": true,
+      "poster": "posters/sentimental_value.jpg",
+      "rank": 9,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Марсианин",
+      "original_title": "The Martian",
+      "year": 2015,
+      "note": "Выжить на Марсе с юмором и картошкой",
+      "tmdb_id": 286217,
+      "wikidata": "Q18547944",
+      "imdb_id": "tt3659388",
+      "kinopoisk_id": 841700,
+      "runtime": 141,
+      "director": "Ридли Скотт",
+      "country": "США",
+      "genres": [
+        "драма",
+        "фантастика",
+        "приключения"
+      ],
+      "premiere": "2015-10-01",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 7,
+          "label": "7 номинаций на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 8.0,
+      "imdb_votes": 1035428,
+      "rating": 8.0,
+      "is_new": false,
+      "poster": "posters/the_martian.jpg",
+      "rank": 10,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Три билборда на границе Эббинга, Миссури",
+      "original_title": "Three Billboards Outside Ebbing, Missouri",
+      "year": 2017,
+      "note": "Злая, смешная и очень человечная",
+      "tmdb_id": 359940,
+      "wikidata": "Q24053277",
+      "imdb_id": "tt5027774",
+      "kinopoisk_id": 944098,
+      "runtime": 115,
+      "director": "Мартин Макдонах",
+      "country": "США",
+      "genres": [
+        "драма",
+        "комедия",
+        "криминал"
+      ],
+      "premiere": "2017-09-04",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 2,
+          "label": "2 «Оскара»"
+        },
+        {
+          "award": "globe",
+          "result": "won",
+          "count": 1,
+          "label": "Золотой глобус"
+        },
+        {
+          "award": "bafta",
+          "result": "won",
+          "count": 1,
+          "label": "Премия BAFTA"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.1,
+      "imdb_votes": 619145,
+      "rating": 8.1,
+      "is_new": false,
+      "poster": "posters/three_billboards_outside_ebbing_missouri.jpg",
+      "rank": 11,
+      "added": "2026-11-02"
     },
     {
       "title": "Жизнь прекрасна",
@@ -27,25 +414,85 @@
       "rating": 8.6,
       "note": "Смех сквозь слёзы и любовь сильнее всего",
       "tmdb_id": 637,
-      "poster": "posters/la_vita_e_bella.jpg"
+      "poster": "posters/la_vita_e_bella.jpg",
+      "wikidata": "Q19355",
+      "imdb_id": "tt0118799",
+      "kinopoisk_id": 381,
+      "runtime": 116,
+      "director": "Роберто Бениньи",
+      "country": "Италия",
+      "genres": [
+        "драма",
+        "комедия"
+      ],
+      "premiere": "1998-05-01",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 3,
+          "label": "3 «Оскара»"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.6,
+      "imdb_votes": 827036,
+      "is_new": false,
+      "rank": 12,
+      "added": "2026-11-02"
     },
     {
-      "title": "День сурка",
-      "original_title": "Groundhog Day",
-      "year": 1993,
-      "rating": 8.0,
-      "note": "Один и тот же день, который учит жить",
-      "tmdb_id": 137,
-      "poster": "posters/groundhog_day.jpg"
+      "title": "Остров проклятых",
+      "original_title": "Shutter Island",
+      "year": 2010,
+      "note": "Триллер, где нельзя верить никому",
+      "tmdb_id": 11324,
+      "wikidata": "Q210364",
+      "imdb_id": "tt1130884",
+      "kinopoisk_id": 397667,
+      "runtime": 138,
+      "director": "Мартин Скорсезе",
+      "country": "США",
+      "genres": [
+        "драма",
+        "триллер",
+        "детектив"
+      ],
+      "premiere": "2010-02-13",
+      "awards": [],
+      "imdb_rating": 8.2,
+      "imdb_votes": 1695235,
+      "rating": 8.2,
+      "is_new": false,
+      "poster": "posters/shutter_island.jpg",
+      "rank": 13,
+      "added": "2026-11-02"
     },
     {
-      "title": "Маленькая мисс Счастье",
-      "original_title": "Little Miss Sunshine",
-      "year": 2006,
-      "rating": 7.8,
-      "note": "Безумный семейный роуд-трип с добрым сердцем",
-      "tmdb_id": 773,
-      "poster": "posters/little_miss_sunshine.jpg"
+      "title": "F1",
+      "original_title": "F1",
+      "year": 2025,
+      "note": "Рёв моторов и история второго шанса",
+      "tmdb_id": 911430,
+      "wikidata": "Q114246242",
+      "imdb_id": "tt16311594",
+      "kinopoisk_id": 5003510,
+      "runtime": 155,
+      "director": "Джозеф Косински",
+      "country": "США",
+      "genres": [
+        "боевик",
+        "спорт"
+      ],
+      "premiere": "2025-06-25",
+      "awards": [],
+      "imdb_rating": 7.6,
+      "imdb_votes": 399858,
+      "rating": 7.6,
+      "is_new": true,
+      "poster": "posters/f1.jpg",
+      "rank": 14,
+      "added": "2026-11-02"
     },
     {
       "title": "Семь",
@@ -54,34 +501,94 @@
       "rating": 8.6,
       "note": "Мрачный детектив с финалом, который не забыть",
       "tmdb_id": 807,
-      "poster": "posters/se7en.jpg"
+      "poster": "posters/se7en.jpg",
+      "wikidata": "Q190908",
+      "imdb_id": "tt0114369",
+      "kinopoisk_id": 377,
+      "runtime": 127,
+      "director": "Дэвид Финчер",
+      "country": "США",
+      "genres": [
+        "драма",
+        "триллер",
+        "детектив"
+      ],
+      "premiere": "1995-09-15",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 1,
+          "label": "Номинация на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 8.6,
+      "imdb_votes": 2074156,
+      "is_new": false,
+      "rank": 15,
+      "added": "2026-11-02"
     },
     {
-      "title": "Воспоминания об убийстве",
-      "original_title": "Salinui chueok",
-      "year": 2003,
-      "rating": 8.1,
-      "note": "Корейский детектив, от которого мурашки",
-      "tmdb_id": 11423,
-      "poster": "posters/salinui_chueok.jpg"
+      "title": "Как приручить дракона",
+      "original_title": "How to Train Your Dragon",
+      "year": 2025,
+      "note": "Беззубик живьём и всё так же трогательно",
+      "tmdb_id": 1087192,
+      "wikidata": "Q118904382",
+      "imdb_id": "tt26743210",
+      "kinopoisk_id": 5267432,
+      "runtime": 125,
+      "director": "Дин Деблуа",
+      "country": "США",
+      "genres": [
+        "фэнтези",
+        "приключения",
+        "боевик"
+      ],
+      "premiere": "2025-06-11",
+      "awards": [],
+      "imdb_rating": 7.7,
+      "imdb_votes": 143477,
+      "rating": 7.7,
+      "is_new": true,
+      "poster": "posters/how_to_train_your_dragon.webp",
+      "rank": 16,
+      "added": "2026-11-02"
     },
     {
-      "title": "Пленницы",
-      "original_title": "Prisoners",
-      "year": 2013,
-      "rating": 8.1,
-      "note": "Напряжённый триллер, держит до последней минуты",
-      "tmdb_id": 146233,
-      "poster": "posters/prisoners.jpg"
-    },
-    {
-      "title": "Лабиринт фавна",
-      "original_title": "El laberinto del fauno",
-      "year": 2006,
+      "title": "Амели",
+      "original_title": "Le fabuleux destin d'Amélie Poulain",
+      "year": 2001,
       "rating": 8.2,
-      "note": "Тёмная и красивая сказка для взрослых",
-      "tmdb_id": 1417,
-      "poster": "posters/el_laberinto_del_fauno.jpg"
+      "note": "Парижская сказка о маленьких радостях",
+      "tmdb_id": 194,
+      "poster": "posters/le_fabuleux_destin_d_amelie_poulain.jpg",
+      "wikidata": "Q484048",
+      "imdb_id": "tt0211915",
+      "kinopoisk_id": 341,
+      "runtime": 122,
+      "director": "Жан-Пьер Жёне",
+      "country": "Франция",
+      "genres": [
+        "драма",
+        "комедия"
+      ],
+      "premiere": "2001-02-28",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 6,
+          "label": "6 номинаций на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 8.2,
+      "imdb_votes": 849685,
+      "is_new": false,
+      "rank": 17,
+      "added": "2026-11-02"
     },
     {
       "title": "Назад в будущее",
@@ -90,7 +597,760 @@
       "rating": 8.5,
       "note": "Весёлая фантастика, которую любят все",
       "tmdb_id": 105,
-      "poster": "posters/back_to_the_future.jpg"
+      "poster": "posters/back_to_the_future.jpg",
+      "wikidata": "Q91540",
+      "imdb_id": "tt0088763",
+      "kinopoisk_id": 476,
+      "runtime": 115,
+      "director": "Роберт Земекис",
+      "country": "США",
+      "genres": [
+        "комедия",
+        "фантастика",
+        "приключения"
+      ],
+      "premiere": "1985-10-03",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 1,
+          "label": "«Оскар»"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.5,
+      "imdb_votes": 1485580,
+      "is_new": false,
+      "rank": 18,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Простая случайность",
+      "original_title": "It Was Just an Accident",
+      "year": 2025,
+      "note": "Золотая пальмовая ветвь и чёрный юмор",
+      "tmdb_id": 1456349,
+      "wikidata": "Q133866932",
+      "imdb_id": "tt36491653",
+      "kinopoisk_id": 7605773,
+      "runtime": 105,
+      "director": "Джафар Панахи",
+      "country": "Иран",
+      "genres": [
+        "драма"
+      ],
+      "premiere": "2025-10-01",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 1,
+          "label": "Номинация на «Оскар»"
+        },
+        {
+          "award": "palme",
+          "result": "won",
+          "count": 1,
+          "label": "Золотая пальмовая ветвь Канн"
+        }
+      ],
+      "award_badge": "🌿 Канны",
+      "imdb_rating": 7.4,
+      "imdb_votes": 40508,
+      "rating": 7.4,
+      "is_new": true,
+      "poster": "posters/it_was_just_an_accident.jpg",
+      "rank": 19,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Дюна",
+      "original_title": "Dune",
+      "year": 2021,
+      "note": "Пески Арракиса на большом экране",
+      "tmdb_id": 438631,
+      "wikidata": "Q60834962",
+      "imdb_id": "tt1160419",
+      "kinopoisk_id": 409424,
+      "runtime": 155,
+      "director": "Дени Вильнёв",
+      "country": "США",
+      "genres": [
+        "фантастика",
+        "приключения",
+        "боевик"
+      ],
+      "premiere": "2021-09-03",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 1,
+          "label": "Номинация на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 8.0,
+      "imdb_votes": 1099544,
+      "rating": 8.0,
+      "is_new": false,
+      "poster": "posters/dune.jpg",
+      "rank": 20,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Всё везде и сразу",
+      "original_title": "Everything Everywhere All at Once",
+      "year": 2022,
+      "note": "Безумная мультивселенная о семье",
+      "tmdb_id": 545611,
+      "wikidata": "Q83808444",
+      "imdb_id": "tt6710474",
+      "kinopoisk_id": 1322324,
+      "runtime": 140,
+      "director": "Дэн Кван, Дэниэл Шайнерт",
+      "country": "США",
+      "genres": [
+        "драма",
+        "фантастика",
+        "боевик"
+      ],
+      "premiere": "2022-03-11",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 2,
+          "label": "2 «Оскара», в том числе лучший фильм"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 7.7,
+      "imdb_votes": 665317,
+      "rating": 7.7,
+      "is_new": false,
+      "poster": "posters/everything_everywhere_all_at_once.jpg",
+      "rank": 21,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Лабиринт фавна",
+      "original_title": "El laberinto del fauno",
+      "year": 2006,
+      "rating": 8.2,
+      "note": "Тёмная и красивая сказка для взрослых",
+      "tmdb_id": 1417,
+      "poster": "posters/el_laberinto_del_fauno.jpg",
+      "wikidata": "Q216006",
+      "imdb_id": "tt0457430",
+      "kinopoisk_id": 103733,
+      "runtime": 119,
+      "director": "Гильермо дель Торо",
+      "country": "Мексика",
+      "genres": [
+        "драма",
+        "фэнтези",
+        "военный"
+      ],
+      "premiere": "2006-10-11",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 3,
+          "label": "3 «Оскара»"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.2,
+      "imdb_votes": 756406,
+      "is_new": false,
+      "rank": 22,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Франкенштейн",
+      "original_title": "Frankenstein",
+      "year": 2025,
+      "note": "Готическая сказка Гильермо дель Торо",
+      "tmdb_id": 1062722,
+      "wikidata": "Q124393045",
+      "imdb_id": "tt1312221",
+      "kinopoisk_id": 464475,
+      "runtime": 149,
+      "director": "Гильермо дель Торо",
+      "country": "США",
+      "genres": [
+        "драма",
+        "мелодрама",
+        "фантастика"
+      ],
+      "premiere": "2025-08-30",
+      "awards": [],
+      "imdb_rating": 7.4,
+      "imdb_votes": 345086,
+      "rating": 7.4,
+      "is_new": true,
+      "poster": "posters/frankenstein.jpg",
+      "rank": 23,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Москва слезам не верит",
+      "original_title": "Moscow Does Not Believe in Tears",
+      "year": 1979,
+      "note": "Наша классика о любви и судьбе",
+      "tmdb_id": 21028,
+      "wikidata": "Q53105",
+      "imdb_id": "tt0079579",
+      "kinopoisk_id": 46708,
+      "runtime": 140,
+      "director": "Владимир Валентинович Меньшов",
+      "country": "СССР",
+      "genres": [
+        "драма",
+        "мелодрама"
+      ],
+      "premiere": "1980-02-11",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 1,
+          "label": "«Оскар»"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 8.0,
+      "imdb_votes": 16188,
+      "rating": 8.0,
+      "is_new": false,
+      "poster": "posters/moscow_does_not_believe_in_tears.jpg",
+      "rank": 24,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Шоу Трумана",
+      "original_title": "The Truman Show",
+      "year": 1998,
+      "note": "Что, если вся жизнь — телешоу?",
+      "tmdb_id": 37165,
+      "wikidata": "Q214801",
+      "imdb_id": "tt0120382",
+      "kinopoisk_id": 4541,
+      "runtime": 99,
+      "director": "Питер Уир",
+      "country": "США",
+      "genres": [
+        "драма",
+        "комедия",
+        "фантастика"
+      ],
+      "premiere": "1998-06-01",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 3,
+          "label": "3 номинации на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 8.2,
+      "imdb_votes": 1416789,
+      "rating": 8.2,
+      "is_new": false,
+      "poster": "posters/the_truman_show.jpg",
+      "rank": 25,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Пленницы",
+      "original_title": "Prisoners",
+      "year": 2013,
+      "rating": 8.2,
+      "note": "Напряжённый триллер, держит до последней минуты",
+      "tmdb_id": 146233,
+      "poster": "posters/prisoners.jpg",
+      "wikidata": "Q3404003",
+      "imdb_id": "tt1392214",
+      "kinopoisk_id": 455194,
+      "runtime": 153,
+      "director": "Дени Вильнёв",
+      "country": "США",
+      "genres": [
+        "драма",
+        "криминал"
+      ],
+      "premiere": "2013-08-30",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 1,
+          "label": "Номинация на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 8.2,
+      "imdb_votes": 966288,
+      "is_new": false,
+      "rank": 26,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Грешники",
+      "original_title": "Sinners",
+      "year": 2025,
+      "note": "Блюз, вампиры и жаркая южная ночь",
+      "tmdb_id": 1233413,
+      "wikidata": "Q125473145",
+      "imdb_id": "tt31193180",
+      "kinopoisk_id": 5499518,
+      "runtime": 137,
+      "director": "Райан Куглер",
+      "country": "США",
+      "genres": [
+        "драма",
+        "триллер",
+        "фэнтези"
+      ],
+      "premiere": "2025-03-07",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 4,
+          "label": "4 «Оскара»"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 7.5,
+      "imdb_votes": 538423,
+      "rating": 7.5,
+      "is_new": false,
+      "poster": "posters/sinners.webp",
+      "rank": 27,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Бугония",
+      "original_title": "Bugonia",
+      "year": 2025,
+      "note": "Чёрная комедия про похищение и пчёл",
+      "tmdb_id": 701387,
+      "wikidata": "Q125971387",
+      "imdb_id": "tt12300742",
+      "kinopoisk_id": 1378893,
+      "runtime": 118,
+      "director": "Йоргос Лантимос",
+      "country": "США",
+      "genres": [
+        "комедия",
+        "триллер",
+        "фантастика"
+      ],
+      "premiere": "2025-08-28",
+      "awards": [],
+      "imdb_rating": 7.4,
+      "imdb_votes": 232530,
+      "rating": 7.4,
+      "is_new": true,
+      "poster": "posters/bugonia.jpg",
+      "rank": 28,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Прошлые жизни",
+      "original_title": "Past Lives",
+      "year": 2023,
+      "note": "Тихая история о любви, что не случилась",
+      "tmdb_id": 666277,
+      "wikidata": "Q116025865",
+      "imdb_id": "tt13238346",
+      "kinopoisk_id": 1346482,
+      "runtime": 106,
+      "director": "Селин Сон",
+      "country": "США",
+      "genres": [
+        "драма"
+      ],
+      "premiere": "2023-06-02",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 2,
+          "label": "2 номинации на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 7.8,
+      "imdb_votes": 179741,
+      "rating": 7.8,
+      "is_new": false,
+      "poster": "posters/past_lives.webp",
+      "rank": 29,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Она",
+      "original_title": "Her",
+      "year": 2013,
+      "note": "Нежная история любви к голосу",
+      "tmdb_id": 152601,
+      "wikidata": "Q788822",
+      "imdb_id": "tt1798709",
+      "kinopoisk_id": 577488,
+      "runtime": 126,
+      "director": "Спайк Джонз",
+      "country": "США",
+      "genres": [
+        "драма",
+        "комедия",
+        "фантастика"
+      ],
+      "premiere": "2014-02-06",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 1,
+          "label": "«Оскар»"
+        },
+        {
+          "award": "globe",
+          "result": "won",
+          "count": 1,
+          "label": "Золотой глобус"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 7.9,
+      "imdb_votes": 736947,
+      "rating": 7.9,
+      "is_new": false,
+      "poster": "posters/her.jpg",
+      "rank": 30,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "День сурка",
+      "original_title": "Groundhog Day",
+      "year": 1993,
+      "rating": 8.0,
+      "note": "Один и тот же день, который учит жить",
+      "tmdb_id": 137,
+      "poster": "posters/groundhog_day.jpg",
+      "wikidata": "Q488655",
+      "imdb_id": "tt0107048",
+      "kinopoisk_id": 527,
+      "runtime": 101,
+      "director": "Гарольд Рамис",
+      "country": "США",
+      "genres": [
+        "драма",
+        "мелодрама",
+        "комедия"
+      ],
+      "premiere": "1993-02-12",
+      "awards": [
+        {
+          "award": "bafta",
+          "result": "won",
+          "count": 1,
+          "label": "Премия BAFTA"
+        }
+      ],
+      "award_badge": "BAFTA",
+      "imdb_rating": 8.0,
+      "imdb_votes": 743060,
+      "is_new": false,
+      "rank": 31,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Приключения Паддингтона 2",
+      "original_title": "Paddington 2",
+      "year": 2017,
+      "note": "Самый добрый медведь в мире",
+      "tmdb_id": 346648,
+      "wikidata": "Q27590871",
+      "imdb_id": "tt4468740",
+      "kinopoisk_id": 906042,
+      "runtime": 103,
+      "director": "Пол Кинг",
+      "country": "Великобритания",
+      "genres": [
+        "комедия",
+        "приключения",
+        "семейный"
+      ],
+      "premiere": "2017-11-05",
+      "awards": [
+        {
+          "award": "bafta",
+          "result": "won",
+          "count": 1,
+          "label": "Премия BAFTA"
+        }
+      ],
+      "award_badge": "BAFTA",
+      "imdb_rating": 7.8,
+      "imdb_votes": 117233,
+      "rating": 7.8,
+      "is_new": false,
+      "poster": "posters/paddington_2.jpg",
+      "rank": 32,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Зверополис 2",
+      "original_title": "Zootopia 2",
+      "year": 2025,
+      "note": "Джуди и Ник снова в деле",
+      "tmdb_id": 1084242,
+      "wikidata": "Q116764712",
+      "imdb_id": "tt26443597",
+      "kinopoisk_id": 5265603,
+      "runtime": 108,
+      "director": "Джаред Буш, Байрон Ховард",
+      "country": "США",
+      "genres": [
+        "комедия",
+        "приключения",
+        "семейный"
+      ],
+      "premiere": "2025-11-13",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 1,
+          "label": "Номинация на «Оскар»"
+        }
+      ],
+      "award_badge": "Номинант «Оскара»",
+      "imdb_rating": 7.3,
+      "imdb_votes": 158778,
+      "rating": 7.3,
+      "is_new": true,
+      "poster": "posters/zootopia_2.jpg",
+      "rank": 33,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Анатомия падения",
+      "original_title": "Anatomy of a Fall",
+      "year": 2023,
+      "note": "Судебная драма, где правда ускользает",
+      "tmdb_id": 915935,
+      "wikidata": "Q117037697",
+      "imdb_id": "tt17009710",
+      "kinopoisk_id": 4910679,
+      "runtime": 150,
+      "director": "Жюстин Трие",
+      "country": "Франция",
+      "genres": [
+        "драма",
+        "триллер",
+        "криминал"
+      ],
+      "premiere": "2023-08-23",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "nominated",
+          "count": 5,
+          "label": "5 номинаций на «Оскар»"
+        },
+        {
+          "award": "palme",
+          "result": "won",
+          "count": 1,
+          "label": "Золотая пальмовая ветвь Канн"
+        },
+        {
+          "award": "globe",
+          "result": "won",
+          "count": 1,
+          "label": "Золотой глобус"
+        }
+      ],
+      "award_badge": "🌿 Канны",
+      "imdb_rating": 7.6,
+      "imdb_votes": 239845,
+      "rating": 7.6,
+      "is_new": false,
+      "poster": "posters/anatomy_of_a_fall.jpg",
+      "rank": 34,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Воспоминания об убийстве",
+      "original_title": "Salinui chueok",
+      "year": 2003,
+      "rating": 8.1,
+      "note": "Корейский детектив, от которого мурашки",
+      "tmdb_id": 11423,
+      "poster": "posters/salinui_chueok.jpg",
+      "wikidata": "Q488169",
+      "imdb_id": "tt0353969",
+      "kinopoisk_id": 65770,
+      "runtime": 132,
+      "director": "Пон Джун Хо",
+      "country": "Республика Корея",
+      "genres": [
+        "драма",
+        "детектив"
+      ],
+      "premiere": "2003-05-02",
+      "awards": [],
+      "imdb_rating": 8.1,
+      "imdb_votes": 278089,
+      "is_new": false,
+      "rank": 35,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Аватар: Пламя и пепел",
+      "original_title": "Avatar: Fire and Ash",
+      "year": 2025,
+      "note": "Пандора ещё красивее и опаснее",
+      "tmdb_id": 83533,
+      "wikidata": "Q29580929",
+      "imdb_id": "tt1757678",
+      "kinopoisk_id": 570402,
+      "runtime": 197,
+      "director": "Джеймс Кэмерон",
+      "country": "США",
+      "genres": [
+        "фантастика",
+        "боевик"
+      ],
+      "premiere": "2025-12-01",
+      "awards": [],
+      "imdb_rating": 7.2,
+      "imdb_votes": 217167,
+      "rating": 7.2,
+      "is_new": true,
+      "poster": "posters/avatar_fire_and_ash.jpg",
+      "rank": 36,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Реальная любовь",
+      "original_title": "Love Actually",
+      "year": 2003,
+      "note": "Десять историй любви под Рождество",
+      "tmdb_id": 508,
+      "wikidata": "Q190588",
+      "imdb_id": "tt0314331",
+      "kinopoisk_id": 6144,
+      "runtime": 135,
+      "director": "Ричард Кёртис",
+      "country": "Великобритания",
+      "genres": [
+        "драма",
+        "комедия"
+      ],
+      "premiere": "2003-11-06",
+      "awards": [],
+      "imdb_rating": 7.5,
+      "imdb_votes": 586100,
+      "rating": 7.5,
+      "is_new": false,
+      "poster": "posters/love_actually.jpg",
+      "rank": 37,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Орудия",
+      "original_title": "Weapons",
+      "year": 2025,
+      "note": "Жуткая загадка исчезнувшего класса",
+      "premiere": "2025-08-08",
+      "tmdb_id": 1078605,
+      "wikidata": "Q126487478",
+      "imdb_id": "tt26581740",
+      "kinopoisk_id": 6782779,
+      "runtime": 128,
+      "director": "Зак Креггер",
+      "country": "США",
+      "genres": [
+        "драма",
+        "триллер",
+        "ужасы"
+      ],
+      "awards": [],
+      "imdb_rating": 7.4,
+      "imdb_votes": 420571,
+      "rating": 7.4,
+      "is_new": true,
+      "poster": "posters/weapons.jpg",
+      "rank": 38,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Зодиак",
+      "original_title": "Zodiac",
+      "year": 2007,
+      "note": "Одержимость разгадкой маньяка",
+      "tmdb_id": 1949,
+      "wikidata": "Q218172",
+      "imdb_id": "tt0443706",
+      "kinopoisk_id": 102838,
+      "runtime": 157,
+      "director": "Дэвид Финчер",
+      "country": "США",
+      "genres": [
+        "драма"
+      ],
+      "premiere": "2007-03-02",
+      "awards": [],
+      "imdb_rating": 7.7,
+      "imdb_votes": 696237,
+      "rating": 7.7,
+      "is_new": false,
+      "poster": "posters/zodiac.jpg",
+      "rank": 39,
+      "added": "2026-11-02"
+    },
+    {
+      "title": "Маленькая мисс Счастье",
+      "original_title": "Little Miss Sunshine",
+      "year": 2006,
+      "rating": 7.8,
+      "note": "Безумный семейный роуд-трип с добрым сердцем",
+      "tmdb_id": 773,
+      "poster": "posters/little_miss_sunshine.jpg",
+      "wikidata": "Q192073",
+      "imdb_id": "tt0449059",
+      "kinopoisk_id": 164089,
+      "runtime": 98,
+      "director": "Валери Фарис, Джонатан Дэйтон",
+      "country": "США",
+      "genres": [
+        "драма",
+        "комедия",
+        "роуд-муви"
+      ],
+      "premiere": "2006-09-06",
+      "awards": [
+        {
+          "award": "oscar",
+          "result": "won",
+          "count": 2,
+          "label": "2 «Оскара»"
+        }
+      ],
+      "award_badge": "🏆 Оскар",
+      "imdb_rating": 7.8,
+      "imdb_votes": 568339,
+      "is_new": false,
+      "rank": 40,
+      "added": "2026-11-02"
     }
   ]
 }
