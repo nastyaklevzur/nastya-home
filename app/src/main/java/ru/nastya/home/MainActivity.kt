@@ -52,6 +52,10 @@ class MainActivity : AppCompatActivity() {
 
     private val fetching = HashSet<String>()
     private var current: MoviesData? = null
+    /** Ряд «топ-10», собранный из пула и состояния (см. RowBuilder). */
+    private var row: List<Movie> = emptyList()
+    /** Новый пул применяем к ряду только при старте, по кнопке «Обновить» и после долгого отсутствия (SC-8). */
+    private var applyNextRemote = true
     private var news: List<String> = emptyList()
     private var newsIndex = 0
     private var splash: Splash? = null
@@ -73,6 +77,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        StateStore.init(this)
 
         rootFrame = findViewById(R.id.rootFrame)
         scroll = findViewById(R.id.scroll)
@@ -104,7 +109,9 @@ class MainActivity : AppCompatActivity() {
 
         setupNewsSwitcher()
         updateClockAndGreeting()
-        show(MoviesRepository.loadLocal(this))
+        val local = MoviesRepository.loadLocal(this)
+        StateStore.migrateV1(local.movies)
+        show(local, apply = true)
         CamsRepository.loadLocal(this)?.let(::showCams)
         showWeather(WeatherRepository.cached(this))
         showNews(NewsRepository.cached(this))
@@ -151,6 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (lastShownAt != 0L && System.currentTimeMillis() - lastShownAt > SPLASH_AFTER_MS) applyNextRemote = true
         handler.removeCallbacks(clockTick)
         handler.post(clockTick)
         handler.removeCallbacks(newsTick)
@@ -169,6 +177,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         lastShownAt = System.currentTimeMillis()
+        GithubSync.flush()
     }
 
     override fun onDestroy() {
@@ -273,11 +282,37 @@ class MainActivity : AppCompatActivity() {
 
     // ----- Данные -----
 
-    private fun show(data: MoviesData) {
+    private fun show(data: MoviesData, apply: Boolean) {
         current = data
         tvSection.text = data.title
         tvUpdated.text = data.updated?.let { "обновлено " + formatDate(it) } ?: ""
-        movieAdapter.submit(data.movies)
+        if (apply || row.isEmpty()) rebuildRow(data)
+    }
+
+    /** Полный пересчёт ряда: закреплённые, затем прежние карточки, затем лучшие из пула (RowBuilder). */
+    private fun rebuildRow(data: MoviesData) {
+        row = RowBuilder.build(data, StateStore.snapshot(), loadRowKeys())
+        saveRowKeys()
+        movieAdapter.submit(row)
+    }
+
+    /** «Просмотрен» / «Не буду смотреть»: карточка исчезает, на её место встаёт следующая из пула (SC-7). */
+    private fun removeFromRow(m: Movie) {
+        val data = current ?: return
+        val index = row.indexOfFirst { it.key == m.key }
+        if (index < 0) return
+        val selected = rvMovies.selectedPosition
+        row = RowBuilder.replaceAt(data, StateStore.snapshot(), row, index)
+        saveRowKeys()
+        movieAdapter.submit(row)
+        rvMovies.selectedPosition = selected.coerceIn(0, (row.size - 1).coerceAtLeast(0))
+    }
+
+    private fun loadRowKeys(): List<String> =
+        getSharedPreferences("row", MODE_PRIVATE).getString("keys", "")!!.split('\n').filter { it.isNotEmpty() }
+
+    private fun saveRowKeys() {
+        getSharedPreferences("row", MODE_PRIVATE).edit().putString("keys", row.joinToString("\n") { it.key }).apply()
     }
 
     private fun showCams(data: CamsData) {
@@ -300,12 +335,19 @@ class MainActivity : AppCompatActivity() {
         if (force || now - MoviesRepository.lastFetchAt(this) > HOUR_MS) {
             fetch("movies", { MoviesRepository.fetchRemote(this) }) { data ->
                 if (data != null) {
-                    show(data)
+                    show(data, apply = force || applyNextRemote)
+                    applyNextRemote = false
                     if (force) toast("Подборка обновлена")
                 } else if (force) {
                     toast("Не получилось обновить. Проверь интернет")
                 }
             }
+        }
+        // Состояние: забрать из репозитория на свежей установке и отправить то, что не ушло (офлайн, ошибка).
+        executor.execute {
+            val restored = GithubSync.restoreIfEmpty()
+            GithubSync.flush()
+            if (restored) handler.post { if (!isFinishing && !isDestroyed) current?.let(::rebuildRow) }
         }
         if (force || now - CamsRepository.lastFetchAt(this) > HOUR_MS) {
             fetch("cams", { CamsRepository.fetchRemote(this) }) { data -> if (data != null) showCams(data) }
@@ -373,7 +415,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setStatus(m: Movie, s: WatchStatus.Status) {
         WatchStatus.set(this, m, s)
-        movieAdapter.refreshStatuses()
+        if (s == WatchStatus.Status.WATCHED) removeFromRow(m) else movieAdapter.refreshStatuses()
         toast(
             when (s) {
                 WatchStatus.Status.STARTED -> "Отметил: начала смотреть «${m.title}»"

@@ -40,4 +40,40 @@ object Http {
         }
         throw IOException("too many redirects for $url")
     }
+
+    class Response(val code: Int, val body: String)
+
+    /**
+     * Запрос с любым методом и телом; в отличие от [get] не бросает исключение на кодах не 200
+     * (нужно для GitHub API: 404, 409 и 422 — штатные ответы). Редиректы не следуем.
+     */
+    fun send(
+        method: String,
+        url: String,
+        body: String? = null,
+        headers: Map<String, String> = emptyMap(),
+        connectTimeoutMs: Int = 8_000,
+        readTimeoutMs: Int = 20_000,
+    ): Response {
+        val conn = URL(url).openConnection() as HttpURLConnection
+        conn.requestMethod = method
+        conn.connectTimeout = connectTimeoutMs
+        conn.readTimeout = readTimeoutMs
+        conn.instanceFollowRedirects = false
+        conn.setRequestProperty("User-Agent", UA)
+        for ((k, v) in headers) conn.setRequestProperty(k, v)
+        try {
+            if (body != null) {
+                conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json; charset=utf-8")
+                conn.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
+            }
+            val code = conn.responseCode
+            val stream = if (code >= 400) conn.errorStream else conn.inputStream
+            val text = stream?.bufferedReader(Charsets.UTF_8)?.use { it.readText() } ?: ""
+            return Response(code, text)
+        } finally {
+            conn.disconnect()
+        }
+    }
 }
