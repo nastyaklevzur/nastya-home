@@ -14,9 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 class MovieAdapter(
     private val onClick: (Movie) -> Unit,
     private val onMenu: (Movie) -> Unit,
+    /** Подпись под названием вместо года (экран «Скрытые»: «Просмотрен 3 ноя 👍»). */
+    private val caption: (Movie) -> String? = { null },
 ) : RecyclerView.Adapter<MovieAdapter.VH>() {
 
     private val items = ArrayList<Movie>()
+
+    fun itemAt(position: Int): Movie? = items.getOrNull(position)
 
     fun submit(list: List<Movie>) {
         items.clear()
@@ -43,6 +47,9 @@ class MovieAdapter(
         private val poster: ImageView = view.findViewById(R.id.poster)
         private val rating: TextView = view.findViewById(R.id.rating)
         private val status: TextView = view.findViewById(R.id.status)
+        private val pin: TextView = view.findViewById(R.id.pin)
+        private val fav: TextView = view.findViewById(R.id.fav)
+        private val award: TextView = view.findViewById(R.id.award)
         private val title: TextView = view.findViewById(R.id.title)
         private val meta: TextView = view.findViewById(R.id.meta)
 
@@ -72,7 +79,7 @@ class MovieAdapter(
 
         fun bind(m: Movie) {
             title.text = m.title
-            meta.text = m.year?.toString() ?: ""
+            meta.text = caption(m) ?: m.year?.toString() ?: ""
             val r = m.ratingText
             rating.visibility = if (r == null) View.GONE else View.VISIBLE
             rating.text = r
@@ -81,6 +88,14 @@ class MovieAdapter(
         }
 
         fun bindStatus(m: Movie) {
+            pin.visibility = if (StateStore.isPinned(m)) View.VISIBLE else View.GONE
+            val isFav = StateStore.isFavorite(m)
+            fav.visibility = if (isFav) View.VISIBLE else View.GONE
+            // ♥ стоит под 📌, а если закрепления нет — на его месте.
+            (fav.layoutParams as FrameLayout.LayoutParams).topMargin =
+                ((if (pin.visibility == View.VISIBLE) 30 else 6) * fav.resources.displayMetrics.density).toInt()
+            award.visibility = if (m.awardBadge == null) View.GONE else View.VISIBLE
+            award.text = m.awardBadge
             val s = WatchStatus.get(status.context, m)
             if (s == WatchStatus.Status.NONE) {
                 status.visibility = View.GONE

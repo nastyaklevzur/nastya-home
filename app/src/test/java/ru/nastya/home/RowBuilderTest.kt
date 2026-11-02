@@ -97,4 +97,25 @@ class RowBuilderTest {
         val s = AppState(removed = listOf(Entry(a.key, "t", null, "skip")))
         assertEquals(listOf(b.key), keys(RowBuilder.build(d, s, emptyList())))
     }
+
+    @Test fun unpinReturnsMovieByRankOrDropsIt() {
+        val d = pool(30)
+        val high = d.movies[2]   // ранг 3
+        val low = d.movies[24]   // ранг 25
+        // Закрепили фильм с высоким рангом, он стоит первым.
+        var s = AppState(pinned = listOf(entry(high)))
+        var row = RowBuilder.build(d, s, emptyList())
+        assertEquals("3", row.first().key)
+        s = AppState()
+        row = RowBuilder.unpin(d, s, row, "3")
+        assertEquals(10, row.size)
+        assertEquals(listOf("1", "2", "3"), keys(row).take(3))
+        // Закрепили фильм с низким рангом — после открепления он уходит из ряда.
+        s = AppState(pinned = listOf(entry(low)))
+        row = RowBuilder.build(d, s, emptyList())
+        assertEquals("25", row.first().key)
+        row = RowBuilder.unpin(d, AppState(), row, "25")
+        assertEquals(10, row.size)
+        assertFalse(row.any { it.key == "25" })
+    }
 }

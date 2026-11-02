@@ -56,6 +56,24 @@ object RowBuilder {
         return out.take(size)
     }
 
+    /**
+     * Открепление (SC-2): [state] уже без этого закрепа. Фильм возвращается на место по рангу среди незакреплённых
+     * или уходит из ряда, если его ранг хуже, чем у остальных десяти.
+     */
+    fun unpin(data: MoviesData, state: AppState, row: List<Movie>, key: String, size: Int = SIZE, newQuota: Int = NEW_QUOTA): List<Movie> {
+        val unpinned = row.firstOrNull { it.key == key }
+        val rebuilt = build(data, state, row.filter { it.key != key }.map { it.key }, size, newQuota).toMutableList()
+        if (unpinned != null && rebuilt.none { it.key == key }) return rebuilt
+        val pinnedKeys = state.pinned.mapTo(HashSet()) { it.key }
+        val fromPool = data.movies.firstOrNull { it.key == key } ?: return rebuilt
+        if (rebuilt.none { it.key == key }) return rebuilt
+        rebuilt.removeAll { it.key == key }
+        var at = rebuilt.indexOfFirst { it.key !in pinnedKeys && it.rank > fromPool.rank }
+        if (at < 0) at = rebuilt.size
+        rebuilt.add(at, fromPool)
+        return rebuilt.take(size)
+    }
+
     private fun fill(row: MutableList<Movie>, used: MutableSet<String>, available: List<Movie>, size: Int, newQuota: Int) {
         while (row.size < size) {
             val next = pick(available, used, newQuota - row.count { it.isNew }) ?: break
