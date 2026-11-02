@@ -24,20 +24,13 @@
             android:scaleType="centerCrop" />
     </FrameLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginStart="40dp"
         android:layout_weight="1"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
             <TextView
                 android:id="@+id/title"
@@ -93,6 +86,26 @@
                 android:textColor="@color/peach"
                 android:textSize="17sp" />
 
+            <ScrollView
+                android:id="@+id/textScroll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1"
+                android:descendantFocusability="blocksDescendants"
+                android:fadeScrollbars="false"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:overScrollMode="never"
+                android:scrollbarThumbVertical="@color/peach"
+                android:scrollbars="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingEnd="8dp">
+
             <TextView
                 android:id="@+id/overview"
                 android:layout_width="match_parent"
@@ -136,10 +149,13 @@
                 android:textSize="13.5sp"
                 android:visibility="gone" />
 
+                </LinearLayout>
+            </ScrollView>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -229,6 +245,5 @@
                     android:text="@string/back"
                     android:textSize="15sp" />
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 </LinearLayout>
