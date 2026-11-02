@@ -140,4 +140,13 @@ class RowBuilderTest {
         assertTrue(row.any { it.key == "10" } && row.any { it.key == "9" })
         assertFalse(row.any { it.key == "8" || it.key == "7" || it.key == "6" })
     }
+
+    @Test fun startedMoviesStayInRowAfterPoolRebuild() {
+        val d = pool(30, setOf(12, 15, 20))
+        val s = AppState(started = listOf(entry(d.movies[24])))   // ранг 25 — по рангу бы не попал
+        val row = RowBuilder.build(d, s, emptyList())
+        assertEquals("25", row.first().key)
+        assertEquals(3, row.count { it.isNew })
+        assertEquals(10, row.size)
+    }
 }

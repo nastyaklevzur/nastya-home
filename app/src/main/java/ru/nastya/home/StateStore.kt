@@ -44,6 +44,7 @@ object StateStore {
     fun isPinned(m: Movie) = snapshot().pinned.any { it.key == m.key }
     fun isFavorite(m: Movie) = snapshot().favorites.any { it.key == m.key }
     fun isStarted(m: Movie) = snapshot().started.any { it.key == m.key }
+    fun isLiked(m: Movie) = snapshot().likes.any { it.key == m.key }
     fun removedEntry(m: Movie): Entry? = snapshot().removed.firstOrNull { it.key == m.key }
 
     // ----- Действия -----
@@ -78,8 +79,15 @@ object StateStore {
         s.copy(
             pinned = s.pinned.filter { it.key != m.key },
             started = s.started.filter { it.key != m.key },
-            removed = s.removed.filter { it.key != m.key } + entry(s, m).copy(reason = reason, liked = liked),
+            removed = s.removed.filter { it.key != m.key } +
+                entry(s, m).copy(reason = reason, liked = liked ?: if (s.likes.any { it.key == m.key }) true else null),
         )
+    }
+
+    /** «Нравится» из меню: toggle. Фильм остаётся в ряду, оценка уедет в рек.систему. */
+    fun setLike(m: Movie, on: Boolean) = change(if (on) "нравится «${m.title}»" else "снят лайк «${m.title}»") { s ->
+        val rest = s.likes.filter { it.key != m.key }
+        s.copy(likes = if (on) rest + entry(s, m) else rest)
     }
 
     /** Оценка, поставленная уже после «Просмотрен». */

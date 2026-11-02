@@ -320,8 +320,13 @@ class MainActivity : AppCompatActivity() {
 
     /** Полный пересчёт ряда: закреплённые, затем прежние карточки, затем лучшие из пула (RowBuilder). */
     private fun rebuildRow(data: MoviesData) {
-        val keys = if (row.isEmpty()) loadRowKeys() else row.map { it.key }
+        // Прежний порядок сохраняем только для того же пула; новый movies.json (другая дата) раскладывается по рангу.
+        val prefs = getSharedPreferences("row", MODE_PRIVATE)
+        val signature = data.movies.joinToString(",") { "${it.key}:${it.rank}" }.hashCode().toString()
+        val samePool = prefs.getString("pool", null) == signature
+        val keys = if (!samePool) emptyList() else if (row.isEmpty()) loadRowKeys() else row.map { it.key }
         applyRow(RowBuilder.build(data, StateStore.snapshot(), keys), null)
+        prefs.edit().putString("pool", signature).apply()
     }
 
     /** Показать новый ряд; фокус остаётся на [focusKey] или на той же позиции. */
@@ -436,7 +441,12 @@ class MainActivity : AppCompatActivity() {
         else add(getString(R.string.menu_pin)) { pinMovie(m) }
         if (StateStore.isFavorite(m)) add(getString(R.string.menu_fav_remove)) { toggleFavorite(m) }
         else add(getString(R.string.menu_fav_add)) { toggleFavorite(m) }
-        add(getString(R.string.menu_watched)) { MovieDialogs.askLiked(this, m) { removeMovie(m, "watched", it) } }
+        if (StateStore.isLiked(m)) add(getString(R.string.menu_unlike)) { toggleLike(m) }
+        else add(getString(R.string.menu_like)) { toggleLike(m) }
+        add(getString(R.string.menu_dislike)) { removeMovie(m, "skip", false) }
+        add(getString(R.string.menu_watched)) {
+            if (StateStore.isLiked(m)) removeMovie(m, "watched", true) else MovieDialogs.askLiked(this, m) { removeMovie(m, "watched", it) }
+        }
         add(getString(R.string.menu_skip)) { removeMovie(m, "skip", null) }
         if (StateStore.isStarted(m)) add(getString(R.string.menu_reset)) { resetMark(m) }
         MovieDialogs.menu(this, MovieDialogs.title(m), items)
@@ -466,6 +476,14 @@ class MainActivity : AppCompatActivity() {
         applyRow(RowBuilder.unpin(data, StateStore.snapshot(), row, m.key), m.key)
     }
 
+    private fun toggleLike(m: Movie) {
+        val on = !StateStore.isLiked(m)
+        StateStore.setLike(m, on)
+        rowSeq = StateStore.snapshot().seq
+        movieAdapter.refreshStatuses()
+        toast(if (on) "Запомнил: «${m.title}» нравится 👍" else "Лайк снят")
+    }
+
     private fun toggleFavorite(m: Movie) {
         val on = !StateStore.isFavorite(m)
         StateStore.setFavorite(m, on)
@@ -487,7 +505,7 @@ class MainActivity : AppCompatActivity() {
         applyRow(after, null)
         showUndo(
             Undo(m, index, before, wasPinned, wasStarted),
-            (if (reason == "watched") "Просмотрен" else "Убрал") + ": «${m.title}». Назад — вернуть",
+            (if (reason == "watched") "Просмотрен" else if (liked == false) "Не понравился" else "Убрал") + ": «${m.title}». Назад — вернуть",
         )
     }
 

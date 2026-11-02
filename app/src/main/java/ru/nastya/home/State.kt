@@ -51,9 +51,11 @@ data class AppState(
     val favorites: List<Entry> = emptyList(),
     val removed: List<Entry> = emptyList(),
     val started: List<Entry> = emptyList(),
+    /** «Нравится», поставленное из меню (до или после просмотра) — сигнал вкуса для рек.системы. */
+    val likes: List<Entry> = emptyList(),
 ) {
     val removedKeys: Set<String> get() = removed.mapTo(HashSet()) { it.key }
-    val isEmpty: Boolean get() = seq == 0 && pinned.isEmpty() && favorites.isEmpty() && removed.isEmpty() && started.isEmpty()
+    val isEmpty: Boolean get() = seq == 0 && pinned.isEmpty() && favorites.isEmpty() && removed.isEmpty() && started.isEmpty() && likes.isEmpty()
 }
 
 object StateJson {
@@ -70,6 +72,7 @@ object StateJson {
             favorites = entries(o.optJSONArray("favorites")),
             removed = entries(o.optJSONArray("removed")),
             started = entries(o.optJSONArray("started")),
+            likes = entries(o.optJSONArray("likes")),
         )
     }
 
@@ -82,6 +85,7 @@ object StateJson {
         o.put("favorites", array(s.favorites))
         o.put("removed", array(s.removed, compact = s.removed.size > COMPACT_AFTER_REMOVED))
         o.put("started", array(s.started))
+        o.put("likes", array(s.likes))
         return o.toString(2) + "\n"
     }
 

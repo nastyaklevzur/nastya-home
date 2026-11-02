@@ -108,6 +108,8 @@ class FavoritesActivity : AppCompatActivity() {
                 if (!StateStore.pin(m)) toast("Можно закрепить не больше трёх. Открепи что-нибудь") else toast("Закрепил «${m.title}»")
                 reload()
             }
+            if (StateStore.isLiked(m)) add(getString(R.string.menu_unlike)) { StateStore.setLike(m, false); reload() }
+            else add(getString(R.string.menu_like)) { StateStore.setLike(m, true); reload() }
             add(getString(R.string.menu_watched)) {
                 MovieDialogs.askLiked(this, m) { StateStore.remove(m, "watched", it); toast("Отметил просмотренным: «${m.title}»"); reload() }
             }
