@@ -150,7 +150,7 @@
                     android:minHeight="44dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="@string/search_in_lampa"
+                    android:text="@string/watch"
                     android:textSize="15sp" />
 
                 <Button
@@ -160,8 +160,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:minHeight="44dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:textSize="15sp" />
 
                 <Button
@@ -171,8 +171,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:minHeight="44dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/btnLike"
+                    style="@style/HomeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:minHeight="44dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:textSize="15sp" />
             </LinearLayout>
 

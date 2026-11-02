@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 
 /**
- * Экран «О фильме». Закрепить и избранное применяются сразу (состояние общее),
+ * Экран «О фильме» — открывается по OK на карточке. «Смотреть» запускает LAMPA и ставит «Начала смотреть».
+ * Закрепить, избранное и «Нравится» применяются сразу (состояние общее),
  * «Просмотрен» и «Не буду смотреть» возвращают действие главному экрану, чтобы там сработали вопрос про оценку и плашка «Вернуть».
  */
 class DetailsActivity : AppCompatActivity() {
@@ -98,9 +99,16 @@ class DetailsActivity : AppCompatActivity() {
 
         val btnLampa = findViewById<Button>(R.id.btnLampa)
         btnLampa.setOnClickListener {
-            if (!Launcher.openMovieInLampa(this, movie) && !Launcher.launchPackage(this, Launcher.LAMPA)) {
+            if (Launcher.openMovieInLampa(this, movie) || Launcher.launchPackage(this, Launcher.LAMPA)) {
+                WatchStatus.markOpened(this, movie)
+            } else {
                 Toast.makeText(this, "LAMPA не установлена", Toast.LENGTH_SHORT).show()
             }
+        }
+        val btnLike = findViewById<Button>(R.id.btnLike)
+        btnLike.setOnClickListener {
+            StateStore.setLike(movie, !StateStore.isLiked(movie))
+            refreshButtons()
         }
         val btnPin = findViewById<Button>(R.id.btnPin)
         val btnFav = findViewById<Button>(R.id.btnFav)
@@ -125,6 +133,7 @@ class DetailsActivity : AppCompatActivity() {
     private fun refreshButtons() {
         findViewById<Button>(R.id.btnPin).setText(if (StateStore.isPinned(movie)) R.string.menu_unpin else R.string.menu_pin)
         findViewById<Button>(R.id.btnFav).setText(if (StateStore.isFavorite(movie)) R.string.menu_fav_remove else R.string.menu_fav_add)
+        findViewById<Button>(R.id.btnLike).setText(if (StateStore.isLiked(movie)) R.string.menu_unlike else R.string.menu_like)
     }
 
     private fun finishWith(action: String) {
