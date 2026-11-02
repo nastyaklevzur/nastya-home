@@ -3,6 +3,7 @@ package ru.nastya.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -105,39 +106,49 @@ class DetailsActivity : AppCompatActivity() {
                 Toast.makeText(this, "LAMPA не установлена", Toast.LENGTH_SHORT).show()
             }
         }
-        val btnLike = findViewById<Button>(R.id.btnLike)
-        btnLike.setOnClickListener {
-            StateStore.setLike(movie, !StateStore.isLiked(movie))
-            refreshButtons()
-        }
-        val btnPin = findViewById<Button>(R.id.btnPin)
-        val btnFav = findViewById<Button>(R.id.btnFav)
-        btnPin.setOnClickListener {
-            if (StateStore.isPinned(movie)) StateStore.unpin(movie)
-            else if (!StateStore.pin(movie)) Toast.makeText(this, "Можно закрепить не больше трёх. Открепи что-нибудь", Toast.LENGTH_SHORT).show()
-            refreshButtons()
-        }
-        btnFav.setOnClickListener {
-            StateStore.setFavorite(movie, !StateStore.isFavorite(movie))
-            refreshButtons()
-        }
-        // «Просмотрен» / «Не буду смотреть» обрабатывает главный экран; из «Избранного» эти кнопки не показываем.
-        val fromMain = i.getBooleanExtra(X_FROM_MAIN, false)
-        findViewById<Button>(R.id.btnWatched).apply { visibility = if (fromMain) View.VISIBLE else View.GONE; setOnClickListener { finishWith("watched") } }
-        findViewById<Button>(R.id.btnSkip).apply { visibility = if (fromMain) View.VISIBLE else View.GONE; setOnClickListener { finishWith("skip") } }
-        findViewById<Button>(R.id.btnBack).setOnClickListener { finish() }
-        refreshButtons()
+        fromMain = i.getBooleanExtra(X_FROM_MAIN, false)
         btnLampa.requestFocus()
     }
 
-    private fun refreshButtons() {
-        findViewById<Button>(R.id.btnPin).setText(if (StateStore.isPinned(movie)) R.string.menu_unpin else R.string.menu_pin)
-        findViewById<Button>(R.id.btnFav).setText(if (StateStore.isFavorite(movie)) R.string.menu_fav_remove else R.string.menu_fav_add)
-        findViewById<Button>(R.id.btnLike).setText(if (StateStore.isLiked(movie)) R.string.menu_unlike else R.string.menu_like)
+    private var fromMain = false
+
+    /** Menu на экране фильма — те же действия, что в меню карточки. */
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_INFO) {
+            showMenu()
+            return true
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
-    private fun finishWith(action: String) {
-        setResult(RESULT_OK, Intent().putExtra(RESULT_KEY, movie.key).putExtra(RESULT_ACTION, action))
+    private fun showMenu() {
+        val m = movie
+        val items = ArrayList<MovieDialogs.Item>()
+        fun add(label: String, action: () -> Unit) { items.add(MovieDialogs.Item(label, action)) }
+        if (StateStore.isPinned(m)) add(getString(R.string.menu_unpin)) { StateStore.unpin(m) }
+        else add(getString(R.string.menu_pin)) {
+            if (!StateStore.pin(m)) Toast.makeText(this, "Можно закрепить не больше трёх. Открепи что-нибудь", Toast.LENGTH_SHORT).show()
+        }
+        if (StateStore.isFavorite(m)) add(getString(R.string.menu_fav_remove)) { StateStore.setFavorite(m, false) }
+        else add(getString(R.string.menu_fav_add)) { StateStore.setFavorite(m, true) }
+        if (StateStore.isLiked(m)) add(getString(R.string.menu_unlike)) { StateStore.setLike(m, false) }
+        else add(getString(R.string.menu_like)) { StateStore.setLike(m, true) }
+        add(getString(R.string.menu_dislike)) { removeAndClose("skip", false) }
+        add(getString(R.string.menu_watched)) {
+            if (StateStore.isLiked(m)) removeAndClose("watched", true) else MovieDialogs.askLiked(this, m) { removeAndClose("watched", it) }
+        }
+        add(getString(R.string.menu_skip)) { removeAndClose("skip", null) }
+        if (StateStore.isStarted(m)) add(getString(R.string.menu_reset)) { StateStore.setStarted(m, false) }
+        MovieDialogs.menu(this, MovieDialogs.title(m), items)
+    }
+
+    /** «Просмотрен» / «Не буду смотреть»: с главного экрана — отдаём туда (там замена карточки и «Вернуть»), иначе применяем сами. */
+    private fun removeAndClose(reason: String, liked: Boolean?) {
+        if (fromMain) {
+            setResult(RESULT_OK, Intent().putExtra(RESULT_KEY, movie.key).putExtra(RESULT_ACTION, reason).putExtra("liked", liked ?: false).putExtra("hasLiked", liked != null))
+        } else {
+            StateStore.remove(movie, reason, liked)
+        }
         finish()
     }
 

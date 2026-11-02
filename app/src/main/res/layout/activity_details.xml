@@ -32,218 +32,159 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/cream"
-                android:textSize="30sp" />
+        <!-- Шапка: название и данные слева, «Смотреть» справа -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/original"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:alpha="0.6"
-                android:textColor="@color/cream"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/meta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:alpha="0.8"
-                android:textColor="@color/cream"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/ratings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gold"
-                android:textSize="16sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/awards"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:lineSpacingExtra="2dp"
-                android:textColor="@color/gold"
-                android:textSize="15sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:lineSpacingExtra="3dp"
-                android:textColor="@color/peach"
-                android:textSize="17sp" />
-
-            <ScrollView
-                android:id="@+id/textScroll"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="4dp"
                 android:layout_weight="1"
-                android:descendantFocusability="blocksDescendants"
-                android:fadeScrollbars="false"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:overScrollMode="never"
-                android:scrollbarThumbVertical="@color/peach"
-                android:scrollbars="vertical">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingEnd="8dp">
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/cream"
+                    android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/overview"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/original"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:textColor="@color/cream"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/meta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:alpha="0.8"
+                    android:textColor="@color/cream"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/ratings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/gold"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/awards"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/gold"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLampa"
+                style="@style/HomeButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:alpha="0.9"
-                android:lineSpacingExtra="3dp"
-                android:textColor="@color/cream"
-                android:textSize="15sp"
-                android:visibility="gone" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:minHeight="48dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="@string/watch"
+                android:textSize="16sp" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/whyYou"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:lineSpacingExtra="2dp"
-                android:textColor="@color/cream"
-                android:textSize="15sp"
-                android:visibility="gone" />
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/peach"
+            android:textSize="17sp" />
 
-            <TextView
-                android:id="@+id/critics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:alpha="0.8"
-                android:lineSpacingExtra="2dp"
-                android:textColor="@color/cream"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/reviews"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:alpha="0.8"
-                android:lineSpacingExtra="3dp"
-                android:textColor="@color/cream"
-                android:textSize="13.5sp"
-                android:visibility="gone" />
-
-                </LinearLayout>
-            </ScrollView>
+        <ScrollView
+            android:id="@+id/textScroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:descendantFocusability="blocksDescendants"
+            android:fadeScrollbars="false"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:overScrollMode="never"
+            android:scrollbarThumbVertical="@color/peach"
+            android:scrollbars="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
 
-                <Button
-                    android:id="@+id/btnLampa"
-                    style="@style/HomeButton"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/overview"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="44dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/watch"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="6dp"
+                    android:alpha="0.9"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/cream"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/btnPin"
-                    style="@style/HomeButton"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/whyYou"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:minHeight="44dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/cream"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/btnFav"
-                    style="@style/HomeButton"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/critics"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:minHeight="44dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="6dp"
+                    android:alpha="0.8"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/cream"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/btnLike"
-                    style="@style/HomeButton"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/reviews"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:minHeight="44dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="8dp"
+                    android:alpha="0.8"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/cream"
+                    android:textSize="13.5sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:alpha="0.5"
+                    android:text="@string/details_hint"
+                    android:textColor="@color/cream"
+                    android:textSize="12sp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/rowRemove"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnWatched"
-                    style="@style/HomeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="44dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/menu_watched"
-                    android:textSize="15sp" />
-
-                <Button
-                    android:id="@+id/btnSkip"
-                    style="@style/HomeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:minHeight="44dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/menu_skip"
-                    android:textSize="15sp" />
-
-                <Button
-                    android:id="@+id/btnBack"
-                    style="@style/HomeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:minHeight="44dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/back"
-                    android:textSize="15sp" />
-            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>

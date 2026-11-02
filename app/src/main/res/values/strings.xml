@@ -43,4 +43,5 @@
     <string name="menu_like">👍 Нравится</string>
     <string name="menu_unlike">Убрать «Нравится»</string>
     <string name="menu_dislike">👎 Не нравится</string>
+    <string name="details_hint">Menu — закрепить, в избранное, нравится, просмотрен · Назад — к подборке</string>
 </resources>
