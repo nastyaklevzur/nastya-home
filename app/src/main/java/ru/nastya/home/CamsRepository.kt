@@ -37,6 +37,35 @@ object CamsRepository {
 
     data class Stream(val url: String, val headers: Map<String, String>)
 
+    /**
+     * Камера выключена по расписанию владельца (так волки Миннесоты работают только днём по местному времени).
+     * [startsInSec] — через сколько секунд она включится; -1, если сервис этого не сообщил.
+     */
+    class OffScheduleException(val startsInSec: Int) : Exception("камера выключена по расписанию, старт через $startsInSec с")
+
+    /**
+     * Разбор ответа ipcamlive getcamerastreamstate.php. Путь к потоку зависит от режима камеры
+     * (timeshift → streams_timeshift, запись на камере → streams_storage, иначе streams).
+     * Если у камеры включено расписание и сейчас не её время, бросает [OffScheduleException]
+     * с обратным отсчётом до включения — иначе это выглядело бы как «не удалось узнать адрес».
+     */
+    fun ipcamliveStream(json: JSONObject): Stream {
+        val d = json.optJSONObject("details") ?: error("ipcamlive: нет details")
+        if (d.optString("operationtimewindowenabled") == "1" && d.optInt("operationtimewindowactive", 1) != 1) {
+            throw OffScheduleException(d.optInt("operationtimewindow_starttimesec", -1))
+        }
+        if (d.optString("streamavailable") == "0") error("ipcamlive: камера выключена")
+        val streamId = d.optString("streamid").takeIf { it.isNotBlank() && it != "null" } ?: error("ipcamlive: нет streamid")
+        val host = d.optString("address").removePrefix("http://").removePrefix("https://").trim('/')
+            .takeIf { it.isNotBlank() } ?: error("ipcamlive: нет address")
+        val dir = when {
+            d.optString("storageenabledoncamera") == "1" -> "streams_storage"
+            d.optString("timeshiftenabled") == "1" -> "streams_timeshift"
+            else -> "streams"
+        }
+        return Stream("https://$host/$dir/$streamId/stream.m3u8", mapOf("User-Agent" to BROWSER_UA))
+    }
+
     /** Браузерный User-Agent: EarthCam и некоторые другие отдают 403 на «неизвестные» плееры. */
     const val BROWSER_UA = "Mozilla/5.0 (Linux; Android 9; TV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
     private val SKYLINE_TOKEN = Regex("livee\\.m3u8\\?a=([A-Za-z0-9]+)")
@@ -94,21 +123,9 @@ object CamsRepository {
                 Stream(url, headers)
             }
             "ipcamlive" -> {
-                // ipcamlive.com: по alias плеера сервис отдаёт сервер и streamid; путь зависит от режима камеры
-                // (timeshift → streams_timeshift, запись на камере → streams_storage, иначе streams).
+                // ipcamlive.com: по alias плеера сервис отдаёт сервер и streamid (см. ipcamliveStream).
                 val alias = requireNotNull(cam.cam) { "ipcamlive: нет cam (alias)" }
-                val json = JSONObject(Http.get("https://g1.ipcamlive.com/player/getcamerastreamstate.php?alias=$alias", headers = mapOf("User-Agent" to BROWSER_UA)))
-                val d = json.optJSONObject("details") ?: error("ipcamlive: нет details")
-                if (d.optString("streamavailable") == "0") error("ipcamlive: камера выключена")
-                val streamId = d.optString("streamid").takeIf { it.isNotBlank() } ?: error("ipcamlive: нет streamid")
-                val host = d.optString("address").removePrefix("http://").removePrefix("https://").trim('/')
-                    .takeIf { it.isNotBlank() } ?: error("ipcamlive: нет address")
-                val dir = when {
-                    d.optString("storageenabledoncamera") == "1" -> "streams_storage"
-                    d.optString("timeshiftenabled") == "1" -> "streams_timeshift"
-                    else -> "streams"
-                }
-                Stream("https://$host/$dir/$streamId/stream.m3u8", mapOf("User-Agent" to BROWSER_UA))
+                ipcamliveStream(JSONObject(Http.get("https://g1.ipcamlive.com/player/getcamerastreamstate.php?alias=$alias", headers = mapOf("User-Agent" to BROWSER_UA))))
             }
             "moszoo" -> {
                 // Трансляции Московского зоопарка (zoo.mos.ru): на странице вольера виджеты

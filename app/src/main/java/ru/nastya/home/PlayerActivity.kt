@@ -24,6 +24,9 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
 import java.util.concurrent.Executors
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /** Простой плеер HLS-потока камеры на ExoPlayer. Назад — закрыть, любая другая кнопка — показать название. */
 @OptIn(UnstableApi::class)
@@ -146,6 +149,10 @@ class PlayerActivity : AppCompatActivity() {
         executor.execute {
             val s = try {
                 CamsRepository.resolve(cam)
+            } catch (e: CamsRepository.OffScheduleException) {
+                Log.i(TAG, "cam ${cam.id} is off schedule, starts in ${e.startsInSec}s")
+                handler.post { if (!isFinishing && !isDestroyed) showError(offScheduleText(e.startsInSec)) }
+                return@execute
             } catch (e: Exception) {
                 Log.w(TAG, "resolve failed for ${cam.id}", e)
                 null
@@ -216,6 +223,16 @@ class PlayerActivity : AppCompatActivity() {
         p.setMediaItem(MediaItem.Builder().setUri(s.url).setMimeType(MimeTypes.APPLICATION_M3U8).build())
         p.playWhenReady = true
         p.prepare()
+    }
+
+    /** Текст для камеры, выключенной по расписанию: во сколько включится по времени проектора и через сколько. */
+    private fun offScheduleText(startsInSec: Int): String {
+        if (startsInSec < 0) return getString(R.string.cam_off_schedule_unknown)
+        val at = SimpleDateFormat("HH:mm", Locale("ru")).format(Date(System.currentTimeMillis() + startsInSec * 1000L))
+        val mins = (startsInSec + 59) / 60
+        val wait = if (mins >= 60) getString(R.string.duration_hours_minutes, mins / 60, mins % 60)
+        else getString(R.string.duration_minutes, mins)
+        return getString(R.string.cam_off_schedule, at, wait)
     }
 
     private fun showError(text: String) {

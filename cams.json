@@ -1,6 +1,6 @@
 {
   "title": "Онлайн-камеры",
-  "updated": "2026-11-02",
+  "updated": "2026-11-03",
   "cams": [
     {
       "id": "zelenogradsk-promenade",
@@ -47,12 +47,13 @@
       "type": "moszoo",
       "page": "https://zoo.mos.ru/panda/",
       "cam": "panda4",
-      "preview": "cams/moscow-panda.jpg"
+      "preview": "cams/moscow-panda.jpg",
+      "hidden": true
     },
     {
       "id": "wolf-center-pack",
       "title": "Волки",
-      "subtitle": "Международный центр волков, Миннесота",
+      "subtitle": "Международный центр волков, Миннесота · эфир с 18:00",
       "type": "ipcamlive",
       "cam": "63766320c2459",
       "preview": "https://s28.ipcamlive.com/streams_timeshift/1cx0nzpifv96rflal/snapshot.jpg",
@@ -61,7 +62,7 @@
     {
       "id": "wolf-center-window",
       "title": "Волки",
-      "subtitle": "центр волков · окно вольера",
+      "subtitle": "центр волков · окно вольера · эфир с 18:00",
       "type": "ipcamlive",
       "cam": "5f8f42a5963bc",
       "preview": "https://s87.ipcamlive.com/streams_timeshift/57mec6tedqip04zl3/snapshot.jpg",
@@ -74,7 +75,8 @@
       "type": "moszoo",
       "page": "https://zoo.mos.ru/kapibara/",
       "cam": "capybara4",
-      "preview": "cams/moscow-capybara.jpg"
+      "preview": "cams/moscow-capybara.jpg",
+      "hidden": true
     },
     {
       "id": "moscow-raccoon",
@@ -82,7 +84,8 @@
       "subtitle": "Московский зоопарк",
       "type": "moszoo",
       "page": "https://zoo.mos.ru/enot/",
-      "cam": "raccoon1"
+      "cam": "raccoon1",
+      "hidden": true
     },
     {
       "id": "moscow-otter",
@@ -90,7 +93,8 @@
       "subtitle": "Московский зоопарк",
       "type": "moszoo",
       "page": "https://zoo.mos.ru/vydra/",
-      "cam": "vydra1"
+      "cam": "vydra1",
+      "hidden": true
     },
     {
       "id": "moscow-meerkat",
@@ -98,7 +102,8 @@
       "subtitle": "Московский зоопарк",
       "type": "moszoo",
       "page": "https://zoo.mos.ru/surikat/",
-      "cam": "meerkat1"
+      "cam": "meerkat1",
+      "hidden": true
     },
     {
       "id": "miami-meerkat",
@@ -106,7 +111,8 @@
       "subtitle": "Zoo Miami, Флорида",
       "type": "earthcam",
       "url": "https://videos-3.earthcam.com/fecnetwork/14443.flv/playlist.m3u8",
-      "preview": "cams/miami-meerkat.jpg"
+      "preview": "cams/miami-meerkat.jpg",
+      "hidden": true
     },
     {
       "id": "greenville-giraffe",
@@ -115,6 +121,92 @@
       "type": "earthcam",
       "url": "https://videos-3.earthcam.com/fecnetwork/19977.flv/playlist.m3u8",
       "preview": "cams/greenville-giraffe.jpg"
+    },
+    {
+      "id": "moscow-lion",
+      "title": "Азиатские львы",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/aziatskie_lvy/",
+      "cam": "lion1",
+      "preview": "cams/moscow-lion.jpg"
+    },
+    {
+      "id": "moscow-tiger",
+      "title": "Амурский тигр",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/tigr/",
+      "cam": "tiger1",
+      "preview": "cams/moscow-tiger.jpg"
+    },
+    {
+      "id": "moscow-gorilla",
+      "title": "Гориллы",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/gorilla/",
+      "cam": "gorilla1",
+      "preview": "cams/moscow-gorilla.jpg"
+    },
+    {
+      "id": "moscow-orangutan",
+      "title": "Орангутаны",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/orangutan/",
+      "cam": "orangutan1",
+      "preview": "cams/moscow-orangutan.jpg"
+    },
+    {
+      "id": "moscow-elephant",
+      "title": "Слоны",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/slon/",
+      "cam": "slon1",
+      "preview": "cams/moscow-elephant.jpg"
+    },
+    {
+      "id": "moscow-zebra",
+      "title": "Зебры и жираф",
+      "subtitle": "Московский зоопарк",
+      "type": "moszoo",
+      "page": "https://zoo.mos.ru/zebra/",
+      "cam": "zebra1",
+      "preview": "cams/moscow-zebra.jpg"
+    },
+    {
+      "id": "greenville-giraffe-barn",
+      "title": "Жирафы",
+      "subtitle": "Greenville Zoo · в загоне",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/19978.flv/playlist.m3u8",
+      "preview": "cams/greenville-giraffe-barn.jpg"
+    },
+    {
+      "id": "miami-flamingo",
+      "title": "Фламинго",
+      "subtitle": "Zoo Miami, Флорида",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/31440.flv/playlist.m3u8",
+      "preview": "cams/miami-flamingo.jpg"
+    },
+    {
+      "id": "chobe-elephants",
+      "title": "Река Чобе",
+      "subtitle": "Ботсвана · слоны на водопое",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/36588.flv/playlist.m3u8",
+      "preview": "cams/chobe-elephants.jpg"
+    },
+    {
+      "id": "manatee-lagoon",
+      "title": "Ламантины",
+      "subtitle": "Manatee Lagoon, Флорида · вид на лагуну",
+      "type": "earthcam",
+      "url": "https://videos-3.earthcam.com/fecnetwork/14014.flv/playlist.m3u8",
+      "preview": "cams/manatee-lagoon.jpg"
     },
     {
       "id": "rome-trevi",
@@ -492,24 +584,6 @@
       "cam": "panda7"
     },
     {
-      "id": "moscow-lion",
-      "hidden": true,
-      "title": "Азиатские львы",
-      "subtitle": "Московский зоопарк",
-      "type": "moszoo",
-      "page": "https://zoo.mos.ru/aziatskie_lvy/",
-      "cam": "lion1"
-    },
-    {
-      "id": "moscow-tiger",
-      "hidden": true,
-      "title": "Амурский тигр",
-      "subtitle": "Московский зоопарк",
-      "type": "moszoo",
-      "page": "https://zoo.mos.ru/tigr/",
-      "cam": "tiger1"
-    },
-    {
       "id": "moscow-polar-bear",
       "hidden": true,
       "title": "Белый медведь",
@@ -517,33 +591,6 @@
       "type": "moszoo",
       "page": "https://zoo.mos.ru/beliy-medved/",
       "cam": "polarbear1"
-    },
-    {
-      "id": "moscow-gorilla",
-      "hidden": true,
-      "title": "Гориллы",
-      "subtitle": "Московский зоопарк",
-      "type": "moszoo",
-      "page": "https://zoo.mos.ru/gorilla/",
-      "cam": "gorilla1"
-    },
-    {
-      "id": "moscow-orangutan",
-      "hidden": true,
-      "title": "Орангутаны",
-      "subtitle": "Московский зоопарк",
-      "type": "moszoo",
-      "page": "https://zoo.mos.ru/orangutan/",
-      "cam": "orangutan1"
-    },
-    {
-      "id": "moscow-elephant",
-      "hidden": true,
-      "title": "Слоны",
-      "subtitle": "Московский зоопарк",
-      "type": "moszoo",
-      "page": "https://zoo.mos.ru/slon/",
-      "cam": "slon1"
     },
     {
       "id": "moscow-leopard",
@@ -591,15 +638,6 @@
       "cam": "begemot1"
     },
     {
-      "id": "moscow-zebra",
-      "hidden": true,
-      "title": "Зебры и жираф",
-      "subtitle": "Московский зоопарк",
-      "type": "moszoo",
-      "page": "https://zoo.mos.ru/zebra/",
-      "cam": "zebra1"
-    },
-    {
       "id": "moscow-cranes",
       "hidden": true,
       "title": "Журавли и павлины",
@@ -618,34 +656,10 @@
       "cam": "malayskiy_medved1"
     },
     {
-      "id": "greenville-giraffe-barn",
+      "id": "manatee-underwater",
       "hidden": true,
-      "title": "Жирафы",
-      "subtitle": "Greenville Zoo · в загоне",
-      "type": "earthcam",
-      "url": "https://videos-3.earthcam.com/fecnetwork/19978.flv/playlist.m3u8"
-    },
-    {
-      "id": "miami-flamingo",
-      "hidden": true,
-      "title": "Фламинго",
-      "subtitle": "Zoo Miami, Флорида",
-      "type": "earthcam",
-      "url": "https://videos-3.earthcam.com/fecnetwork/31440.flv/playlist.m3u8"
-    },
-    {
-      "id": "chobe-elephants",
-      "hidden": true,
-      "title": "Река Чобе",
-      "subtitle": "Ботсвана · слоны на водопое",
-      "type": "earthcam",
-      "url": "https://videos-3.earthcam.com/fecnetwork/36588.flv/playlist.m3u8"
-    },
-    {
-      "id": "manatee-lagoon",
-      "hidden": true,
-      "title": "Ламантины",
-      "subtitle": "Manatee Lagoon, Флорида",
+      "title": "Ламантины под водой",
+      "subtitle": "Manatee Lagoon, Флорида · подводная камера",
       "type": "earthcam",
       "url": "https://videos-3.earthcam.com/fecnetwork/23997.flv/playlist.m3u8"
     }
