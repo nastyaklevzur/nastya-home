@@ -47,8 +47,7 @@
       "type": "moszoo",
       "page": "https://zoo.mos.ru/panda/",
       "cam": "panda4",
-      "preview": "cams/moscow-panda.jpg",
-      "hidden": true
+      "preview": "cams/moscow-panda.jpg"
     },
     {
       "id": "wolf-center-pack",
