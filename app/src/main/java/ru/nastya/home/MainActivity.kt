@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.leanback.widget.HorizontalGridView
+import androidx.leanback.widget.VerticalGridView
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -26,11 +27,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rootFrame: FrameLayout
     private lateinit var scroll: ScrollView
+    private lateinit var scrollMovies: ScrollView
+    private lateinit var mainColumn: View
+    private lateinit var tabs: Tabs
+    private lateinit var tvFooter: TextView
+    private lateinit var btnProfile: TextView
+    private lateinit var btnToMovies: TextView
+    private lateinit var btnToCams: TextView
+    private lateinit var camsHeader: View
+    private lateinit var tvSectionMovies: TextView
+    private lateinit var tvUpdatedMovies: TextView
+    private lateinit var tvFavorites: TextView
+    private lateinit var tvAppsMovies: TextView
     private lateinit var tvHello: TextView
     private lateinit var tvGreeting: TextView
     private lateinit var tvSection: TextView
     private lateinit var tvUpdated: TextView
-    private lateinit var tvFav: TextView
     private lateinit var undoBar: TextView
     private lateinit var tvClock: TextView
     private lateinit var tvDate: TextView
@@ -42,11 +54,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvCams: TextView
     private lateinit var rvMovies: HorizontalGridView
     private lateinit var rvCams: HorizontalGridView
-    private lateinit var rvApps: HorizontalGridView
+    private lateinit var rvMoviesAll: HorizontalGridView
+    private lateinit var rvFavorites: HorizontalGridView
+    private lateinit var rvAppsMovies: HorizontalGridView
+    private lateinit var rvAppsSystem: HorizontalGridView
+    private lateinit var gridCams: VerticalGridView
 
+    /** Ряд топ-10 на «Главной» и тот же ряд на вкладке «Кино» — два адаптера над одним списком [row]. */
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var movieAllAdapter: MovieAdapter
+    private lateinit var favAdapter: MovieAdapter
     private lateinit var camAdapter: CamAdapter
-    private lateinit var appAdapter: AppAdapter
+    private lateinit var camGridAdapter: CamAdapter
+    private lateinit var movieAppsAdapter: AppAdapter
+    private lateinit var systemAppsAdapter: AppAdapter
 
     private val handler = Handler(Looper.getMainLooper())
     private val executor = Executors.newFixedThreadPool(2)
@@ -100,11 +121,21 @@ class MainActivity : AppCompatActivity() {
 
         rootFrame = findViewById(R.id.rootFrame)
         scroll = findViewById(R.id.scroll)
+        scrollMovies = findViewById(R.id.scrollMovies)
+        mainColumn = findViewById(R.id.mainColumn)
+        tvFooter = findViewById(R.id.tvFooter)
+        btnProfile = findViewById(R.id.btnProfile)
+        btnToMovies = findViewById(R.id.btnToMovies)
+        btnToCams = findViewById(R.id.btnToCams)
+        camsHeader = findViewById(R.id.camsHeader)
+        tvSectionMovies = findViewById(R.id.tvSectionMovies)
+        tvUpdatedMovies = findViewById(R.id.tvUpdatedMovies)
+        tvFavorites = findViewById(R.id.tvFavorites)
+        tvAppsMovies = findViewById(R.id.tvAppsMovies)
         tvHello = findViewById(R.id.tvHello)
         tvGreeting = findViewById(R.id.tvGreeting)
         tvSection = findViewById(R.id.tvSection)
         tvUpdated = findViewById(R.id.tvUpdated)
-        tvFav = findViewById(R.id.tvFav)
         undoBar = findViewById(R.id.undoBar)
         tvClock = findViewById(R.id.tvClock)
         tvDate = findViewById(R.id.tvDate)
@@ -116,21 +147,52 @@ class MainActivity : AppCompatActivity() {
         tvCams = findViewById(R.id.tvCams)
         rvMovies = findViewById(R.id.rvMovies)
         rvCams = findViewById(R.id.rvCams)
-        rvApps = findViewById(R.id.rvApps)
+        rvMoviesAll = findViewById(R.id.rvMoviesAll)
+        rvFavorites = findViewById(R.id.rvFavorites)
+        rvAppsMovies = findViewById(R.id.rvAppsMovies)
+        rvAppsSystem = findViewById(R.id.rvAppsSystem)
+        gridCams = findViewById(R.id.gridCams)
 
         movieAdapter = MovieAdapter(onClick = ::openMovie, onMenu = ::showMovieMenu)
+        movieAllAdapter = MovieAdapter(
+            onClick = ::openMovie, onMenu = ::showMovieMenu,
+            trailing = MovieAdapter.Trailing(getString(R.string.more_all)) { startActivity(Intent(this, RecommendationsActivity::class.java)) },
+        )
+        favAdapter = MovieAdapter(
+            onClick = ::openMovie, onMenu = ::showMovieMenu,
+            trailing = MovieAdapter.Trailing(getString(R.string.more_fav)) { startActivity(Intent(this, FavoritesActivity::class.java)) },
+        )
         camAdapter = CamAdapter(onClick = ::openCam)
-        appAdapter = AppAdapter(onClick = ::onAppClick)
+        camGridAdapter = CamAdapter(onClick = ::openCam)
+        movieAppsAdapter = AppAdapter(onClick = ::onAppClick)
+        systemAppsAdapter = AppAdapter(onClick = ::onAppClick, layoutRes = R.layout.item_app_large)
         setupRow(rvMovies, 12)
+        setupRow(rvMoviesAll, 12)
+        setupRow(rvFavorites, 12)
         setupRow(rvCams, 14)
-        setupRow(rvApps, 10)
+        setupRow(rvAppsMovies, 10)
+        setupRow(rvAppsSystem, 14)
+        gridCams.setNumColumns(CAM_COLUMNS)
+        gridCams.setHorizontalSpacing((8 * resources.displayMetrics.density).toInt())
+        gridCams.setVerticalSpacing((12 * resources.displayMetrics.density).toInt())
         rvMovies.adapter = movieAdapter
+        rvMoviesAll.adapter = movieAllAdapter
+        rvFavorites.adapter = favAdapter
         rvCams.adapter = camAdapter
-        rvApps.adapter = appAdapter
+        gridCams.adapter = camGridAdapter
+        rvAppsMovies.adapter = movieAppsAdapter
+        rvAppsSystem.adapter = systemAppsAdapter
+
+        setupTabs()
+        tvFooter.text = getString(
+            R.string.footer, getString(R.string.app_name), BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE,
+            Calendar.getInstance().get(Calendar.YEAR), getString(R.string.credits_author),
+        )
+        btnProfile.setOnClickListener { toast(getString(R.string.profile_soon)) }
+        btnToMovies.setOnClickListener { tabs.selectAndFocusContent(TAB_MOVIES) }
+        btnToCams.setOnClickListener { tabs.selectAndFocusContent(TAB_CAMS) }
 
         setupNewsSwitcher()
-        tvFav.setOnClickListener { startActivity(Intent(this, FavoritesActivity::class.java)) }
-        updateFav()
         updateClockAndGreeting()
         val local = MoviesRepository.loadLocal(this)
         StateStore.migrateV1(local.movies)
@@ -153,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         rootFrame.addView(view)
         val backdrop = SplashBackdrops.peek(this)
         SplashBackdrops.advance(this)
-        splash = Splash(view, scroll) {
+        splash = Splash(view, mainColumn) {
             splash = null
             SplashBackdrops.prefetchNext(this)
         }.also {
@@ -168,7 +230,33 @@ class MainActivity : AppCompatActivity() {
             if (event.action == KeyEvent.ACTION_DOWN) s.dismiss()
             return true
         }
+        // «Вверх» из верхнего ряда страницы ведёт на чип текущей вкладки, а не на соседнюю.
+        if (event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+            val f = currentFocus
+            if (f != null && tabs.handleUp(f)) {
+                pageScroll()?.smoothScrollTo(0, 0)
+                return true
+            }
+        }
         return super.dispatchKeyEvent(event)
+    }
+
+    // ----- Вкладки -----
+
+    private fun setupTabs() {
+        tabs = Tabs(
+            chips = listOf(R.id.tabHome, R.id.tabMovies, R.id.tabCams, R.id.tabApps).map { findViewById<View>(it) },
+            pages = listOf<View>(scroll, scrollMovies, findViewById(R.id.pageCams), findViewById(R.id.pageApps)),
+            // Куда уходит фокус со стрелкой вниз: топ-10, рекомендации, сетка камер, плитки приложений.
+            entries = listOf<View>(rvMovies, rvMoviesAll, gridCams, rvAppsSystem),
+        )
+    }
+
+    /** ScrollView текущей вкладки (у камер и приложений прокрутки нет). */
+    private fun pageScroll(): ScrollView? = when (tabs.selected) {
+        TAB_HOME -> scroll
+        TAB_MOVIES -> scrollMovies
+        else -> null
     }
 
     // ----- Жизненный цикл -----
@@ -186,14 +274,14 @@ class MainActivity : AppCompatActivity() {
         handler.post(clockTick)
         handler.removeCallbacks(newsTick)
         handler.postDelayed(newsTick, NEWS_INTERVAL_MS)
-        appAdapter.submit(AppCatalog.shortcuts(this))
+        showApps()
         // Состояние могли изменить на экране «Избранное» или в «О фильме».
         val data = current
         if (data != null && StateStore.snapshot().seq != rowSeq) {
             applyRow(RowBuilder.build(data, StateStore.snapshot(), row.map { it.key }), null)
         }
-        movieAdapter.refreshStatuses()
-        updateFav()
+        refreshStatuses()
+        refreshFavorites()
         refreshAll(force = false)
     }
 
@@ -238,13 +326,33 @@ class MainActivity : AppCompatActivity() {
 
     @Deprecated("Домашний экран не закрывается кнопкой «Назад»")
     override fun onBackPressed() {
-        if (undo != null) performUndo() else goHome()
+        when {
+            undo != null -> performUndo()
+            tabs.selected != TAB_HOME -> tabs.selectAndFocusChip(TAB_HOME)
+            else -> goHome()
+        }
     }
 
+    /** Кнопка Home: вкладка «Главная», наверх, фокус на первую карточку топ-10. */
     private fun goHome() {
+        tabs.select(TAB_HOME)
         scroll.smoothScrollTo(0, 0)
         rvMovies.selectedPosition = 0
         rvMovies.requestFocus()
+    }
+
+    private fun showApps() {
+        movieAppsAdapter.submit(AppCatalog.movieApps(this))
+        systemAppsAdapter.submit(AppCatalog.systemApps(this))
+        val v = if (movieAppsAdapter.itemCount == 0) View.GONE else View.VISIBLE
+        tvAppsMovies.visibility = v
+        rvAppsMovies.visibility = v
+    }
+
+    private fun refreshStatuses() {
+        movieAdapter.refreshStatuses()
+        movieAllAdapter.refreshStatuses()
+        favAdapter.refreshStatuses()
     }
 
     // ----- Шапка -----
@@ -315,7 +423,9 @@ class MainActivity : AppCompatActivity() {
     private fun show(data: MoviesData, apply: Boolean) {
         current = data
         tvSection.text = data.title
-        tvUpdated.text = data.updated?.let { "обновлено " + formatDate(it) } ?: ""
+        val updatedText = data.updated?.let { "обновлено " + formatDate(it) } ?: ""
+        tvUpdated.text = updatedText
+        tvUpdatedMovies.text = updatedText
         if (apply || row.isEmpty()) rebuildRow(data)
     }
 
@@ -332,22 +442,34 @@ class MainActivity : AppCompatActivity() {
 
     /** Показать новый ряд; фокус остаётся на [focusKey] или на той же позиции. */
     private fun applyRow(newRow: List<Movie>, focusKey: String?) {
-        val selected = rvMovies.selectedPosition
-        val hadFocus = rvMovies.hasFocus()
         row = newRow
         rowSeq = StateStore.snapshot().seq
         saveRowKeys()
-        movieAdapter.submit(row)
-        val target = focusKey?.let { k -> row.indexOfFirst { it.key == k } }?.takeIf { it >= 0 }
-            ?: selected.coerceIn(0, (row.size - 1).coerceAtLeast(0))
-        rvMovies.selectedPosition = target
-        if (hadFocus) rvMovies.requestFocus()
-        updateFav()
+        // Один и тот же ряд показывают «Главная» и «Кино»: у каждого свой выбор и свой фокус.
+        for ((rv, adapter) in listOf(rvMovies to movieAdapter, rvMoviesAll to movieAllAdapter)) {
+            val selected = rv.selectedPosition
+            val hadFocus = rv.hasFocus()
+            adapter.submit(row)
+            val target = focusKey?.let { k -> row.indexOfFirst { it.key == k } }?.takeIf { it >= 0 }
+                ?: selected.coerceIn(0, (row.size - 1).coerceAtLeast(0))
+            rv.selectedPosition = target
+            if (hadFocus) rv.requestFocus()
+        }
+        refreshFavorites()
     }
 
-    private fun updateFav() {
-        val n = StateStore.snapshot().favorites.size
-        tvFav.text = if (n > 0) "♥ $n" else "♥"
+    /** Избранное (свежие сверху): фильм из пула по ключу или из снимка в state.json, в конце карточка «Все · Скрытые». */
+    private fun refreshFavorites() {
+        val s = StateStore.snapshot()
+        val pool = current?.movies?.associateBy { it.key } ?: emptyMap()
+        val base = current?.base ?: ""
+        val movies = s.favorites.sortedByDescending { it.seq }.mapNotNull { e -> pool[e.key] ?: e.snap?.toMovie(e.key, base) }
+        tvFavorites.text = if (s.favorites.isEmpty()) getString(R.string.section_favorites) else getString(R.string.section_favorites_n, s.favorites.size)
+        val selected = rvFavorites.selectedPosition
+        val hadFocus = rvFavorites.hasFocus()
+        favAdapter.submit(movies)
+        rvFavorites.selectedPosition = selected.coerceIn(0, movies.size)
+        if (hadFocus) rvFavorites.requestFocus()
     }
 
     private fun loadRowKeys(): List<String> =
@@ -359,9 +481,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCams(data: CamsData) {
         tvCams.text = data.title
-        camAdapter.submit(data.cams)
+        camAdapter.submit(data.homeCams)
+        camGridAdapter.submit(data.cams)
         val visible = if (camAdapter.itemCount == 0) View.GONE else View.VISIBLE
-        tvCams.visibility = visible
+        camsHeader.visibility = visible
         rvCams.visibility = visible
     }
 
@@ -451,7 +574,7 @@ class MainActivity : AppCompatActivity() {
     private fun resetMark(m: Movie) {
         WatchStatus.set(this, m, WatchStatus.Status.NONE)
         rowSeq = StateStore.snapshot().seq
-        movieAdapter.refreshStatuses()
+        refreshStatuses()
         toast("Метка снята")
     }
 
@@ -476,7 +599,7 @@ class MainActivity : AppCompatActivity() {
         val on = !StateStore.isLiked(m)
         StateStore.setLike(m, on)
         rowSeq = StateStore.snapshot().seq
-        movieAdapter.refreshStatuses()
+        refreshStatuses()
         toast(if (on) "Запомнил: «${m.title}» нравится 👍" else "Лайк снят")
     }
 
@@ -484,8 +607,8 @@ class MainActivity : AppCompatActivity() {
         val on = !StateStore.isFavorite(m)
         StateStore.setFavorite(m, on)
         rowSeq = StateStore.snapshot().seq
-        movieAdapter.refreshStatuses()
-        updateFav()
+        refreshStatuses()
+        refreshFavorites()
         toast(if (on) "Добавил в избранное ♥" else "Убрал из избранного")
     }
 
@@ -526,7 +649,7 @@ class MainActivity : AppCompatActivity() {
         if (u.wasPinned) StateStore.pin(u.movie)
         if (u.wasStarted) StateStore.setStarted(u.movie, true)
         applyRow(u.rowBefore, u.movie.key)
-        movieAdapter.refreshStatuses()
+        refreshStatuses()
     }
 
     private fun openCam(c: Cam) {
@@ -545,6 +668,10 @@ class MainActivity : AppCompatActivity() {
     private fun toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
     companion object {
+        private const val TAB_HOME = 0
+        private const val TAB_MOVIES = 1
+        private const val TAB_CAMS = 2
+        private const val CAM_COLUMNS = 6
         private const val HOUR_MS = 60L * 60L * 1000L
         private const val WEATHER_INTERVAL_MS = 30L * 60L * 1000L
         private const val NEWS_REFRESH_MS = 20L * 60L * 1000L
