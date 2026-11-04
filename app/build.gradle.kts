@@ -31,7 +31,7 @@ android {
         applicationId = "ru.nastya.home"
         minSdk = 28
         targetSdk = 35
-        versionCode = 7
+        versionCode = 8
         versionName = "1.0"
         ndk { abiFilters += listOf("armeabi-v7a") }
         resourceConfigurations += listOf("ru")

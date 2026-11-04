@@ -15,6 +15,21 @@ object Launcher {
     const val VLC = "org.videolan.vlc"
     const val TV_SETTINGS = "com.android.tv.settings"
 
+    /** Открыть bylampa.online в LAMPA (Uncensored-каталог). */
+    fun launchLampaUncensored(ctx: Context): Boolean {
+        if (!isInstalled(ctx, LAMPA)) return false
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bylampa.online/"))
+            .setClassName(LAMPA, "$LAMPA.MainActivity")
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        return try {
+            ctx.startActivity(intent)
+            true
+        } catch (e: Exception) {
+            Log.w(TAG, "Lampa UC launch failed", e)
+            false
+        }
+    }
+
     private fun lampaSearchIntent(query: String): Intent = Intent(Intent.ACTION_SEARCH)
         .setClassName(LAMPA, "$LAMPA.MainActivity")
         .putExtra(SearchManager.QUERY, query)
