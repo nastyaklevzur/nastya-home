@@ -42,6 +42,8 @@ data class Entry(
     val liked: Boolean? = null,
     /** Номер действия, которым запись создана; Mac сравнивает по нему, а не по часам. */
     val seq: Int = 0,
+    /** Только для started: чем начат просмотр — "lampa" | "kinopoisk". */
+    val via: String? = null,
 )
 
 data class AppState(
@@ -99,6 +101,7 @@ object StateJson {
             if (e.reason != null) o.put("liked", e.liked ?: JSONObject.NULL)
             o.put("at", e.at)
             if (e.seq > 0) o.put("seq", e.seq)
+            if (e.via != null) o.put("via", e.via)
             // В свёрнутом виде оставляем снимки только у свежих записей (последние 500).
             val keepSnap = !compact || i >= list.size - COMPACT_AFTER_REMOVED
             if (e.snap != null && keepSnap) o.put("snap", snap(e.snap))
@@ -133,6 +136,7 @@ object StateJson {
                     reason = if (o.has("reason") && !o.isNull("reason")) o.optString("reason") else null,
                     liked = if (o.has("liked") && !o.isNull("liked")) o.optBoolean("liked") else null,
                     seq = o.optInt("seq", 0),
+                    via = if (o.has("via") && !o.isNull("via")) o.optString("via").takeIf { it.isNotBlank() } else null,
                 )
             )
         }

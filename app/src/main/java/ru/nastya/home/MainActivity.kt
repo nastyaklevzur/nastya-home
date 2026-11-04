@@ -56,6 +56,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvCams: HorizontalGridView
     private lateinit var rvMoviesAll: HorizontalGridView
     private lateinit var rvFavorites: HorizontalGridView
+    private lateinit var tvContinueHome: TextView
+    private lateinit var rvContinueHome: HorizontalGridView
+    private lateinit var tvContinueMovies: TextView
+    private lateinit var rvContinueMovies: HorizontalGridView
+    private lateinit var continueHomeAdapter: MovieAdapter
+    private lateinit var continueMoviesAdapter: MovieAdapter
+    private var continueCaptions: Map<String, String> = emptyMap()
+    private var continueVia: Map<String, String?> = emptyMap()
     private lateinit var rvAppsMovies: HorizontalGridView
     private lateinit var rvAppsSystem: HorizontalGridView
     private lateinit var gridCams: VerticalGridView
@@ -84,7 +92,7 @@ class MainActivity : AppCompatActivity() {
     private var undo: Undo? = null
     private val undoExpire = Runnable { clearUndo() }
 
-    private class Undo(val movie: Movie, val index: Int, val rowBefore: List<Movie>, val wasPinned: Boolean, val wasStarted: Boolean)
+    private class Undo(val movie: Movie, val index: Int, val rowBefore: List<Movie>, val wasPinned: Boolean, val startedVia: String?)
 
     private val detailsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { r ->
         val data = r.data ?: return@registerForActivityResult
@@ -149,6 +157,10 @@ class MainActivity : AppCompatActivity() {
         rvCams = findViewById(R.id.rvCams)
         rvMoviesAll = findViewById(R.id.rvMoviesAll)
         rvFavorites = findViewById(R.id.rvFavorites)
+        tvContinueHome = findViewById(R.id.tvContinueHome)
+        rvContinueHome = findViewById(R.id.rvContinueHome)
+        tvContinueMovies = findViewById(R.id.tvContinueMovies)
+        rvContinueMovies = findViewById(R.id.rvContinueMovies)
         rvAppsMovies = findViewById(R.id.rvAppsMovies)
         rvAppsSystem = findViewById(R.id.rvAppsSystem)
         gridCams = findViewById(R.id.gridCams)
@@ -162,6 +174,8 @@ class MainActivity : AppCompatActivity() {
             onClick = ::openMovie, onMenu = ::showMovieMenu,
             trailing = MovieAdapter.Trailing(getString(R.string.more_fav)) { startActivity(Intent(this, FavoritesActivity::class.java)) },
         )
+        continueHomeAdapter = MovieAdapter(onClick = ::continueMovie, onMenu = ::continueMenu, caption = { m -> continueCaptions[m.key] })
+        continueMoviesAdapter = MovieAdapter(onClick = ::continueMovie, onMenu = ::continueMenu, caption = { m -> continueCaptions[m.key] })
         camAdapter = CamAdapter(onClick = ::openCam)
         camGridAdapter = CamAdapter(onClick = ::openCam)
         movieAppsAdapter = AppAdapter(onClick = ::onAppClick)
@@ -169,6 +183,8 @@ class MainActivity : AppCompatActivity() {
         setupRow(rvMovies, 12)
         setupRow(rvMoviesAll, 12)
         setupRow(rvFavorites, 12)
+        setupRow(rvContinueHome, 12)
+        setupRow(rvContinueMovies, 12)
         setupRow(rvCams, 14)
         setupRow(rvAppsMovies, 10)
         setupRow(rvAppsSystem, 14)
@@ -178,6 +194,8 @@ class MainActivity : AppCompatActivity() {
         rvMovies.adapter = movieAdapter
         rvMoviesAll.adapter = movieAllAdapter
         rvFavorites.adapter = favAdapter
+        rvContinueHome.adapter = continueHomeAdapter
+        rvContinueMovies.adapter = continueMoviesAdapter
         rvCams.adapter = camAdapter
         gridCams.adapter = camGridAdapter
         rvAppsMovies.adapter = movieAppsAdapter
@@ -188,7 +206,7 @@ class MainActivity : AppCompatActivity() {
             R.string.footer, getString(R.string.app_name), BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE,
             Calendar.getInstance().get(Calendar.YEAR), getString(R.string.credits_author),
         )
-        btnProfile.setOnClickListener { toast(getString(R.string.profile_soon)) }
+        btnProfile.setOnClickListener { Profile.showNameDialog(this) { updateClockAndGreeting() } }
         btnToMovies.setOnClickListener { tabs.selectAndFocusContent(TAB_MOVIES) }
         btnToCams.setOnClickListener { tabs.selectAndFocusContent(TAB_CAMS) }
 
@@ -202,7 +220,19 @@ class MainActivity : AppCompatActivity() {
         showNews(NewsRepository.cached(this))
         rvMovies.post { rvMovies.requestFocus() }
 
-        if (shouldShowSplash()) startSplash() else SplashBackdrops.prefetchNext(this)
+        if (shouldShowSplash()) startSplash() else {
+            SplashBackdrops.prefetchNext(this)
+            askNameOnce()
+        }
+    }
+
+    private var nameAsked = false
+
+    /** Первый запуск: спросить имя (один раз за запуск, не поверх заставки). */
+    private fun askNameOnce() {
+        if (nameAsked || splash != null || !Profile.shouldAsk(this)) return
+        nameAsked = true
+        Profile.showNameDialog(this) { updateClockAndGreeting() }
     }
 
     // ----- Заставка -----
@@ -218,7 +248,9 @@ class MainActivity : AppCompatActivity() {
         splash = Splash(view, mainColumn) {
             splash = null
             SplashBackdrops.prefetchNext(this)
+            askNameOnce()
         }.also {
+            it.setName(Profile.name(this))
             it.start()
             it.setBackdrop(backdrop)
         }
@@ -359,7 +391,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateClockAndGreeting() {
         val now = Calendar.getInstance()
-        val g = Greetings.forHour(now.get(Calendar.HOUR_OF_DAY))
+        val g = Greetings.forHour(now.get(Calendar.HOUR_OF_DAY), Profile.name(this))
         tvHello.text = g.hello
         tvGreeting.text = g.text
         tvClock.text = SimpleDateFormat("HH:mm", ru).format(now.time)
@@ -470,6 +502,47 @@ class MainActivity : AppCompatActivity() {
         favAdapter.submit(movies)
         rvFavorites.selectedPosition = selected.coerceIn(0, movies.size)
         if (hadFocus) rvFavorites.requestFocus()
+        refreshContinue()
+    }
+
+    /** «Продолжить просмотр»: начатые через лаунчер, один источник данных — два адаптера (Главная и Кино). */
+    private fun refreshContinue() {
+        val items = ContinueWatching.build(StateStore.snapshot(), current?.movies ?: emptyList(), current?.base ?: "")
+        val locale = Locale("ru")
+        continueCaptions = items.associate { it.movie.key to ContinueWatching.caption(it, locale) }
+        continueVia = items.associate { it.movie.key to it.via }
+        val movies = items.map { it.movie }
+        val vis = if (movies.isEmpty()) View.GONE else View.VISIBLE
+        for ((tv, rv, adapter) in listOf(
+            Triple(tvContinueHome, rvContinueHome, continueHomeAdapter),
+            Triple(tvContinueMovies, rvContinueMovies, continueMoviesAdapter),
+        )) {
+            val selected = rv.selectedPosition
+            val hadFocus = rv.hasFocus()
+            adapter.submit(movies)
+            tv.visibility = vis
+            rv.visibility = vis
+            rv.selectedPosition = selected.coerceIn(0, (movies.size - 1).coerceAtLeast(0))
+            if (hadFocus && movies.isNotEmpty()) rv.requestFocus()
+        }
+    }
+
+    private fun continueMovie(m: Movie) {
+        val ok = if (continueVia[m.key] == "kinopoisk") Launcher.openMovieInKinopoisk(this, m)
+        else Launcher.openMovieInLampa(this, m) || Launcher.launchPackage(this, Launcher.LAMPA)
+        if (!ok) toast(if (continueVia[m.key] == "kinopoisk") "Кинопоиск не открылся" else "LAMPA не установлена")
+    }
+
+    private fun continueMenu(m: Movie) {
+        val items = ArrayList<MovieDialogs.Item>()
+        fun add(label: String, action: () -> Unit) { items.add(MovieDialogs.Item(label, action)) }
+        add(getString(R.string.menu_continue)) { continueMovie(m) }
+        add(getString(R.string.menu_about)) { showDetails(m) }
+        add(getString(R.string.menu_watched)) {
+            if (StateStore.isLiked(m)) removeMovie(m, "watched", true) else MovieDialogs.askLiked(this, m) { removeMovie(m, "watched", it) }
+        }
+        add(getString(R.string.menu_reset)) { resetMark(m) }
+        MovieDialogs.menu(this, MovieDialogs.title(m), items)
     }
 
     private fun loadRowKeys(): List<String> =
@@ -575,6 +648,7 @@ class MainActivity : AppCompatActivity() {
         WatchStatus.set(this, m, WatchStatus.Status.NONE)
         rowSeq = StateStore.snapshot().seq
         refreshStatuses()
+        refreshContinue()
         toast("Метка снята")
     }
 
@@ -618,12 +692,12 @@ class MainActivity : AppCompatActivity() {
         val before = row
         val index = row.indexOfFirst { it.key == m.key }
         val wasPinned = StateStore.isPinned(m)
-        val wasStarted = StateStore.isStarted(m)
+        val startedVia = StateStore.snapshot().started.firstOrNull { it.key == m.key }?.let { it.via ?: "lampa" }
         StateStore.remove(m, reason, liked)
         val after = if (index >= 0) RowBuilder.replaceAt(data, StateStore.snapshot(), row, index) else row
         applyRow(after, null)
         showUndo(
-            Undo(m, index, before, wasPinned, wasStarted),
+            Undo(m, index, before, wasPinned, startedVia),
             (if (reason == "watched") "Просмотрен" else if (liked == false) "Не понравился" else "Убрал") + ": «${m.title}». Назад — вернуть",
         )
     }
@@ -647,7 +721,7 @@ class MainActivity : AppCompatActivity() {
         clearUndo()
         StateStore.restore(u.movie.key, u.movie.title)
         if (u.wasPinned) StateStore.pin(u.movie)
-        if (u.wasStarted) StateStore.setStarted(u.movie, true)
+        if (u.startedVia != null) StateStore.setStarted(u.movie, true, u.startedVia)
         applyRow(u.rowBefore, u.movie.key)
         refreshStatuses()
     }

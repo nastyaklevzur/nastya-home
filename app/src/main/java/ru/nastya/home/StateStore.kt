@@ -100,11 +100,11 @@ object StateStore {
         s.copy(removed = s.removed.filter { it.key != key })
     }
 
-    fun setStarted(m: Movie, on: Boolean) = change(
+    fun setStarted(m: Movie, on: Boolean, via: String? = null) = change(
         if (on) "начат просмотр «${m.title}»" else "метка снята «${m.title}»"
     ) { s ->
         val rest = s.started.filter { it.key != m.key }
-        s.copy(started = if (on) rest + entry(s, m) else rest)
+        s.copy(started = if (on) rest + entry(s, m).copy(via = via) else rest)
     }
 
     // ----- Миграция v1 -----

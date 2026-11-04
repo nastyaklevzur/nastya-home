@@ -51,11 +51,20 @@ class StateAndParserTest {
             pinned = listOf(Entry("13", "t1", Snap.of(m[0]), seq = 1)),
             favorites = listOf(Entry(m[1].key, "t2", Snap.of(m[1]), seq = 2)),
             removed = listOf(Entry("13", "t3", Snap.of(m[0]), "watched", true, 3), Entry("77", "t4", null, "skip", null, 4)),
-            started = listOf(Entry("13", "t5")),
+            started = listOf(Entry("13", "t5"), Entry("77", "t5b", seq = 7, via = "kinopoisk")),
             likes = listOf(Entry("77", "t6", seq = 6)),
         )
         val back = StateJson.parse(StateJson.serialize(s))
         assertEquals(s, back)
+    }
+
+    @Test fun viaIsWrittenOnlyWhenSetAndOldFilesParse() {
+        val json = StateJson.serialize(AppState(started = listOf(Entry("1", "t", via = "lampa"), Entry("2", "t"))))
+        assertEquals(1, Regex("\"via\"").findAll(json).count())
+        val back = StateJson.parse(json).started
+        assertEquals("lampa", back[0].via)
+        assertNull(back[1].via)
+        assertNull(StateJson.parse("""{"started":[{"id":5,"at":"y"}]}""").started.single().via)
     }
 
     @Test fun tmdbIdIsWrittenAsNumberAndLegacyKeyAsString() {

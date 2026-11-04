@@ -28,10 +28,10 @@ object WatchStatus {
         }
     }
 
-    /** Фильм открыли в LAMPA: если метки нет — ставим «Начат просмотр». */
-    fun markOpened(ctx: Context, m: Movie): Boolean {
+    /** Фильм открыли в LAMPA / Кинопоиске ([via]): если метки нет — ставим «Начат просмотр». */
+    fun markOpened(ctx: Context, m: Movie, via: String = "lampa"): Boolean {
         if (get(ctx, m) != Status.NONE) return false
-        set(ctx, m, Status.STARTED)
+        StateStore.setStarted(m, true, via)
         return true
     }
 }

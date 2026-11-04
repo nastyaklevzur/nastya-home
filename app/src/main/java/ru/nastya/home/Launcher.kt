@@ -10,6 +10,7 @@ import android.util.Log
 object Launcher {
     private const val TAG = "NastyaHome"
     const val LAMPA = "top.rootu.lampa"
+    const val KINOPOISK = "ru.kinopoisk.tv"
     const val VLC = "org.videolan.vlc"
     const val TV_SETTINGS = "com.android.tv.settings"
 
@@ -53,6 +54,25 @@ object Launcher {
             }
         }
         return searchInLampa(ctx, m.searchQuery)
+    }
+
+    /** Открыть фильм в приложении Кинопоиска; без id или без резолва — просто запустить приложение. */
+    fun openMovieInKinopoisk(ctx: Context, m: Movie): Boolean {
+        val id = m.kinopoiskId
+        if (id != null) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.kinopoisk.ru/film/$id/"))
+                .setPackage(KINOPOISK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (ctx.packageManager.resolveActivity(intent, 0) != null) {
+                try {
+                    ctx.startActivity(intent)
+                    return true
+                } catch (e: Exception) {
+                    Log.w(TAG, "Kinopoisk open $id failed", e)
+                }
+            }
+        }
+        return launchPackage(ctx, KINOPOISK)
     }
 
     fun isInstalled(ctx: Context, pkg: String): Boolean = try {

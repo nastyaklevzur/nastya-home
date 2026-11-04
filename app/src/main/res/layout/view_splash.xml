@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:letterSpacing="0.03"
-            android:text="@string/splash_line1"
+            android:text="@string/splash_hello"
             android:textColor="@color/peach"
             android:textSize="46sp" />
 

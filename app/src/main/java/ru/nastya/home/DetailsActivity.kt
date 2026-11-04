@@ -35,6 +35,7 @@ class DetailsActivity : AppCompatActivity() {
             .putExtra("query", m.searchQuery)
             .putExtra("search", m.search)
             .putExtra("tmdb", m.tmdbId ?: 0L)
+            .putExtra("kp_id", m.kinopoiskId ?: 0L)
             .putExtra("imdb", m.imdbRating ?: -1.0)
             .putExtra("kp", m.kpRating ?: -1.0)
             .putExtra("details", detailsLine(m))
@@ -72,7 +73,7 @@ class DetailsActivity : AppCompatActivity() {
             year = year, rating = rating,
             note = i.getStringExtra("note") ?: "",
             posterUrl = i.getStringExtra("poster"),
-            kinopoiskId = null, tmdbId = tmdb,
+            kinopoiskId = i.getLongExtra("kp_id", 0L).takeIf { it > 0 }, tmdbId = tmdb,
             search = i.getStringExtra("search"),
             posterPath = i.getStringExtra("posterPath"),
         )
@@ -101,7 +102,7 @@ class DetailsActivity : AppCompatActivity() {
         val btnLampa = findViewById<Button>(R.id.btnLampa)
         btnLampa.setOnClickListener {
             if (Launcher.openMovieInLampa(this, movie) || Launcher.launchPackage(this, Launcher.LAMPA)) {
-                WatchStatus.markOpened(this, movie)
+                WatchStatus.markOpened(this, movie, "lampa")
             } else {
                 Toast.makeText(this, "LAMPA не установлена", Toast.LENGTH_SHORT).show()
             }
@@ -125,6 +126,10 @@ class DetailsActivity : AppCompatActivity() {
         val m = movie
         val items = ArrayList<MovieDialogs.Item>()
         fun add(label: String, action: () -> Unit) { items.add(MovieDialogs.Item(label, action)) }
+        if (Launcher.isInstalled(this, Launcher.KINOPOISK)) add(getString(R.string.menu_watch_kinopoisk)) {
+            if (Launcher.openMovieInKinopoisk(this, m)) WatchStatus.markOpened(this, m, "kinopoisk")
+            else Toast.makeText(this, "Кинопоиск не открылся", Toast.LENGTH_SHORT).show()
+        }
         if (StateStore.isPinned(m)) add(getString(R.string.menu_unpin)) { StateStore.unpin(m) }
         else add(getString(R.string.menu_pin)) {
             if (!StateStore.pin(m)) Toast.makeText(this, "Можно закрепить не больше трёх. Открепи что-нибудь", Toast.LENGTH_SHORT).show()

@@ -12,7 +12,7 @@ object AppCatalog {
 
     private val movieKnown = listOf(
         "org.smarttube.stable" to "SmartTube",
-        "ru.kinopoisk.tv" to "Кинопоиск",
+        Launcher.KINOPOISK to "Кинопоиск",
         Launcher.LAMPA to "LAMPA",
     )
 
