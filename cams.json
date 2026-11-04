@@ -9,7 +9,8 @@
       "type": "hls",
       "url": "https://mmx.kgd.ru/traffic/trafcam6zel.m3u8",
       "referer": "https://kgd.ru/",
-      "preview": "cams/zelenogradsk.jpg"
+      "preview": "cams/zelenogradsk.jpg",
+      "home": true
     },
     {
       "id": "baltiysk-ferry",
@@ -47,7 +48,8 @@
       "type": "moszoo",
       "page": "https://zoo.mos.ru/panda/",
       "cam": "panda4",
-      "preview": "cams/moscow-panda.jpg"
+      "preview": "cams/moscow-panda.jpg",
+      "home": true
     },
     {
       "id": "wolf-center-pack",
@@ -56,7 +58,8 @@
       "type": "ipcamlive",
       "cam": "63766320c2459",
       "preview": "https://s28.ipcamlive.com/streams_timeshift/1cx0nzpifv96rflal/snapshot.jpg",
-      "preview_fallback": "cams/wolf-center-pack.jpg"
+      "preview_fallback": "cams/wolf-center-pack.jpg",
+      "home": true
     },
     {
       "id": "wolf-center-window",
@@ -65,7 +68,8 @@
       "type": "ipcamlive",
       "cam": "5f8f42a5963bc",
       "preview": "https://s87.ipcamlive.com/streams_timeshift/57mec6tedqip04zl3/snapshot.jpg",
-      "preview_fallback": "cams/wolf-center-window.jpg"
+      "preview_fallback": "cams/wolf-center-window.jpg",
+      "home": true
     },
     {
       "id": "moscow-capybara",
@@ -197,7 +201,8 @@
       "subtitle": "Ботсвана · слоны на водопое",
       "type": "earthcam",
       "url": "https://videos-3.earthcam.com/fecnetwork/36588.flv/playlist.m3u8",
-      "preview": "cams/chobe-elephants.jpg"
+      "preview": "cams/chobe-elephants.jpg",
+      "home": true
     },
     {
       "id": "manatee-lagoon",
@@ -213,7 +218,53 @@
       "subtitle": "фонтан Треви",
       "type": "skyline",
       "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/fontana-di-trevi.html",
-      "preview": "cams/rome-trevi.jpg"
+      "preview": "cams/rome-trevi.jpg",
+      "home": true
+    },
+    {
+      "id": "rome-colosseum",
+      "title": "Рим",
+      "subtitle": "Колизей",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/roma-colosseo.html",
+      "preview": "cams/rome-colosseum.jpg",
+      "home": true
+    },
+    {
+      "id": "rome-navona",
+      "title": "Рим",
+      "subtitle": "пьяцца Навона",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/piazza-navona.html",
+      "preview": "cams/rome-navona.jpg",
+      "home": true
+    },
+    {
+      "id": "rome-spagna",
+      "title": "Рим",
+      "subtitle": "Испанская лестница",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/piazza-di-spagna.html",
+      "preview": "cams/rome-spagna.jpg",
+      "home": true
+    },
+    {
+      "id": "rome-skyline",
+      "title": "Рим",
+      "subtitle": "панорама города",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/roma-skyline.html",
+      "preview": "cams/rome-skyline.jpg",
+      "home": true
+    },
+    {
+      "id": "rome-venezia",
+      "title": "Рим",
+      "subtitle": "пьяцца Венеция",
+      "type": "skyline",
+      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/piazza-venezia.html",
+      "preview": "cams/rome-venezia.jpg",
+      "home": true
     },
     {
       "id": "santorini",
@@ -335,14 +386,6 @@
       "subtitle": "площадь Сан-Марко",
       "type": "skyline",
       "page": "https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html",
-      "hidden": true
-    },
-    {
-      "id": "rome-colosseum",
-      "title": "Рим",
-      "subtitle": "Колизей",
-      "type": "skyline",
-      "page": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/roma-colosseo.html",
       "hidden": true
     },
     {
