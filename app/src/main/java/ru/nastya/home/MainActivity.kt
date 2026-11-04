@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvContinueHome: TextView
     private lateinit var rvContinueHome: HorizontalGridView
     private lateinit var tvContinueMovies: TextView
+    private lateinit var tvContinueEmpty: TextView
     private lateinit var rvContinueMovies: HorizontalGridView
     private lateinit var continueHomeAdapter: MovieAdapter
     private lateinit var continueMoviesAdapter: MovieAdapter
@@ -160,6 +161,7 @@ class MainActivity : AppCompatActivity() {
         tvContinueHome = findViewById(R.id.tvContinueHome)
         rvContinueHome = findViewById(R.id.rvContinueHome)
         tvContinueMovies = findViewById(R.id.tvContinueMovies)
+        tvContinueEmpty = findViewById(R.id.tvContinueEmpty)
         rvContinueMovies = findViewById(R.id.rvContinueMovies)
         rvAppsMovies = findViewById(R.id.rvAppsMovies)
         rvAppsSystem = findViewById(R.id.rvAppsSystem)
@@ -520,8 +522,11 @@ class MainActivity : AppCompatActivity() {
             val selected = rv.selectedPosition
             val hadFocus = rv.hasFocus()
             adapter.submit(movies)
-            tv.visibility = vis
+            // На вкладке «Кино» заголовок виден всегда: пустой ряд заменяет подсказка, как пополнить список.
+            val onMoviesTab = rv === rvContinueMovies
+            tv.visibility = if (onMoviesTab) View.VISIBLE else vis
             rv.visibility = vis
+            if (onMoviesTab) tvContinueEmpty.visibility = if (movies.isEmpty()) View.VISIBLE else View.GONE
             rv.selectedPosition = selected.coerceIn(0, (movies.size - 1).coerceAtLeast(0))
             if (hadFocus && movies.isNotEmpty()) rv.requestFocus()
         }

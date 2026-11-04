@@ -64,6 +64,7 @@
     <string name="profile_later">Позже</string>
     <string name="profile_cancel">Отмена</string>
     <string name="section_continue">Продолжить просмотр</string>
+    <string name="continue_empty">Здесь появятся фильмы, которые вы начали смотреть через «Смотреть» в карточке фильма</string>
     <string name="section_recs">Рекомендации</string>
     <string name="section_favorites">Избранное</string>
     <string name="section_favorites_n">Избранное (%1$d)</string>
