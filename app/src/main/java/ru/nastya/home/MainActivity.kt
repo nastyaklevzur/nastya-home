@@ -731,11 +731,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onAppClick(s: AppShortcut) {
-        if (s.id == AppCatalog.REFRESH) {
-            toast("Обновляю…")
-            refreshAll(force = true)
-        } else if (!Launcher.launchPackage(this, s.id)) {
-            toast("Не удалось открыть ${s.label}")
+        when (s.id) {
+            AppCatalog.REFRESH -> {
+                toast("Обновляю…")
+                refreshAll(force = true)
+            }
+            AppCatalog.LAMPA_UC -> if (!Launcher.launchLampaUncensored(this)) {
+                toast("Не удалось открыть ${s.label}")
+            }
+            else -> if (!Launcher.launchPackage(this, s.id)) {
+                toast("Не удалось открыть ${s.label}")
+            }
         }
     }
 
