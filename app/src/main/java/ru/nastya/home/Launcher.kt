@@ -11,6 +11,7 @@ object Launcher {
     private const val TAG = "NastyaHome"
     const val LAMPA = "top.rootu.lampa"
     const val KINOPOISK = "ru.kinopoisk.tv"
+    const val YOUTUBE_TV = "com.google.android.youtube.tv"
     const val VLC = "org.videolan.vlc"
     const val TV_SETTINGS = "com.android.tv.settings"
 
