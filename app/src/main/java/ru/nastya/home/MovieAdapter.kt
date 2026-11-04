@@ -16,10 +16,15 @@ class MovieAdapter(
     private val onMenu: (Movie) -> Unit,
     /** Подпись под названием вместо года (экран «Скрытые»: «Просмотрен 3 ноя 👍»). */
     private val caption: (Movie) -> String? = { null },
-) : RecyclerView.Adapter<MovieAdapter.VH>() {
+    /** Последняя карточка ряда («Показать всё», «Все · Скрытые»); null — без неё. */
+    private val trailing: Trailing? = null,
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    class Trailing(val label: String, val onClick: () -> Unit)
 
     private val items = ArrayList<Movie>()
 
+    /** Фильм по позиции; у карточки [Trailing] фильма нет. */
     fun itemAt(position: Int): Movie? = items.getOrNull(position)
 
     fun submit(list: List<Movie>) {
@@ -31,15 +36,47 @@ class MovieAdapter(
     /** Перерисовать метки статуса, не трогая картинки. */
     fun refreshStatuses() = notifyItemRangeChanged(0, items.size, PAYLOAD_STATUS)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
-        VH(LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false))
+    override fun getItemViewType(position: Int): Int = if (position < items.size) TYPE_MOVIE else TYPE_MORE
 
-    override fun getItemCount(): Int = items.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return if (viewType == TYPE_MORE) MoreVH(inflater.inflate(R.layout.item_more, parent, false))
+        else VH(inflater.inflate(R.layout.item_movie, parent, false))
+    }
 
-    override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(items[position])
+    override fun getItemCount(): Int = items.size + (if (trailing != null) 1 else 0)
 
-    override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>) {
-        if (payloads.contains(PAYLOAD_STATUS)) holder.bindStatus(items[position]) else holder.bind(items[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is VH -> holder.bind(items[position])
+            is MoreVH -> holder.bind()
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (holder is VH && payloads.contains(PAYLOAD_STATUS)) holder.bindStatus(items[position]) else onBindViewHolder(holder, position)
+    }
+
+    /** Карточка «Показать всё» в конце ряда. */
+    inner class MoreVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val frame: View = view.findViewById(R.id.moreFrame)
+        private val label: TextView = view.findViewById(R.id.moreLabel)
+
+        init {
+            frame.clipToOutline = true
+            view.setOnFocusChangeListener { v, hasFocus ->
+                val scale = if (hasFocus) 1.08f else 1f
+                v.animate().scaleX(scale).scaleY(scale)
+                    .setDuration(160).setInterpolator(DecelerateInterpolator()).start()
+                val d = v.resources.displayMetrics.density
+                frame.elevation = if (hasFocus) 12f * d else 4f * d
+            }
+            view.setOnClickListener { trailing?.onClick?.invoke() }
+        }
+
+        fun bind() {
+            label.text = trailing?.label ?: ""
+        }
     }
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
@@ -110,5 +147,7 @@ class MovieAdapter(
 
     companion object {
         private const val PAYLOAD_STATUS = "status"
+        private const val TYPE_MOVIE = 0
+        private const val TYPE_MORE = 1
     }
 }

@@ -96,6 +96,13 @@ class Splash(private val root: View, private val content: View, private val onDo
         }
     }
 
+    /** Первая строка: «<Имя>,» или «Привет,» без имени. */
+    fun setName(name: String?) {
+        val n = name?.trim()?.takeIf { it.isNotEmpty() }
+        root.findViewById<TextView>(R.id.splashLine1).text =
+            if (n != null) "$n," else root.context.getString(R.string.splash_hello)
+    }
+
     /** Фон: свежий снимок Земли, Солнца или неба. Если сети нет — остаётся тёплый градиент. */
     fun setBackdrop(b: SplashBackdrops.Backdrop) {
         val image = root.findViewById<ImageView>(R.id.splashImage)

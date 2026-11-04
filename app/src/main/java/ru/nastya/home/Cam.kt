@@ -24,6 +24,7 @@ data class Cam(
     val previewUrl: String?,
     val previewFallbackUrl: String?,
     val hidden: Boolean,
+    val home: Boolean = false,
 ) {
     val label: String get() = if (subtitle.isNullOrBlank()) title else "$title · $subtitle"
 
@@ -32,7 +33,14 @@ data class Cam(
         get() = (previewFallbackUrl ?: previewUrl)?.substringAfterLast('/')?.substringBefore('?')?.takeIf { it.isNotEmpty() }
 }
 
-data class CamsData(val title: String, val cams: List<Cam>, val source: String)
+data class CamsData(val title: String, val cams: List<Cam>, val source: String) {
+    /** Камеры для ряда на «Главной»: видимые с `home`; если `home` нет ни у одной (старый кэш) — все видимые. */
+    val homeCams: List<Cam>
+        get() {
+            val visible = cams.filter { !it.hidden }
+            return if (cams.any { it.home }) visible.filter { it.home } else visible
+        }
+}
 
 object CamsParser {
     private const val DEFAULT_TITLE = "Онлайн-камеры"
@@ -61,6 +69,7 @@ object CamsParser {
                     previewUrl = RemoteStore.resolve(baseUrl, str(o, "preview")),
                     previewFallbackUrl = RemoteStore.resolve(baseUrl, str(o, "preview_fallback")),
                     hidden = o.optBoolean("hidden", false),
+                    home = o.optBoolean("home", false),
                 )
             )
         }

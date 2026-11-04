@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Вкладка «Кино»: рекомендации, продолжить просмотр, избранное, приложения для кино -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollMovies"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="false"
+    android:overScrollMode="never"
+    android:paddingBottom="6dp"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingTop="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvSectionMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/section_recs"
+                android:textColor="@color/cream"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvUpdatedMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.6"
+                android:textColor="@color/cream"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <androidx.leanback.widget.HorizontalGridView
+            android:id="@+id/rvMoviesAll"
+            android:layout_width="match_parent"
+            android:layout_height="214dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingStart="48dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvContinueMovies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/section_continue"
+            android:textColor="@color/cream"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <androidx.leanback.widget.HorizontalGridView
+            android:id="@+id/rvContinueMovies"
+            android:layout_width="match_parent"
+            android:layout_height="214dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingStart="48dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="48dp"
+            android:visibility="gone"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/section_favorites"
+            android:textColor="@color/cream"
+            android:textSize="16sp" />
+
+        <androidx.leanback.widget.HorizontalGridView
+            android:id="@+id/rvFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="214dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingStart="48dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvAppsMovies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/tab_apps"
+            android:textColor="@color/cream"
+            android:textSize="16sp" />
+
+        <androidx.leanback.widget.HorizontalGridView
+            android:id="@+id/rvAppsMovies"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingStart="48dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="8dp" />
+    </LinearLayout>
+</ScrollView>

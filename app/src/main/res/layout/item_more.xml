@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/moreFrame"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:background="@drawable/poster_bg"
+        android:duplicateParentState="true"
+        android:elevation="4dp"
+        android:foreground="@drawable/focus_ring"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:outlineProvider="background"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="→"
+            android:textColor="@color/peach"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/moreLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:maxLines="3"
+            android:textColor="@color/cream"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

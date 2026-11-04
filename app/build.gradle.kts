@@ -31,8 +31,8 @@ android {
         applicationId = "ru.nastya.home"
         minSdk = 28
         targetSdk = 35
-        versionCode = 3
-        versionName = "2.0-dev"
+        versionCode = 5
+        versionName = "1.0"
         ndk { abiFilters += listOf("armeabi-v7a") }
         resourceConfigurations += listOf("ru")
         buildConfigField("String", "GITHUB_TOKEN", "\"$githubToken\"")

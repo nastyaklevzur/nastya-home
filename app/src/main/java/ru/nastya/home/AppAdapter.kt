@@ -10,7 +10,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class AppAdapter(private val onClick: (AppShortcut) -> Unit) : RecyclerView.Adapter<AppAdapter.VH>() {
+class AppAdapter(
+    private val onClick: (AppShortcut) -> Unit,
+    /** Разметка плитки: item_app (узкая, на «Кино») или item_app_large (вкладка «Приложения»). */
+    private val layoutRes: Int = R.layout.item_app,
+) : RecyclerView.Adapter<AppAdapter.VH>() {
 
     private val items = ArrayList<AppShortcut>()
 
@@ -22,7 +26,7 @@ class AppAdapter(private val onClick: (AppShortcut) -> Unit) : RecyclerView.Adap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
-        VH(LayoutInflater.from(parent.context).inflate(R.layout.item_app, parent, false))
+        VH(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false))
 
     override fun getItemCount(): Int = items.size
 
