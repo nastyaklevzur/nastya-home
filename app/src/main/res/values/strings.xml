@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Дом Насти</string>
+    <string name="app_name">Кукурузя</string>
     <string name="section_movies">Топ-10 рекомендаций кино</string>
     <string name="section_cams">Онлайн-камеры</string>
     <string name="section_apps">Приложения</string>
